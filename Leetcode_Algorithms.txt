@@ -1,0 +1,105 @@
+Day 001, 07/13/2020 Mon
+Day 002, 07/14/2020 Tue
+Day 003, 07/15/2020 Wed
+Day 004, 07/16/2020 Thu
+Day 005, 07/17/2020 Fri
+Day 006, 07/18/2020 Sat
+Day 007, 07/19/2020 Sun
+Day 008, 07/20/2020 Mon
+Day 009, 07/21/2020 Tue
+Day 010, 07/22/2020 Wed
+Day 011, 07/23/2020 Thu
+Day 012, 07/24/2020 Fri
+Day 013, 07/25/2020 Sat
+Day 014, 07/26/2020 Sun
+Day 015, 07/27/2020 Mon
+Day 016, 07/28/2020 Tue
+Day 017, 07/29/2020 Wed
+Day 018, 07/30/2020 Thu
+Day 019, 07/31/2020 Fri
+Day 020, 08/01/2020 Sat
+Day 021, 08/02/2020 Sun
+Day 022, 08/03/2020 Mon
+Day 023, 08/04/2020 Tue
+Day 024, 08/05/2020 Wed
+Day 025, 08/06/2020 Thu
+Day 026, 08/07/2020 Fri
+Day 027, 08/08/2020 Sat
+Day 028, 08/09/2020 Sun
+Day 029, 08/10/2020 Mon
+Day 030, 08/11/2020 Tue
+Day 031, 08/12/2020 Wed
+Day 032, 08/13/2020 Thu
+Day 033, 08/14/2020 Fri
+Day 034, 08/15/2020 Sat
+Day 035, 08/16/2020 Sun
+Day 036, 08/17/2020 Mon
+
+1385. Find the Distance Value Between Two Arrays
+
+class Solution:
+    def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+        
+
+
+0748. Shortest Completing Word
+
+class Solution:
+    def shortestCompletingWord(self, licensePlate: str, words: List[str]) -> str:
+   
+
+0949. Largest Time for Given Digits
+
+0160. Intersection of Two Linked Lists
+
+
+
+1317. Convert Integer to the Sum of Two No-Zero Integers
+
+class Solution:
+    def getNoZeroIntegers(self, n: int) -> List[int]:
+
+
+
+1507. Reformat Date
+
+class Solution:
+    def reformatDate(self, date: str) -> str:
+
+
+
+0257. Binary Tree Paths
+
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        
+
+
+1078. Occurrences After Bigram
+
+class Solution:
+    def findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+        
+
+
+1486. XOR Operation in an Array
+
+class Solution:
+    def xorOperation(self, n: int, start: int) -> int:
+
+
+
+Day 037, 08/18/2020 Tue
+Day 038, 08/19/2020 Wed
+Day 039, 08/20/2020 Thu
+Day 040, 08/21/2020 Fri
+Day 041, 08/22/2020 Sat
+Day 042, 08/23/2020 Sun
+
+
+
+
+
+
+
+
