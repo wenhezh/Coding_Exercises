@@ -40,16 +40,97 @@ Day 036, 08/17/2020 Mon
 
 class Solution:
     def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+        '''
+        Find the distance between arr1 and arr2.
         
+            types: arr1 (List[int])
+                   arr2 (List[int])   
+                      d (int)
+            rtype: int
+        '''
+        return sum([not any([abs(x - y) <= d for y in arr2]) for x in arr1])
+
 
 
 0748. Shortest Completing Word
 
 class Solution:
     def shortestCompletingWord(self, licensePlate: str, words: List[str]) -> str:
-   
+        '''
+        Find the minimum length word from a given dictionary words, 
+        which has all the letters from the string licensePlate.
+        
+            types: licensePlate (str) 
+                          words (List[str])
+            rtype: str
+        '''
+        # Filter out non-alphabetics chars in licensePlate,
+        # and convert all chars to lower case.
+        licensePlate = list(licensePlate)
+        licensePlate = [x.lower() for x in licensePlate if x.isalpha()]
+        licensePlate = ''.join(licensePlate)
+        
+        # Convert all letters in words to lower case
+        words = [x.lower() for x in words]
+        
+        # Use counter to find the first word such that licensePlate is a subset of it.
+        # If it is, then check if current word has smaller length and res. If yes, then 
+        # assign this word to res. Otherwise, continue.
+        res = 'a'*1000
+        from collections import Counter
+        plate_cnt = Counter(licensePlate)
+        for word in words:
+            cnt = Counter(word)
+            if len(cnt - plate_cnt) >= 0 and len(plate_cnt - cnt) == 0:
+                if len(word) < len(res):
+                    res = word
+        return res
+
+
 
 0949. Largest Time for Given Digits
+
+class Solution:
+    def largestTimeFromDigits(self, A: List[int]) -> str:
+        '''
+        Find the largest 24 hour time that can be made. 
+        If no valid time can be made, return an empty string.
+        
+            type : A (List[int])
+            rtype: str
+        '''
+        # Initiate result, res
+        res = ''
+        
+        # Loop A. For each loop, find the largest legal hour, and 
+        # check if min will also will be legal.
+        current_h = current_m = -1
+        for i in range(4):
+            for j in range(4):
+                # Create largest legal hour using two different ele
+                if i != j and current_h <= 10*A[i] + A[j] < 24:
+                    # Check if the other two eles and create legal min.
+                    # If yes, find the largest one.
+                    minute = [A[x] for x in range(4) if x not in [i, j]]
+                    minute = [10 * minute[0] + minute[1], 10 * minute[1] + minute[0]]
+                    minute = [x for x in minute if x < 60]
+                    
+                    if minute:
+                        if 10*A[i] + A[j] == current_h and current_m < max(minute):
+                                current_m = max(minute)
+                        elif 10*A[i] + A[j] > current_h:
+                                current_h = 10*A[i] + A[j]
+                                current_m = max(minute)
+                            
+        if current_h == -1 and current_m == -1:
+            return ''
+        # Add leading zero if either of current_h or current_m is < 10
+        current_h = '0' + str(current_h) if current_h < 10 else str(current_h)
+        current_m = '0' + str(current_m) if current_m < 10 else str(current_m)
+        
+        return current_h  + ":" + current_m
+
+
 
 0160. Intersection of Two Linked Lists
 
