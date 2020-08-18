@@ -131,6 +131,9 @@ class Solution:
         return current_h  + ":" + current_m
 
 
+Day 037, 08/18/2020 Tue
+
+Day 038, 08/19/2020 Wed
 
 0160. Intersection of Two Linked Lists
 
@@ -171,8 +174,7 @@ class Solution:
 
 
 
-Day 037, 08/18/2020 Tue
-Day 038, 08/19/2020 Wed
+
 Day 039, 08/20/2020 Thu
 Day 040, 08/21/2020 Fri
 Day 041, 08/22/2020 Sat
