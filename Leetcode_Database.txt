@@ -33,19 +33,77 @@ Day 032, 08/13/2020 Thu
 Day 033, 08/14/2020 Fri
 Day 034, 08/15/2020 Sat
 Day 035, 08/16/2020 Sun
-
 Day 036, 08/17/2020 Mon
 
-1543. Fix Product Name Format
-
-1527. Patients With a Condition
-
-1532. The Most Recent Three Orders
-
-1549. The Most Recent Orders for Each Product
 
 
 Day 037, 08/18/2020 Tue
+
+1543. Fix Product Name Format
+
+select   trim(lower(product_name)) product_name
+       , date_format(sale_date, "%Y-%m") sale_date
+       , count(sale_id) total
+from Sales
+group by trim(lower(product_name)), date_format(sale_date, "%Y-%m")
+order by trim(lower(product_name)), date_format(sale_date, "%Y-%m");
+
+
+
+1527. Patients With a Condition
+
+select   patient_id
+       , patient_name
+       , conditions
+from Patients
+where conditions like '%DIAB1%';
+
+
+
+1532. The Most Recent Three Orders
+
+select   c.name customer_name 
+       , c.customer_id
+       , l.order_id
+       , l.order_date
+from (select   o1.order_id
+             , o1.order_date
+             , o1.customer_id
+             , o1.cost
+             , count(o2.customer_id) rk
+      from   Orders o1
+           , Orders o2
+      where o1.customer_id = o2.customer_id
+            and o1.order_date <= o2.order_date
+      group by o1.customer_id, o1.order_date) l
+      left join 
+      Customers c
+      on l.customer_id = c.customer_id
+where l.rk < 4
+order by c.name, c.customer_id, l.order_date desc;
+
+
+
+1549. The Most Recent Orders for Each Product
+
+select   p.product_name
+       , p.product_id
+       , o.order_id
+       , o.order_date 
+from Orders o
+     left join Products p
+     on o.product_id = p.product_id
+     left join 
+     (select   product_id
+             , max(order_date) recent_date
+      from Orders 
+      group by product_id) l 
+      on o.product_id = l.product_id 
+      and o.order_date = l.recent_date
+where l.recent_date is not NULL
+order by p.product_name, p.product_id, o.order_id;
+
+
 Day 038, 08/19/2020 Wed
 Day 039, 08/20/2020 Thu
 Day 040, 08/21/2020 Fri
