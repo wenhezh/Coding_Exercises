@@ -246,6 +246,11 @@ class Solution:
 
 
 Day 040, 08/21/2020 Fri
+Day 041, 08/22/2020 Sat
+
+
+
+Day 042, 08/23/2020 Sun
 
 0160. Intersection of Two Linked Lists
 
@@ -265,10 +270,39 @@ class Solution:
 
 
 
-Day 041, 08/22/2020 Sat
-Day 042, 08/23/2020 Sun
 
 Day 043, 08/24/2020 Mon
+
+0944. Delete Columns to Make Sorted
+
+class Solution:
+    def minDeletionSize(self, A: List[str]) -> int:
+        
+
+
+
+1431. Kids With the Greatest Number of Candies
+
+class Solution:
+    def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+        
+        
+
+        
+        
+0131. Palindrome Partitioning
+
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        
+
+
+
+
+
+
+
+
 Day 044, 08/25/2020 Tue
 Day 045, 08/26/2020 Wed
 Day 046, 08/27/2020 Thu
