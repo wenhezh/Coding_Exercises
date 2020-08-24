@@ -263,8 +263,49 @@ class Solution:
 
 class Solution:
     def partitionLabels(self, S: str) -> List[int]:
+        '''
+        Find size of each partiton part of S, where each letter appears in at most one part
         
-
+            -type : S (str)
+            -rtype: List[int]
+        '''
+        # Counter frequency of each letter
+        from collections import Counter
+        freq = Counter(S)
+        
+        # Convert S to list of chars
+        S = list(S)
+        
+        # Initiate result as res
+        res = []
+        
+        # Loop S (reversely).
+        # Find partion points and record length of each partition.
+        # Use a set to record all chars seen. If freq of this char is 0,
+        # check if all othe chars in the set are also 0. 
+        # If yes, partition poin found; else, continue.
+        holder = set([])  # Remember uniqe chars from S
+        cnt = 0           # Record length of current partition 
+        while S:
+            temp = S.pop() # Pop and record last char in S 
+            freq[temp] -= 1
+            holder.add(temp)
+            cnt += 1
+            if freq[temp] == 0:
+                if sum([freq[x] for x in holder]) == 0: # Partiton point found
+                    res.append(cnt)
+                    # Reset holder and cnt #
+                    holder = set([])
+                    cnt = 0
+        
+        # Reverse res (since S is popped reversely)
+        res.reverse()
+        
+        return res
+            
+            
+            
+        
 
 
 
