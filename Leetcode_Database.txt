@@ -110,7 +110,25 @@ Day 040, 08/21/2020 Fri
 Day 041, 08/22/2020 Sat
 Day 042, 08/23/2020 Sun
 Day 043, 08/24/2020 Mon
+
+
+
 Day 044, 08/25/2020 Tue
+
+1495. Friendly Movies Streamed Last Month
+
+
+1511. Customer Order Frequency
+
+
+1517. Find Users With Valid E-Mails
+
+
+1501. Countries You Can Safely Invest In
+
+
+1555. Bank Account Summary
+
 Day 045, 08/26/2020 Wed
 Day 046, 08/27/2020 Thu
 Day 047, 08/28/2020 Fri
