@@ -247,10 +247,9 @@ class Solution:
 
 Day 040, 08/21/2020 Fri
 Day 041, 08/22/2020 Sat
-
-
-
 Day 042, 08/23/2020 Sun
+
+Day 043, 08/24/2020 Mon
 
 0160. Intersection of Two Linked Lists
 
@@ -269,9 +268,9 @@ class Solution:
 
 
 
+Day 044, 08/25/2020 Tue
 
-
-Day 043, 08/24/2020 Mon
+Day 045, 08/26/2020 Wed
 
 0944. Delete Columns to Make Sorted
 
@@ -303,8 +302,7 @@ class Solution:
 
 
 
-Day 044, 08/25/2020 Tue
-Day 045, 08/26/2020 Wed
+
 Day 046, 08/27/2020 Thu
 Day 047, 08/28/2020 Fri
 Day 048, 08/29/2020 Sat
