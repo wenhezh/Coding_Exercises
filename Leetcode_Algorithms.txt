@@ -342,18 +342,19 @@ class Solution:
 
 class Solution:
     def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
-        ‘’‘
+        '''
         Find if every kid in candies can have the greatest number of candies with extraCandies
         
-            -type : candies (List[int])
-                    ext       
-
-       
-      
+            -type :      candies (List[int])
+                    extraCandies (int)
+            -rtype: List[bool]  
+        '''
+        # Find max of candies
+        m = max(candies)
         
-        
-        ’‘’
-        
+        # Loop candies.
+        # Determine if ith candy + extraCandies >= m
+        return [c+extraCandies >= m for c in candies]
 
         
         
@@ -361,8 +362,38 @@ class Solution:
 
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
+        '''
+        Partition s such that every substring of the partition is a palindrome
         
+            -type : s (str)
+            -rtype: List[List[str]]
+        '''
+        if len(s) == 1:
+            return [s]
+        else:
+            if self.isPalindrome(s):
+            
+       
 
+    def isPalindrome(self, s: str) -> bool:
+        '''
+        Determine if s is palindrome
+        
+            -type : s (str)
+            -rtype: bool  
+        '''
+        # If empty, yes
+        if not s:
+            return True
+        
+        # Loop s from both ends and check
+        i, j = 0, len(s) - 1
+        while i < j:
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
 
 
 
