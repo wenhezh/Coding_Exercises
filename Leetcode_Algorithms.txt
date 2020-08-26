@@ -371,9 +371,13 @@ class Solution:
         if len(s) == 1:
             return [s]
         else:
-            if self.isPalindrome(s):
-            
-       
+            i = 0
+            while i < len(s):
+                if self.isPalindrome(s):
+                    return [s] + [s[0] + x for x in self.partition(s[1:])]
+                else:
+                    return [s[0] + x for x in self.partition(s[1:])]
+                
 
     def isPalindrome(self, s: str) -> bool:
         '''
