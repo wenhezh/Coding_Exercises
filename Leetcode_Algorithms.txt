@@ -369,15 +369,17 @@ class Solution:
             -rtype: List[List[str]]
         '''
         if len(s) == 1:
-            return [s]
+            return [[s]]
         else:
+            res = []
             i = 0
-            while i < len(s):
-                if self.isPalindrome(s):
-                    return [s] + [s[0] + x for x in self.partition(s[1:])]
-                else:
-                    return [s[0] + x for x in self.partition(s[1:])]
-                
+            while i < len(s)-1:
+                if self.isPalindrome(s[:(i+1)]):
+                    res.extend([[s[:(i+1)]] + x for x in self.partition(s[(i+1):])])
+                i += 1
+            if self.isPalindrome(s):
+                res.append([s])
+            return res
 
     def isPalindrome(self, s: str) -> bool:
         '''
@@ -388,7 +390,7 @@ class Solution:
         '''
         # If empty, yes
         if not s:
-            return True
+            return False
         
         # Loop s from both ends and check
         i, j = 0, len(s) - 1
@@ -401,13 +403,32 @@ class Solution:
 
 
 
-
-
-
-
-
 Day 046, 08/27/2020 Thu
 Day 047, 08/28/2020 Fri
+
+0938. Range Sum of BST
+
+class Solution:
+    def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
+        
+
+
+
+1480. Running Sum of 1d Array
+
+class Solution:
+    def runningSum(self, nums: List[int]) -> List[int]:
+
+
+0017. Letter Combinations of a Phone Number
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        
+
+
+
+
 Day 048, 08/29/2020 Sat
 Day 049, 08/30/2020 Sun
 Day 050, 08/31/2020 Mon
