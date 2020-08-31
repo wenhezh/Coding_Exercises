@@ -416,7 +416,41 @@ Day 050, 08/31/2020 Mon
 
 class Solution:
     def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
+        '''
+        Find the sum of node values between L and R, inclusive
+            
+            -type : root (TreeNode)
+                       L (int)
+                       R (int)
+            -rtype: int
+        '''
+        # Check if root is NULL:
+        if not root:
+            return 0
         
+        # If no child
+        if not (root.left or root.right):
+            return root.val if L <= root.val <= R else 0 
+        
+        # Check both left and right child
+        if root.left and root.right:
+            # Case when root value > R, then just search left child 
+            if root.val > R:
+                return self.rangeSumBST(root.left, L, R)
+            # Case when root value < L, then just search right child 
+            elif root.val < L:
+                return self.rangeSumBST(root.right, L, R)
+            # Otherwise, search both
+            else:
+                return root.val + self.rangeSumBST(root.left, L, R) + self.rangeSumBST(root.right, L, R)
+                
+        # If only one child exists and root value in [L, R]
+        if root.left and root.val >= L:
+            return root.val + self.rangeSumBST(root.left, L, R)
+        if root.right and root.val <= R:
+            return root.val + self.rangeSumBST(root.right, L, R)
+        else:
+            return 0
 
 
 
@@ -424,6 +458,17 @@ class Solution:
 
 class Solution:
     def runningSum(self, nums: List[int]) -> List[int]:
+        '''
+        Find the running sum of nums
+        
+            -type : nums (List[int])
+            -rtype: List[int]
+        '''
+        res = nums[:]
+        for i in range(1, len(res)):
+            res[i] += res[i-1]
+        return res
+
 
 
 0017. Letter Combinations of a Phone Number
@@ -437,7 +482,33 @@ class Solution:
 
 
 Day 051, 09/01/2020 Tue
+
+
 Day 052, 09/02/2020 Wed
+
+0893. Groups of Special-Equivalent Strings
+
+class Solution:
+    def numSpecialEquivGroups(self, A: List[str]) -> int:
+        
+
+
+1413. Minimum Value to Get Positive Step by Step Sum
+
+class Solution:
+    def minStartValue(self, nums: List[int]) -> int:
+        
+        
+0054. Spiral Matrix
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        
+
+
+
+
+
 Day 053, 09/03/2020 Thu
 Day 054, 09/04/2020 Fri
 Day 055, 09/05/2020 Sat
