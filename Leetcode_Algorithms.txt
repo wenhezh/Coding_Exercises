@@ -475,11 +475,32 @@ class Solution:
 
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
+        '''
+        Find all possible word combinations of numbers in digits
         
-
-
-
-
+            -type : digits (str)
+            -rtype: List[str]        
+        '''
+        # Check if digits is empty
+        if not digits:
+            return []
+        
+        # Create a dictionary, d, to map int: char relationship 
+        # in phon buttons
+        import string
+        d = {str(i):string.ascii_lowercase[(3*(i-2)):3*(i-2)+3] for i in range(2, 7)}
+        d['7'] = 'pqrs'
+        d['8'] = 'tuv'
+        d['9'] = 'wxyz'
+        
+        # Use itertools to find all combinations, and reuse d as result
+        from itertools import product
+        from functools import reduce
+        d = reduce(lambda x, y: product([''.join(ele) for ele in x], y), [list(d[i]) for i in digits])
+        
+        return [''.join(x) for x in d]
+        
+        
 
 Day 051, 09/01/2020 Tue
 
