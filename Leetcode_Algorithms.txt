@@ -565,11 +565,93 @@ class Solution:
 
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        '''
+        Return all elements of the matrix in spiral order.
+        
+            -type : matrix: List[List[int]]
+            -rtype: List[int]
+        '''
+        # If matrix is empty, return []
+        if not matrix:
+            return []
+        
+        # Define row and column borders when moving in matrix
+        r_low, r_high = 0, len(matrix)
+        c_low, c_high = -1, len(matrix[0])
+        
+        # Define current poistion.
+        i = j = 0
+        
+        # Define direction we move in matrix. Start with right.
+        direction = 'right'
+        
+        # Loop  matrix in a spiral order
+        res = []
+        while r_low != r_high and c_low != c_high:
+            if direction == 'right':
+                while j < c_high:
+                    res.append(matrix[i][j])
+                    j += 1
+                c_high -= 1
+                j -= 1
+                direction = 'down'
+                i = min(r_high, i+1)
+            elif direction == 'down':
+                while i < r_high:
+                    res.append(matrix[i][j])
+                    i += 1
+                r_high -= 1
+                i -= 1
+                direction = 'left'
+                j = max(c_low, j-1)
+            elif direction == 'left':
+                while j > c_low:
+                    res.append(matrix[i][j])
+                    j -= 1
+                c_low += 1
+                j += 1
+                direction = 'up'
+                i = max(r_low, i-1)
+            elif direction == 'up':
+                while i > r_low:
+                    res.append(matrix[i][j])
+                    i -= 1
+                r_low += 1
+                i += 1
+                direction = 'right'
+                j = min(c_high, j+1)
+            
+        return res
         
 
 
 
 Day 054, 09/04/2020 Fri
+
+0941. Valid Mountain Array
+
+class Solution:
+    def validMountainArray(self, A: List[int]) -> bool:
+        
+
+
+
+1331. Rank Transform of an Array
+
+class Solution:
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        
+
+
+1249. Minimum Remove to Make Valid Parentheses
+
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        
+
+
+
+
 Day 055, 09/05/2020 Sat
 Day 056, 09/06/2020 Sun
 
