@@ -211,15 +211,13 @@ Day 051, 09/01/2020 Tue
 
 1565. Unique Orders and Customers Per Month
 
-
-
-
-1194. Tournament Winners
-
-
-1384. Total Sales Amount by Year
-
-
+select    date_format(order_date, '%Y-%m') month  
+        , count(order_id) order_count
+        , count(distinct customer_id) customer_count 
+from Orders
+where invoice > 20
+group by date_format(order_date, '%Y-%m')
+order by date_format(order_date, '%Y-%m');
 
 
 Day 052, 09/02/2020 Wed
@@ -227,9 +225,16 @@ Day 053, 09/03/2020 Thu
 Day 054, 09/04/2020 Fri
 Day 055, 09/05/2020 Sat
 Day 056, 09/06/2020 Sun
+Day 057, 09/07/2020 Mon
+
+Day 058, 09/08/2020 Tue
+
+1384. Total Sales Amount by Year
 
 
-
-
-
+Day 059, 09/09/2020 Wed
+Day 060, 09/10/2020 Thu
+Day 061, 09/11/2020 Fri
+Day 062, 09/12/2020 Sat
+Day 063, 09/13/2020 Sun
 
