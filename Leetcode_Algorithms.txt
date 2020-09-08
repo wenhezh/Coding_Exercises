@@ -625,8 +625,14 @@ class Solution:
         
 
 
-
 Day 054, 09/04/2020 Fri
+Day 055, 09/05/2020 Sat
+Day 056, 09/06/2020 Sun
+Day 057, 09/07/2020 Mon
+Day 058, 09/08/2020 Tue
+
+
+Day 059, 09/09/2020 Wed
 
 0941. Valid Mountain Array
 
@@ -652,14 +658,16 @@ class Solution:
 
 
 
-Day 055, 09/05/2020 Sat
-Day 056, 09/06/2020 Sun
 
-Day 057, 09/07/2020 Mon
-Day 058, 09/08/2020 Tue
-Day 059, 09/09/2020 Wed
 Day 060, 09/10/2020 Thu
 Day 061, 09/11/2020 Fri
 Day 062, 09/12/2020 Sat
 Day 063, 09/13/2020 Sun
+Day 064, 09/14/2020 Mon
+Day 065, 09/15/2020 Tue
+Day 066, 09/16/2020 Wed
+Day 067, 09/17/2020 Thu
+Day 068, 09/18/2020 Fri
+Day 069, 09/19/2020 Sat
+Day 070, 09/20/2020 Sun
 
