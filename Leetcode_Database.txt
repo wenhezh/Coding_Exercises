@@ -231,10 +231,43 @@ Day 058, 09/08/2020 Tue
 
 1384. Total Sales Amount by Year
 
+1571. Warehouse Manager
+
+select   w.name warehouse_name
+       , sum(w.units * p.Width * p.Length * p.Height) volume 
+from  Warehouse w left join Products p
+      on w.product_id = p.product_id
+group by w.name
+order by w.name;
+
+
+1398. Customers Who Bought Products A and B but Not C
+
+select   c.customer_id
+       , c.customer_name
+from   Customers c
+     , Orders o
+where c.customer_id = o.customer_id
+      and c.customer_id in (select customer_id from Orders where product_name = 'A')
+      and c.customer_id in (select customer_id from Orders where product_name = 'B')
+      and c.customer_id not in (select customer_id from Orders where product_name = 'C')
+group by c.customer_id
+order by c.customer_id;
+
 
 Day 059, 09/09/2020 Wed
 Day 060, 09/10/2020 Thu
 Day 061, 09/11/2020 Fri
 Day 062, 09/12/2020 Sat
 Day 063, 09/13/2020 Sun
+
+Day 064, 09/14/2020 Mon
+Day 065, 09/15/2020 Tue
+Day 066, 09/16/2020 Wed
+Day 067, 09/17/2020 Thu
+Day 068, 09/18/2020 Fri
+Day 069, 09/19/2020 Sat
+Day 070, 09/20/2020 Sun
+
+
 
