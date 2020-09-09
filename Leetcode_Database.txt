@@ -231,6 +231,28 @@ Day 058, 09/08/2020 Tue
 
 1384. Total Sales Amount by Year
 
+select *
+from (select   s.product_id 
+             , p.product_name 
+             , concat(t.y) report_year
+             , case when t.y = year(period_start) and t.y = year(period_end) then (datediff(period_end, period_start) + 1)*average_daily_sales
+                    when t.y > year(period_start) and t.y < year(period_end) then 365*average_daily_sales
+                    when t.y = year(period_start) and t.y <> year(period_end) then (datediff(str_to_date(concat(t.y, '/12/31'), '%Y/%m/%d'), period_start) + 1)*average_daily_sales
+                    when t.y = year(period_end) and t.y <> year(period_start) then (datediff(period_end, str_to_date(concat(t.y, '/01/01'), '%Y/%m/%d')) + 1)*average_daily_sales
+                    end total_amount
+      from   Sales s
+           , (select 2018 y
+              UNION
+              select 2019 y
+              UNION 
+              select 2020 y) t
+           ,  Product p
+      where s.product_id = p.product_id
+      order by  product_id , y) temp
+where total_amount is not NULL;
+
+
+
 1571. Warehouse Manager
 
 select   w.name warehouse_name
@@ -239,6 +261,7 @@ from  Warehouse w left join Products p
       on w.product_id = p.product_id
 group by w.name
 order by w.name;
+
 
 
 1398. Customers Who Bought Products A and B but Not C
