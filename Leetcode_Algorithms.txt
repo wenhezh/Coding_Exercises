@@ -638,7 +638,31 @@ Day 059, 09/09/2020 Wed
 
 class Solution:
     def validMountainArray(self, A: List[int]) -> bool:
+        '''
+        Determine if A is a valild mountain array
         
+            -type : A (List[int])
+            -rtype: bool
+        '''
+        w = len(A)       # Define width of th mountain
+        climbing = True  # Determine cuurent status: Climbing th mountain or not
+        
+        # Check if width of the mountain is > 3
+        # And if start status is climbing the mountain
+        if w < 3 or A[0] >= A[1]:
+            return False
+        
+        # Loop the mountain startin with climbing.
+        # If a flat walk found, or found a second time to climb the mountain, return False.
+        # When first time see A[i-1] > A[i], convert climbing status.    
+        for i in range(1, w):
+            if A[i-1] == A[i] or (not climbing and A[i-1] < A[i]):
+                return False
+            elif climbing and A[i-1] > A[i]:
+                climbing = False
+        
+        # If climbing is stil true at the end, then A is invalid. Otherwise, it is valid.
+        return not climbing
 
 
 
@@ -646,20 +670,94 @@ class Solution:
 
 class Solution:
     def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        '''
+        Find rank (start from 1) of each element
         
-
+            -type : arr (List[int])
+            -rtype: List[int]
+        '''
+        # Use a dictionary to list rank for all unique eles
+        res = {k:v for (v, k) in enumerate(sorted(set(arr)))}
+        return [res[k] + 1 for k in arr]
+        
+        
 
 1249. Minimum Remove to Make Valid Parentheses
 
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
+        '''
+        Remove the minimum number of parentheses to make s valid and return updated s
+        
+            -type: s (str)
+            -rtpe: str
+        '''
+        # Record positions of left parentheses we see so far
+        leftParentheses = []
+        
+        # Convert s to a list
+        s = list(s)
+        
+        # Loop s using index.
+        # If we see a left parenthesis, push its position to leftParentheses
+        # If we see a right parenthesis and leftParentheses is not empty, pop leftParentheses
+        # If leftParentheses is empty and we see a right parenthesis, then we need to remove this
+        # right parenthesis -> convert s[i] to ''
+        for i in range(len(s)):
+            if s[i] == '(':
+                leftParentheses.append(i)
+            elif leftParentheses and s[i] == ')':
+                leftParentheses.pop()
+            elif s[i] == ')':
+                s[i] = ''
+        
+        # Check if leftParentheses is empty
+        # If not, we then need to convert '(' at positions in leftParentheses to ''
+        if leftParentheses:
+            for i in leftParentheses:
+                s[i] = ''
+        
+        return ''.join(s)
+        
+
+
+Day 060, 09/10/2020 Thu
+
+0703. Kth Largest Element in a Stream
+
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        
+
+    def add(self, val: int) -> int:
+        
+
+
+# Your KthLargest object will be instantiated and called as such:
+# obj = KthLargest(k, nums)
+# param_1 = obj.add(val)
+
+
+
+0012. Integer to Roman
+
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        
+        
+
+0199. Binary Tree Right Side View
+
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
         
 
 
 
 
 
-Day 060, 09/10/2020 Thu
+
 Day 061, 09/11/2020 Fri
 Day 062, 09/12/2020 Sat
 Day 063, 09/13/2020 Sun
