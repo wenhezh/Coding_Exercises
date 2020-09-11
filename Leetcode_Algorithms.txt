@@ -744,22 +744,118 @@ class KthLargest:
 
 class Solution:
     def intToRoman(self, num: int) -> str:
+        '''
+        Convert num to a roman numeral
+        
+            -type : num(int)
+            -rtype: str
+        '''
+        # Create a dictionary, d, to map integer -> Roman numeral 
+        d = {1:'I', 5:'V', 10:'X', 50:'L', 100:'C', 500:'D', 1000:'M', 4:'IV', 9:'IX', 40:'XL', 90:'XC', 400:'CD', 900:'CM'}
+        
+        # Create a modifier and a divider, then loop num until num == 0
+        # In each loop, set remainder = num%divider, and concat remainder's
+        # Roman numeral conversion to res (If remainder in d, else seard remainder/(divider/10) in d)
+        # and multiply divider by 10
+        # Then set num = numn - remainder
+        res = ''
+        divider = 10
+        while num > 0:
+            remainder = num%divider
+            if remainder and remainder in d:
+                res = d[remainder] + res
+            elif remainder:
+                m = 10*remainder//divider
+                # Need to consider case when 5, 50 and 500
+                if m > 5:
+                    res = d[5*divider//10] + (m-5)*d[remainder//m] + res
+                else:
+                    res = m*d[remainder//m] + res
+            divider *= 10             
+            num -= remainder 
+        return res
         
         
 
 0199. Binary Tree Right Side View
 
-class Solution:
-    def rightSideView(self, root: TreeNode) -> List[int]:
-        
-
-
-
-
 
 
 Day 061, 09/11/2020 Fri
+
+0108. Convert Sorted Array to Binary Search Tree
+
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        '''
+        Convert num (sorted) to a height balanced BST
+        
+            -type : nums (List[int])
+            -rtype: TreeNode
+        '''
+        l = len(nums)
+        
+        # Check if the list is empty
+        if not nums:
+            return None
+          
+        # Set mid value as the root of the (sub)tree
+        root = TreeNode(val = nums[l//2])
+        
+        # Check if left/right subtree shoudl exsit and set them up
+        root.left = self.sortedArrayToBST(nums[:l//2]) if l//2 > 0 else None
+        root.right = self.sortedArrayToBST(nums[l//2+1:]) if l/2 > 1 else None
+        
+        return root
+
+
+
+0152. Maximum Product Subarray
+
+
+
+0981. Time Based Key-Value Store
+
+
+
 Day 062, 09/12/2020 Sat
+
+0170. Two Sum III - Data structure design
+
+class TwoSum:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        
+
+    def add(self, number: int) -> None:
+        """
+        Add the number to an internal data structure..
+        """
+        
+
+    def find(self, value: int) -> bool:
+        """
+        Find if there exists any pair of numbers which sum is equal to the value.
+        """
+
+
+
+0064. Minimum Path Sum
+
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        
+
+0347. Top K Frequent Elements
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        
+
+
 Day 063, 09/13/2020 Sun
 Day 064, 09/14/2020 Mon
 Day 065, 09/15/2020 Tue
