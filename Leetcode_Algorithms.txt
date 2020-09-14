@@ -819,6 +819,11 @@ class Solution:
 
 
 Day 062, 09/12/2020 Sat
+Day 063, 09/13/2020 Sun
+
+
+
+Day 064, 09/14/2020 Mon
 
 0170. Two Sum III - Data structure design
 
@@ -828,38 +833,77 @@ class TwoSum:
         """
         Initialize your data structure here.
         """
+        self.d = {}
         
 
     def add(self, number: int) -> None:
         """
         Add the number to an internal data structure..
         """
-        
+        if number in self.d:
+            self.d[number] += 1
+        else:
+            self.d[number] = 1
 
     def find(self, value: int) -> bool:
         """
         Find if there exists any pair of numbers which sum is equal to the value.
         """
-
+        for k in self.d:
+            if value - k in self.d and (value - k != k or (value == 2*k and self.d[k] > 1)):
+                return True  
+        
+        return False
 
 
 0064. Minimum Path Sum
 
-class Solution:
-    def minPathSum(self, grid: List[List[int]]) -> int:
-        
+
 
 0347. Top K Frequent Elements
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        '''
+        Find the top K mist frequent ele in nums
+            
+            -types: nums (List[int])
+                       k (int)
+            -rtype: List[int]
+        '''
+        # Use Counter
+        from collections import Counter
+        nums = Counter(nums)
+        nums = nums.most_common(k)
+        return [x[0] for x in nums]        
+
+
+
+
+Day 065, 09/15/2020 Tue
+
+
+Day 066, 09/16/2020 Wed
+
+0687. Longest Univalue Path
+
+class Solution:
+    def longestUnivaluePath(self, root: TreeNode) -> int:
+        
+        
+        
+0078. Subsets
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
         
 
+0148. Sort List
 
-Day 063, 09/13/2020 Sun
-Day 064, 09/14/2020 Mon
-Day 065, 09/15/2020 Tue
-Day 066, 09/16/2020 Wed
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        
+
 Day 067, 09/17/2020 Thu
 Day 068, 09/18/2020 Fri
 Day 069, 09/19/2020 Sat
