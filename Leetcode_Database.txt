@@ -291,6 +291,12 @@ Day 065, 09/15/2020 Tue
 
 1581. Customer Who Visited but Did Not Make Any Transactions
 
+select  v.customer_id 
+      , count(v.customer_id) count_no_trans
+from Visits v left join Transactions t
+     on v.visit_id = t.visit_id
+where amount is NULL
+group by v.customer_id;
 
 
 
@@ -298,16 +304,41 @@ Challenges
 
 select   c.hacker_id
        , h.name
-       , x challenges_created
-from (select   hacker_id
-             , count(challenge_id) cnt
-      from Challenges
-      group by hacker_id) c
-     left join Hackers h
-     on c.hacker_id = h.hacker_id 
-group by c.cnt
-ha
-group by hacker_i
+       , count(c.challenge_id) challenges_created
+from Challenges c left join Hackers h
+     on c.hacker_id = h.hacker_id
+group by c.hacker_id, h.name
+having count(c.challenge_id) = (select count(challenge_id) cnt
+                                from Challenges
+                                group by hacker_id
+                                order by cnt desc
+                                limit 1) 
+       or count(c.challenge_id) not in (select count(c0.challenge_id) cnt
+                                          from Challenges c0
+                                          group by c0.hacker_id
+                                          having c0.hacker_id <> c.hacker_id)
+order by challenges_created desc, c.hacker_id;
+
+
+
+Ollivander's Inventory
+
+select   t2.id
+       , t1.age
+       , t2.coins_needed
+       , t1.power
+from (select   w.code
+             , w.power
+             , wp.age
+             , min(coins_needed) coins_needed
+      from Wands w left join Wands_Property wp
+        on w.code = wp.code
+      where wp.is_evil = 0
+      group by w.code, w.power, wp.age) t1
+      left join Wands t2
+      on t1.code = t2.code and t1.coins_needed = t2.coins_needed
+      and t1.power = t2.power
+order by t1.power desc, t1.age desc;
 
 
 
