@@ -887,16 +887,35 @@ Day 066, 09/16/2020 Wed
 
 0687. Longest Univalue Path
 
-class Solution:
-    def longestUnivaluePath(self, root: TreeNode) -> int:
-        
-        
+
         
 0078. Subsets
 
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
+        '''
+        Find all possible nums' subsets
+            
+            - type : nums (List[int])
+            - rtype: List[List[int]
+        '''
+        # Initiate result, res, from a list contains only empty set
+        res = [[]]
         
+        # Case when nums is empty
+        if not nums:
+            return res
+        
+        # Use itertools.combinations to find all required subsets
+        from itertools import combinations
+        for i in range(1, len(nums)):
+            res.extend([list(x) for x in combinations(nums, i)])
+        
+        # Include nums itself in the end
+        res.append(nums)
+        return res
+
+
 
 0148. Sort List
 
@@ -905,6 +924,28 @@ class Solution:
         
 
 Day 067, 09/17/2020 Thu
+
+0704. Binary Search
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        
+
+0646. Maximum Length of Pair Chain
+
+class Solution:
+    def findLongestChain(self, pairs: List[List[int]]) -> int:
+     
+
+
+
+1262. Greatest Sum Divisible by Three
+
+class Solution:
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        
+
+
 Day 068, 09/18/2020 Fri
 Day 069, 09/19/2020 Sat
 Day 070, 09/20/2020 Sun
