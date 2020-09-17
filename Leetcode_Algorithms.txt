@@ -917,11 +917,31 @@ class Solution:
 
 
 
-0148. Sort List
+1262. Greatest Sum Divisible by Three
 
 class Solution:
-    def sortList(self, head: ListNode) -> ListNode:
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        '''
+        Find the maximum possible sum of elements of the array such that it is divisible by 3.
+
+            -type : nums (List[int])
+            -rtype: int
+        '''
+        # Create a list, res, with length = length of nums.
+        # Each ele in res is a list, where index of each ele
+        # will record current largest sum that mod 3 = index
+        res = [[0, 0, 0] for _ in range(len(nums))]
+        res[0][nums[0]%3] = nums[0]
         
+        # Loop nums and find max of current sum where mod 3 = 0, 1 or 2, based on previous sums and current ele.
+        for i in range(1, len(nums)):
+            for j in range(3):
+                temp = [nums[i]+x for x in res[i-1] if (nums[i]+x)%3 == j]
+                res[i][j] = max(max(temp), res[i-1][j]) if temp else res[i-1][j]
+          
+        return res[-1][0]
+
+
 
 Day 067, 09/17/2020 Thu
 
@@ -937,13 +957,12 @@ class Solution:
     def findLongestChain(self, pairs: List[List[int]]) -> int:
      
 
-
-
-1262. Greatest Sum Divisible by Three
+0148. Sort List
 
 class Solution:
-    def maxSumDivThree(self, nums: List[int]) -> int:
+    def sortList(self, head: ListNode) -> ListNode:
         
+
 
 
 Day 068, 09/18/2020 Fri
