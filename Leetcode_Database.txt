@@ -354,9 +354,15 @@ Day 072, 09/22/2020 Tue
 
 1587. Bank Account Summary II
 
-
-Interviews
-
+select   u.name
+       , t1.amount balance
+from   (select   account
+               , sum(amount) amount
+        from Transactions 
+       group by account) t1
+     , Users u
+where t1.account = u.account
+      and t1.amount > 10000;
 
 
 
@@ -365,5 +371,18 @@ Day 074, 09/24/2020 Thu
 Day 075, 09/25/2020 Fri
 Day 076, 09/26/2020 Sat
 Day 077, 09/27/2020 Sun
+Day 078, 09/28/2020 Mon
 
 
+
+Day 079, 09/29/2020 Tue
+
+Interviews
+
+
+
+Day 080, 09/30/2020 Wed
+Day 081, 10/01/2020 Thu
+Day 082, 10/02/2020 Fri
+Day 083, 10/03/2020 Sat
+Day 084, 10/04/2020 Sun
