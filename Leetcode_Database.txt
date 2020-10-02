@@ -372,20 +372,48 @@ Day 075, 09/25/2020 Fri
 Day 076, 09/26/2020 Sat
 Day 077, 09/27/2020 Sun
 Day 078, 09/28/2020 Mon
-
-
-
 Day 079, 09/29/2020 Tue
+Day 080, 09/30/2020 Wed
+
+Day 081, 10/01/2020 Thu
 
 1596. The Most Frequently Ordered Products for Each Customer
+
+select   t1.customer_id
+        , t1.product_id
+        , p.product_name
+ from (select   customer_id
+              , product_id
+              , count(order_id) cnt
+       from Orders o
+       group by customer_id, product_id) t1
+      left join 
+      (select   customer_id
+              , max(cnt) cnt
+       from (select   customer_id
+                     , product_id
+                    , count(order_id) cnt
+             from Orders
+             group by customer_id, product_id) temp
+       group by customer_id) t2
+      on t1.customer_id = t2.customer_id and t1.cnt = t2.cnt
+      left join Products p
+      on t1.product_id = p.product_id
+where t2.customer_id is not NULL;
+
 
 
 Interviews
 
 
 
-Day 080, 09/30/2020 Wed
-Day 081, 10/01/2020 Thu
 Day 082, 10/02/2020 Fri
 Day 083, 10/03/2020 Sat
 Day 084, 10/04/2020 Sun
+Day 085, 10/05/2020 Mon
+Day 086, 10/06/2020 Tue
+Day 087, 10/07/2020 Wed
+Day 088, 10/08/2020 Thu
+Day 089, 10/09/2020 Fri
+Day 090, 10/10/2020 Sat
+Day 091, 10/11/2020 Sun
