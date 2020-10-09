@@ -1227,7 +1227,6 @@ Day 088, 10/08/2020 Thu
 
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
-        
 
 
 
@@ -1235,7 +1234,15 @@ class Solution:
 
 class Solution:
     def singleNonDuplicate(self, nums: List[int]) -> int:
+        '''
+        Find the only non duplicate in nums
         
+            - type: nums (List[int])
+            -rtype: int
+        '''
+        # Use exclusive OR in bit operation
+        from functools import reduce
+        return reduce(lambda x, y: x ^ y, nums)
 
 
 Day 089, 10/09/2020 Fri
