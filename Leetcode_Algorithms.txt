@@ -953,13 +953,37 @@ Day 068, 09/18/2020 Fri
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
+        '''
+        Find index of target in nums (sorted) if it exists. Otherwise, -1
         
+            -type : nums   (List[int]) 
+                    target (int)
+            -rtype: int
+        '''
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right)//2
+            
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+            
+        return -1
+
+
 
 0646. Maximum Length of Pair Chain
 
 class Solution:
     def findLongestChain(self, pairs: List[List[int]]) -> int:
-     
+             
+
+
+
+
 
 0148. Sort List
 
@@ -973,11 +997,270 @@ class Solution:
 Day 069, 09/19/2020 Sat
 Day 070, 09/20/2020 Sun
 
+1118. Number of Days in a Month
+
+class Solution:
+    def numberOfDays(self, Y: int, M: int) -> int:
+        '''
+        Find how many days there are in year Y and a month M
+        
+            -type : Y (int) 
+                    M (int)
+            -rtype: int
+        '''
+        # For big months,
+        if M in [1,3,5,7,8,10,12]:
+            return 31
+        # for samll months, except Feb
+        elif M in [4,6,9,11]:
+            return 30
+        elif Y%400 == 0 or (Y%4 == 0 and Y%100 != 0):
+            return 29
+        else:
+            return 28
+            
+        
+
+0636. Exclusive Time of Functions
+
+                    
+                    
+0987. Vertical Order Traversal of a Binary Tree
+
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+       
+
+
 
 Day 071, 09/21/2020 Mon
+
+1544. Make The String Great
+
+class Solution:
+    def makeGood(self, s: str) -> str:
+        '''
+        Find the string after making it good. 
+        
+            -type : s (str)
+            -rtype: str
+        '''
+        # Loop s.
+        # Using a stack to hold each ele.
+        # Once find current ele = last ele in stack after
+        # lower/upper conversion, pop stack.
+        stack = []
+        for x in s:
+            if stack and x.islower() == stack[-1].isupper() and x.lower() == stack[-1].lower():
+                stack.pop()   
+            else:
+                stack.append(x)
+
+        # Return ele in stack in the form of a list
+        return ''.join(stack)        
+
+
+
+0300. Longest Increasing Subsequence
+
+0767. Reorganize String
+
+
 Day 072, 09/22/2020 Tue
 Day 073, 09/23/2020 Wed
 Day 074, 09/24/2020 Thu
 Day 075, 09/25/2020 Fri
 Day 076, 09/26/2020 Sat
 Day 077, 09/27/2020 Sun
+
+
+Day 078, 09/28/2020 Mon
+
+0111. Minimum Depth of Binary Tree
+
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        '''
+        Find minimum depth in the tree.
+        
+            -type : root (TreeNode) 
+            -rtype: int
+        '''
+        
+        def traverseTree(root: TreeNode) -> int:
+            if not root:
+                return 0
+            elif not (root.left or root.right):
+                return 1
+            elif root.left and not root.right:
+                return 1 + traverseTree(root.left)
+            elif not root.left and root.right:
+                return 1 + traverseTree(root.right)
+            else:
+                return 1 + min(traverseTree(root.left), traverseTree(root.right))     
+        
+        return traverseTree(root)
+
+
+
+0018. 4Sum       
+
+0692. Top K Frequent Words
+
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        '''
+        Find the k most frequent elements.
+        
+            -types: words (List[str]) 
+                        k (int)
+            -rtype: List[str]
+        '''
+        # Use counter to count and sort words by frequency
+        from collections import Counter
+        words = Counter(words)
+        words = words.most_common()
+        
+        # Find the top K
+        # In case same freqs occur, need to order words in this case alphabetically
+        res = []
+        i, l = 0, len(words)
+        while i < k and i < l:
+            temp = []
+            while i < l-1 and words[i][1] == words[i+1][1]:
+                temp.append(words[i][0])
+                i += 1
+            temp.append(words[i][0])
+            temp.sort()
+            res.extend(temp)             
+            i += 1
+
+        return res[:k]
+
+
+
+Day 079, 09/29/2020 Tue
+
+
+Day 080, 09/30/2020 Wed
+
+0257. Binary Tree Paths
+
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        if not root:
+            return []
+        appendix = self.binaryTreePaths(root.left) + self.binaryTreePaths(root.right)
+        return [str(root.val) + '->' + str(x) for x in appendix] if appendix else [str(root.val)]
+
+
+
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        width = len(matrix)
+        ru, rd = 0, width-1
+        cl, cr = 0, width-1
+        
+        # Rotate one by one from outmost circle to innermost circle
+        while width > 1:
+            for i in range(width-1):    
+                temp, matrix[ru+i][cr] = matrix[ru+i][cr] ,matrix[ru][cl+i]
+                temp, matrix[rd][cr-i] = matrix[rd][cr-i], temp
+                temp, matrix[rd-i][cl] = matrix[rd-i][cl], temp
+                matrix[ru][cl+i] = temp
+  
+            ru += 1
+            rd -= 1
+            cl += 1
+            cr -= 1
+            width -= 2
+
+
+
+Day 081, 10/01/2020 Thu
+
+0287. Find the Duplicate Number
+
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        '''
+        Find the only duplicate in nums
+        
+            -  type: nums (List[int])
+            - rtype: int 
+        '''
+        # Sort nums
+        nums.sort()
+        
+        # Loop nums from the start and once nums[i-1] == nums[i],
+        # return nums[i]
+        for i in range(1, len(nums)):
+            if nums[i-1] == nums[i]:
+                return nums[i]
+
+
+
+Day 082, 10/02/2020 Fri
+
+1351. Count Negative Numbers in a Sorted Matrix
+
+0974. Subarray Sums Divisible by K
+
+1048. Longest String Chain
+
+
+
+Day 083, 10/03/2020 Sat
+Day 084, 10/04/2020 Sun
+Day 085, 10/05/2020 Mon
+Day 086, 10/06/2020 Tue
+Day 087, 10/07/2020 Wed
+
+
+
+Day 088, 10/08/2020 Thu
+
+0110. Balanced Binary Tree
+
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        
+
+
+
+0540. Single Element in a Sorted Array
+
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        
+
+
+Day 089, 10/09/2020 Fri
+
+1550. Three Consecutive Odds
+
+class Solution:
+    def threeConsecutiveOdds(self, arr: List[int]) -> bool:
+        
+
+0946. Validate Stack Sequences
+
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        
+
+
+
+Day 090, 10/10/2020 Sat
+Day 091, 10/11/2020 Sun
+
+Day 092, 10/12/2020 Mon
+Day 093, 10/13/2020 Tue
+Day 094, 10/14/2020 Wed
+Day 095, 10/15/2020 Thu
+Day 096, 10/16/2020 Fri
+Day 097, 10/17/2020 Sat
+Day 098, 10/18/2020 Sun
