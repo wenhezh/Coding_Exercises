@@ -1251,23 +1251,155 @@ Day 089, 10/09/2020 Fri
 
 class Solution:
     def threeConsecutiveOdds(self, arr: List[int]) -> bool:
+        '''
+        Determine if there are 3 consecutive odd numbers in arr
+            
+            - type: arr(List[int])
+            -rtype: bool
+        '''
+        # Create a variable, consective_odds, to record consecutive odd numbers.
+        # Loop arr. If see an even number, set consective_odds = 0.
+        # Else, consective_odds + 1.
+        # Return True if consective_odds == 3
+        consective_odds = 0
         
+        i, l = 0, len(arr)
+        
+        while i < l:
+            consective_odds = consective_odds + 1 if arr[i]%2 else 0
+            if consective_odds == 3:
+                return True
+            i += 1
+
+
 
 0946. Validate Stack Sequences
 
 class Solution:
     def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        '''
+        Determine if pushed and popped could be valid operations of a stack
         
+            -types: pushed (List[int]) 
+                    popped (List[int])
+            -rtype: bool
+        '''
+        # Create a stack to mock operations in pushed and popped.
+        # In parallel, use two pointers, i and j, to loop eles in 
+        # pushed and popped.
+        stack = []
+        i = j = 0
+        l_pushed, l_popped = len(pushed), len(popped)
+        
+        while i != l_pushed or j != l_popped:
+            if i < l_pushed:
+                stack.append(pushed[i])
+                while stack and stack[-1] == popped[j]:
+                    stack.pop()
+                    j += 1
+                i += 1
+            elif stack and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+            else:
+                return False
+
+        return stack == []
 
 
 
 Day 090, 10/10/2020 Sat
 Day 091, 10/11/2020 Sun
-
 Day 092, 10/12/2020 Mon
 Day 093, 10/13/2020 Tue
+
+
 Day 094, 10/14/2020 Wed
+
+0543. Diameter of Binary Tree
+
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        '''
+        Find the length of the diameter of the tree. 
+        
+            -type : root (TreeNode)
+            -rtype: int
+        '''
+        
+        def maxDepth(root: TreeNode) -> int:
+            '''
+            Find the length max depth the tree. 
+
+                -type : root (TreeNode)
+                -rtype: int            
+            '''
+            if not (root and (root.left or root.right)):
+                return 0
+            else:
+                return 1 + max(maxDepth(root.left), maxDepth(root.right))
+            
+        if not root or not (root.left or root.right):
+            return 0
+        elif root.left and not root.right:
+            return 1 + maxDepth(root.left)
+        elif not root.left and root.right:
+            return 1 + maxDepth(root.right)
+        else:
+            return 2 + maxDepth(root.left) + maxDepth(root.right)
+
+
+
+1523. Count Odd Numbers in an Interval Range
+
+class Solution:
+    def countOdds(self, low: int, high: int) -> int:
+        '''
+        Find the count of odd numbers between low and high (inclusive)
+        
+            -types: low  (int)
+                    high (int)
+            -rtype: int
+        '''
+        return (high - low + 1)//2 + ((high - low + 1)%2) * (low%2)
+
+
+0200. Number of Islands
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+
+
 Day 095, 10/15/2020 Thu
+
+0892. Surface Area of 3D Shapes
+
+class Solution:
+    def surfaceArea(self, grid: List[List[int]]) -> int:
+
+
+1389. Create Target Array in the Given Order
+
+class Solution:
+    def createTargetArray(self, nums: List[int], index: List[int]) -> List[int]:
+        
+        
+
+0209. Minimum Size Subarray Sum
+
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        
+
 Day 096, 10/16/2020 Fri
 Day 097, 10/17/2020 Sat
 Day 098, 10/18/2020 Sun
+
+Day 099, 10/19/2020 Mon
+Day 100, 10/20/2020 Tue
+Day 101, 10/21/2020 Wed
+Day 102, 10/22/2020 Thu
+Day 103, 10/23/2020 Fri
+Day 104, 10/24/2020 Sat
+Day 105, 10/25/2020 Sun
+
