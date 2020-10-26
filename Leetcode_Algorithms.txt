@@ -1385,24 +1385,47 @@ Day 105, 10/25/2020 Sun
 
 Day 106, 10/26/2020 Mon
 
-
 0892. Surface Area of 3D Shapes
-
-class Solution:
-    def surfaceArea(self, grid: List[List[int]]) -> int:
-
-
-1389. Create Target Array in the Given Order
-
-class Solution:
-    def createTargetArray(self, nums: List[int], index: List[int]) -> List[int]:
-        
-        
+            
 
 0209. Minimum Size Subarray Sum
 
 class Solution:
     def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        '''
+        Find the minimal length of a contiguous subarray of which the sum ≥ s
+            
+            -types:    s (int)
+                    nums (List[int])    
+            -rtype: int
+        '''
+        # Find length of nums
+        l = len(nums)
+        
+        # Initiate result, subSum btw two pointers and start and end pointers
+        subSum = nums[0]
+        if subSum >= s:
+            res = 1
+            start = end = 0
+        else:
+            res = l
+            start, end = 0, 1
+        
+        # Loop nums
+        while start <= end or end < l: 
+            if subSum < s:
+                end += 1
+            else:
+                res = min(res, end - start + 1)
+                subSum -= nums[start]
+                if start == end:
+                    end += 1
+                
+                start += 1
+                
+        
+        return res
+
 
 
 Day 107, 10/27/2020 Tue
