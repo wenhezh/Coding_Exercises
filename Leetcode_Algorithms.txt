@@ -1415,15 +1415,15 @@ class Solution:
         while start <= end or end < l: 
             if subSum < s:
                 end += 1
+                subSum += nums[end]
             else:
                 res = min(res, end - start + 1)
                 subSum -= nums[start]
                 if start == end:
                     end += 1
-                
+                end = min(l-1, end)
                 start += 1
-                
-        
+
         return res
 
 
