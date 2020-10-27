@@ -1429,7 +1429,34 @@ class Solution:
 
 
 Day 107, 10/27/2020 Tue
+
+
+
 Day 108, 10/28/2020 Wed
+
+0141. Linked List Cycle
+
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        
+
+
+
+1022. Sum of Root To Leaf Binary Numbers
+
+class Solution:
+    def sumRootToLeaf(self, root: TreeNode) -> int:
+        
+
+
+0621. Task Scheduler
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        
+
+
+
 Day 109, 10/29/2020 Thu
 Day 110, 10/30/2020 Fri
 Day 111, 10/31/2020 Sat
