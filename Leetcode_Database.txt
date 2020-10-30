@@ -425,9 +425,67 @@ Day 096, 10/16/2020 Fri
 Day 097, 10/17/2020 Sat
 Day 098, 10/18/2020 Sun
 Day 099, 10/19/2020 Mon
+
 Day 100, 10/20/2020 Tue
+
+1607. Sellers With No Sales
+
+select seller_name
+from Seller
+where seller_id not in (select seller_id
+                        from Orders
+                        where year(sale_date) = 2020)
+order by seller_name;
+
+
+
+1623. All Valid Triplets That Can Represent a Country
+
+       , b.student_name member_B
+       , c.student_name member_C
+from   SchoolA a
+     , SchoolB b
+     , SchoolC c
+where a.student_id <> b.student_id and a.student_id <> c.student_id
+      and b.student_id <> c.student_id
+      and a.student_name <> b.student_name
+      and a.student_name <> c.student_name
+      and b.student_name <> c.student_name;
+
+
+
+1633. Percentage of Users Attended a Contest
+
+select   contest_id
+       , round(100*count(distinct user_id)/(select count(distinct user_id) from Users), 2) percentage 
+from Register
+group by contest_id
+order by percentage desc, contest_id; 
+
+
+1613. Find the Missing IDs
+
+
+
+
+
 Day 101, 10/21/2020 Wed
 Day 102, 10/22/2020 Thu
 Day 103, 10/23/2020 Fri
 Day 104, 10/24/2020 Sat
 Day 105, 10/25/2020 Sun
+
+Day 106, 10/26/2020 Mon
+Day 107, 10/27/2020 Tue
+Day 108, 10/28/2020 Wed
+Day 109, 10/29/2020 Thu
+Day 110, 10/30/2020 Fri
+Day 111, 10/31/2020 Sat
+Day 112, 11/01/2020 Sun
+Day 113, 10/02/2020 Mon
+Day 114, 10/03/2020 Tue
+Day 115, 10/04/2020 Wed
+Day 116, 10/05/2020 Thu
+Day 117, 10/06/2020 Fri
+Day 118, 10/07/2020 Sat
+Day 119, 10/08/2020 Sun
