@@ -533,7 +533,15 @@ Day 117, 11/06/2020 Fri
 Day 118, 11/07/2020 Sat
 Day 119, 11/08/2020 Sun
 Day 120, 11/09/2020 Mon
+
+
+
 Day 121, 11/10/2020 Tue
+
+1517. Find Users With Valid E-Mails
+
+1645. Hopper Company Queries II
+
 Day 122, 11/11/2020 Wed
 Day 123, 11/12/2020 Thu
 Day 124, 11/13/2020 Fri
@@ -546,3 +554,10 @@ Day 130, 11/19/2020 Thu
 Day 131, 11/20/2020 Fri
 Day 132, 11/21/2020 Sat
 Day 133, 11/22/2020 Sun
+Day 134, 11/23/2020 Mon
+Day 135, 11/24/2020 Tue
+Day 136, 11/25/2020 Wed
+Day 137, 11/26/2020 Thu
+Day 138, 11/27/2020 Fri
+Day 139, 11/28/2020 Sat
+Day 140, 11/29/2020 Sun
