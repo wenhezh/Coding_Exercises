@@ -1438,26 +1438,299 @@ Day 108, 10/28/2020 Wed
 
 class Solution:
     def hasCycle(self, head: ListNode) -> bool:
+        '''
+        Determine if head has a cycle
         
+            -type : head (ListNode)
+            -rtype: bool
+        '''
+        # Use a slow and a fast pointers to traverse the list.
+        # If the two pointers meet, there is a cycle. Otherwise, no.
+        slow = head if head else None
+        slow = head if head else None
+        slow = head if head else None
+        fast = head.next.next if head and head.next else None
+        
+        while slow and fast:
+            if slow and fast and slow.val == fast.val:
+                return True
+            slow = slow.next
+            fast = fast.next.next if fast and fast.next else None
+        return False
 
 
 
 1022. Sum of Root To Leaf Binary Numbers
 
-class Solution:
-    def sumRootToLeaf(self, root: TreeNode) -> int:
-        
-
-
-0621. Task Scheduler
-
-class Solution:
-    def leastInterval(self, tasks: List[str], n: int) -> int:
-        
-
-
+   
 
 Day 109, 10/29/2020 Thu
 Day 110, 10/30/2020 Fri
 Day 111, 10/31/2020 Sat
 Day 112, 11/01/2020 Sun
+
+
+Day 113, 10/02/2020 Mon
+
+0235. Lowest Common Ancestor of a Binary Search Tree
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        '''
+        Find the lowest common ancestor of p and q.
+        
+            -types: p (TreeNode)
+                    q (TreeNode)
+            -rtype: TreeNode
+        '''
+        # Make the node that has smaller value as p
+        if p.val > q.val:
+            p, q = q, p
+            
+        # Check if p and q are on different sides of root
+        # If yes, then return root
+        if p.val <= root.val <= q.val:
+            return root
+        # Otherwise, recursively use this func on 
+        # either left/right side of the root
+        elif q.val <= root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        else:
+            return self.lowestCommonAncestor(root.right, p, q)
+
+
+
+0276. Paint Fence
+
+
+
+0621. Task Scheduler
+       
+
+
+Day 114, 10/03/2020 Tue
+
+
+
+Day 115, 10/04/2020 Wed
+
+1640. Check Array Formation Through Concatenation
+
+class Solution:
+    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
+        '''
+        Determine if arr can be formed by concatenating arrays in pieces.
+        
+            -types:    arr (List[int])
+                    pieces (List[List[int]])
+            -rtype: bool
+        '''
+        # An indictor to determine if such an ele in arr can be found in pieces
+        found = True
+        
+        # Loop pieces and find if any piece can be found in arr
+        # If not, the return False
+        while pieces and found:
+            found = False
+            for i in range(len(arr)):
+                if pieces[-1][0] == arr[i]:
+                    found = True
+                    if arr[i:i+len(pieces[-1])] != pieces[-1]:
+                        print(arr[i:i+len(pieces[-1])] == pieces[-1])
+                        return False
+            pieces.pop()
+        
+        # Return True if all pieces can be found in arr, otherwise, False. 
+        return True if found else False
+        
+        
+
+1641. Count Sorted Vowel Strings
+
+
+
+0033. Search in Rotated Sorted Array
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        '''
+        Find index of target in nums, where nums might be rotated beforehand.
+        
+            -types:   nums (List[int)
+                    target (int)
+            -rtype: int
+        '''
+        import bisect
+        # Case when only 1 ele in nums
+        if nums[0] == nums[-1]:
+            return 0 if nums[0] == target else -1
+
+        # Case when nums is sorted and target is out of range of nums,
+        # then return -1
+        elif nums[0] < nums[-1] and (target > nums[-1] or target < nums[0]):
+            return -1
+        
+        # Case when nums is sorted, then do a binary search to find if ele of 
+        # that index is target
+        elif nums[0] < nums[-1]:
+            index = bisect.bisect_left(nums, target)
+            return index if nums[index] == target else -1
+        
+        # Case when nums is not sorted, and target > nums[-1] and target < nums[0],
+        # then just return -1
+        elif target > nums[-1] and target < nums[0]:
+            return -1
+            
+        # Else, find the original pivot,
+        # and find which part target could be in and use binart search to find if target is in nums            
+        elif target <= nums[-1]:
+            pivot_index = nums.index(min(nums))
+            index = bisect.bisect_left(nums[pivot_index:], target)
+            return index+pivot_index if nums[index+pivot_index] == target else -1
+        elif target >= nums[0]:
+            pivot_index = nums.index(max(nums))
+            index = bisect.bisect_left(nums[:pivot_index], target)
+            return index if nums[index] == target else -1
+
+
+
+Day 116, 10/05/2020 Thu
+
+
+0160. Intersection of Two Linked Lists
+
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        '''
+        Find the node at which the intersection of two singly linked lists begins
+        
+            -types: headA (Node)
+                    headA (Node)
+            -rtype: Node
+        '''
+        # Case when either one is null
+        if not (headA and headB):
+            return None
+        
+        # Define two pointer nodes starting from A (pA) and B (pB)
+        pA, pB = headA, headB
+        
+        # Loop both pA and pB
+        # If pA/pB fully looped, then switch it to pB/pA, and let switched + 0.5
+        # when both pA/pB fully looped.
+        # If switched and pA/pB fully looped again (switched > 1) but still no intersection nodes
+        # found, then return None. Else, return the intersection node.
+        switched = 0
+        while switched <= 1:
+            if not pA:
+                switched += 0.5
+                pA = headB
+            elif not pB:
+                switched += 0.5
+                pB = headA
+            elif pA != pB:
+                pA, pB = pA.next, pB.next
+            else:
+                return pA
+        return None
+
+
+
+0767. Reorganize String
+     
+
+
+0957. Prison Cells After N Days
+
+class Solution:
+    def prisonAfterNDays(self, cells: List[int], N: int) -> List[int]:
+        '''
+        Find the state of cells after N days.
+        
+            -types: cells (List[int])
+                        N (int)
+            -rtype: List[int]
+        '''
+        for x in range(N):
+            old_cells = cells
+            cells = [old_cells[0]] + [1 if old_cells[i-1] == old_cells[i+1] else 0 for i in range(1, 7)] + [old_cells[-1]]
+        return cells
+
+
+
+Day 117, 10/06/2020 Fri
+
+0993. Cousins in Binary Tree
+
+
+Day 118, 10/07/2020 Sat
+Day 119, 10/08/2020 Sun
+
+
+Day 120, 11/09/2020 Mon
+
+1252. Cells with Odd Values in a Matrix
+
+class Solution:
+    def oddCells(self, n: int, m: int, indices: List[List[int]]) -> int:    
+        res = [[0 for _ in range(m)] for _ in range(n)]
+        for x, y in indices:
+            res[x] = [1-res[x][j] for j in range(m)]
+            for i in range(n):
+                res[i][y] = 1-res[i][y]
+        
+        return sum([sum(res[i]) for i in range(n)])
+
+
+
+Day 121, 11/10/2020 Tue
+
+
+
+Day 122, 11/11/2020 Wed
+
+1033. Moving Stones Until Consecutive
+
+class Solution:
+    def numMovesStones(self, a: int, b: int, c: int) -> List[int]:
+        
+
+
+0647. Palindromic Substrings
+
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        
+        
+        
+        
+
+
+Day 120, 11/09/2020 Mon
+
+0624. Maximum Distance in Arrays
+
+class Solution:
+    def maxDistance(self, arrays: List[List[int]]) -> int:
+        
+        
+
+Day 123, 11/12/2020 Thu
+Day 124, 11/13/2020 Fri
+Day 125, 11/14/2020 Sat
+Day 126, 11/15/2020 Sun
+Day 127, 11/16/2020 Mon
+Day 128, 11/17/2020 Tue
+Day 129, 11/18/2020 Wed
+Day 130, 11/19/2020 Thu
+Day 131, 11/20/2020 Fri
+Day 132, 11/21/2020 Sat
+Day 133, 11/22/2020 Sun
+Day 134, 11/23/2020 Mon
+Day 135, 11/24/2020 Tue
+Day 136, 11/25/2020 Wed
+Day 137, 11/26/2020 Thu
+Day 138, 11/27/2020 Fri
+Day 139, 11/28/2020 Sat
+Day 140, 11/29/2020 Sun
+
