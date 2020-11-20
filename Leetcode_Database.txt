@@ -533,15 +533,7 @@ Day 117, 11/06/2020 Fri
 Day 118, 11/07/2020 Sat
 Day 119, 11/08/2020 Sun
 Day 120, 11/09/2020 Mon
-
-
-
 Day 121, 11/10/2020 Tue
-
-1517. Find Users With Valid E-Mails
-
-1645. Hopper Company Queries II
-
 Day 122, 11/11/2020 Wed
 Day 123, 11/12/2020 Thu
 Day 124, 11/13/2020 Fri
@@ -550,6 +542,35 @@ Day 126, 11/15/2020 Sun
 Day 127, 11/16/2020 Mon
 Day 128, 11/17/2020 Tue
 Day 129, 11/18/2020 Wed
+
+
+
+1517. Find Users With Valid E-Mails
+
+1645. Hopper Company Queries II
+
+select   cast(@num := @num + 1 AS UNSIGNED) month
+
+from   information_schema.tables
+     , (select @num := 0) t
+
+limit 10;
+ 
+ 
+
+select   month(r.requested_at) month
+       , count(month(r.requested_at))/count()
+from   Rides r
+     , AcceptedRides a
+     , Drivers d
+where r.ride_id = a.ride_id and year(r.requested_at) = 2020
+group by month(r.requested_at)
+
+ 
+
+
+ 
+
 Day 130, 11/19/2020 Thu
 Day 131, 11/20/2020 Fri
 Day 132, 11/21/2020 Sat
