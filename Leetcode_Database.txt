@@ -567,10 +567,6 @@ where r.ride_id = a.ride_id and year(r.requested_at) = 2020
 group by month(r.requested_at)
 
  
-
-
- 
-
 Day 130, 11/19/2020 Thu
 Day 131, 11/20/2020 Fri
 Day 132, 11/21/2020 Sat
@@ -583,7 +579,36 @@ Day 138, 11/27/2020 Fri
 Day 139, 11/28/2020 Sat
 Day 140, 11/29/2020 Sun
 Day 141, 11/30/2020 Mon
+
+
+
 Day 142, 12/01/2020 Tue
+
+1661. Average Time of Process per Machine
+
+select   machine_id
+       , round(ifnull(2*sum(case when activity_type = 'end' then timestamp
+                             else -timestamp end)
+                      /count(activity_type), 0), 3) processing_time
+from Activity
+group by machine_id
+order by machine_id;
+
+
+
+1667. Fix Names in a Table
+
+select   user_id
+       , CONCAT(UCASE(LEFT(name, 1)),  LCASE(SUBSTRING(name, 2))) name
+from Users
+order by user_id;
+
+
+
+1645. Hopper Company Queries II
+
+
+
 Day 143, 12/02/2020 Wed
 Day 144, 12/03/2020 Thu
 Day 145, 12/04/2020 Fri
