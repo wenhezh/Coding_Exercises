@@ -1682,39 +1682,9 @@ class Solution:
         return sum([sum(res[i]) for i in range(n)])
 
 
-
-Day 121, 11/10/2020 Tue
-
-
-
-Day 122, 11/11/2020 Wed
-
-1033. Moving Stones Until Consecutive
-
-class Solution:
-    def numMovesStones(self, a: int, b: int, c: int) -> List[int]:
-        
-
-
-0647. Palindromic Substrings
-
-class Solution:
-    def countSubstrings(self, s: str) -> int:
-        
-        
-        
-        
-
-
 Day 120, 11/09/2020 Mon
-
-0624. Maximum Distance in Arrays
-
-class Solution:
-    def maxDistance(self, arrays: List[List[int]]) -> int:
-        
-        
-
+Day 121, 11/10/2020 Tue
+Day 122, 11/11/2020 Wed
 Day 123, 11/12/2020 Thu
 Day 124, 11/13/2020 Fri
 Day 125, 11/14/2020 Sat
@@ -1734,3 +1704,344 @@ Day 138, 11/27/2020 Fri
 Day 139, 11/28/2020 Sat
 Day 140, 11/29/2020 Sun
 
+
+
+Day 141, 11/30/2020 Mon
+
+0647. Palindromic Substrings
+
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        '''
+        Find how many palindromic substrings in s.
+        
+            -type : s (str)
+            -rtype: int 
+        '''
+        # Initiate result, res, as length of s, since
+        # every char in s is palindromic
+        res = l = len(s)
+        
+        # Check palindromic substrings with odd length and length > 1
+        # Loop from the 1st index (0-indexed). Check if chars with same
+        # distance to current char are equal
+        for i in range(1, l-1):
+            isPalindromic = True
+            currDist = 1
+            furthestDist = min(i, l-1-i) 
+            
+            while isPalindromic and currDist <= furthestDist:
+                isPalindromic = s[i-currDist] == s[i+currDist]
+                res += 1*isPalindromic
+                currDist += 1
+               
+        # Check palindromic substrings with even length and length > 1
+        # Loop from index 0. Check if the next char is equal to current char.
+        # If yes, check the left char with same distance to current char and
+        # the right char with same distance to the next char are equal
+        for i in range(l-1):
+            isPalindromic = True
+            currDist = 1
+            furthestDist = min(i, l-1-i-1) 
+            
+            if s[i] == s[i+1]:
+                res += 1
+                while isPalindromic and currDist <= furthestDist:
+                    isPalindromic = s[i-currDist] == s[i+1+currDist]
+                    res += 1*isPalindromic
+                    currDist += 1
+        
+        return res
+       
+
+The Skyline Problem
+
+
+
+Day 142, 12/01/2020 Tue
+
+
+
+Day 143, 12/02/2020 Wed
+
+Shortest Word Distance
+
+class Solution:
+    def shortestDistance(self, words: List[str], word1: str, word2: str) -> int:
+        '''
+        Find the shortest distance btw word1 and word2
+        
+            -types: words (List[str])
+                    word1 (str)
+                    word2 (str)
+            -rtype: int
+        '''
+        index1 = index2 = None
+        res = len(words)
+        
+        for i in range(len(words)):
+            if words[i] == word1:
+                index1 = i
+            elif words[i] == word2:
+                index2 = i
+            
+            if index1 != None and index2 != None:
+                res = min(res, abs(index2 - index1))
+        return res
+
+
+
+Linked List Random Node
+
+class Solution:
+
+    def __init__(self, head: ListNode):
+        """
+        @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node.
+        """
+        self.head = head
+        self.l = 0
+        while head:
+            self.l += 1
+            head = head.next
+        
+
+    def getRandom(self) -> int:
+        """
+        Returns a random node's value.
+        """
+        import random
+        r = random.randint(1, self.l)
+
+        temp = self.head
+        res = temp.val
+        i = 1
+        while i < r:
+            temp = temp.next
+            res = temp.val
+            
+            i += 1
+        return res
+
+
+
+0152. Maximum Product Subarray
+
+
+
+Day 144, 12/03/2020 Thu
+
+0039. Combination Sum
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        
+        
+        
+
+0624. Maximum Distance in Arrays
+
+class Solution:
+    def maxDistance(self, arrays: List[List[int]]) -> int:
+        currMin = min(arrays[0])
+        currMax = max(arrays[1])
+        res = currMax - currMin
+        
+        for i in range(2, len(arrays)):
+            res = max(currMax - min(arrays[i]), -currMin + max(arrays[i]), res)
+            
+            if max(arrays[i]) > currMax:
+                currMax = max(arrays[i])
+            elif currMin > min(arrays[i]):
+                currMin = min(arrays[i])
+        
+        currMin = min(arrays[1])
+        currMax = max(arrays[0])
+        res = max(res, currMax - currMin)
+        print(currMin, currMax)
+        for i in range(2, len(arrays)):
+            res = max(currMax - min(arrays[i]), -currMin + max(arrays[i]), res)
+            
+            if max(arrays[i]) > currMax:
+                currMax = max(arrays[i])
+            elif currMin > min(arrays[i]):
+                currMin = min(arrays[i])
+        
+        return res
+
+
+
+Day 145, 12/04/2020 Fri
+
+The kth Factor of n
+
+class Solution:
+    def kthFactor(self, n: int, k: int) -> int:
+        '''
+        Find the kth factor in this list or return -1 if n has less than k factors.
+        
+            -types: n (int)
+                    k (int)
+            -rtype: int
+        '''
+        # Find all factors of n by looping from 1 to n
+        # Once the pointer == k, return current factor
+        # If after looping all n numbers, k > pointer, return -1 
+        if k == 1:
+            return 1
+        
+        nth_factor = curr_factor = 1
+        for i in range(2, n+1):
+            if n%i == 0:
+                nth_factor += 1
+                curr_factor = i
+            
+            if k == nth_factor:
+                return curr_factor 
+        
+        return -1
+
+
+
+1041. Robot Bounded In Circle
+
+
+
+Day 146, 12/05/2020 Sat
+
+
+Day 147, 12/06/2020 Sun
+
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        
+
+0086. Partition Listclass Solution:
+    def partition(self, head: ListNode, x: int) -> ListNode:
+        # Initiate result, res (a linked list), to gather all nodes
+        # with val < x in the original relative order  before seeing
+        # the first Node with val >= x
+        res = head if head and head.val < x else None
+        res0 = res
+        head = head.next if head and res else head
+        
+        # Gather all nodes with val < x before observing
+        # any node that has val >= x
+        while head and head.val < x:
+            res.next = head       
+            res = res.next
+            head = head.next
+        
+        
+        # Loop the remaining part
+        # If node has val >= x, then move to next nodes
+        # until a node, n, has val < x is found and then 
+        # append n to res and append other part to n
+        # Append remaining parts if no node has val < x
+        temp = head
+        while temp and temp.next:
+            if temp.next.val >= x:
+                temp = temp.next
+            elif temp.next.val < x and res:
+                res.next = temp.next
+                res = res.next
+                temp.next = temp.next.next
+            else:
+                res = temp.next
+                res0 = res
+                temp.next = temp.next.next
+
+        print()
+        if res:
+            res.next = head
+        if not res and head:
+            return head
+        
+        return res0
+
+
+
+Day 148, 12/07/2020 Mon
+
+0059. Spiral Matrix II
+
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        '''
+        Generate an n x n matrix filled with elements from 1 to n^2 in spiral (clockwise) order.
+        
+            -type : n (int)
+            -rtype: List[List[int]]
+        '''
+        # Initiate result, res
+        res = [[None for _ in range(n)] for _ in range(n)]
+        
+        # Define some metrics when creating the spiral matrix
+        totalNumToFill = n  # Total number of elements to fill in row/column based on current status
+        currNumToFill = n   # Current number of elements to fill in current row/column
+        timesLeft = 1       # Number of total times left to before decrementing totalNumToFill
+        direction = 0       # Direction to go: 0 (right), 1 (down), 2 (left), 3 (up). Start with right.
+        i = j = 0           # Pointers (i: row, j: column) to indicate coordinates of current position in res
+        
+        # Loop the matrix (res) in a spiral order
+        for x in range(n*n):
+            # Assign new value to current position
+            res[i][j] = x + 1
+            # Decrement numToFill
+            currNumToFill -= 1
+            
+            # Determine next location
+            if direction == 0 and currNumToFill:
+                j += 1
+            elif direction == 0 and currNumToFill == 0:
+                i += 1
+                direction = 1
+            elif direction == 1 and currNumToFill:
+                i += 1
+            elif direction == 1 and currNumToFill == 0:
+                j -= 1
+                direction = 2
+            elif direction == 2 and currNumToFill:
+                j -= 1
+            elif direction == 2 and currNumToFill == 0:
+                i -= 1 
+                direction = 3
+            elif direction == 3 and currNumToFill:
+                i -= 1
+            elif direction == 3 and currNumToFill == 0:
+                j += 1 
+                direction = 0
+            
+            # Check if need to update currNumToFill and totalNumToFill
+            if currNumToFill == 0:
+                timesLeft -= 1
+                
+                if timesLeft == 0:
+                    timesLeft = 2
+                    totalNumToFill -= 1
+                currNumToFill = totalNumToFill
+
+        return res
+
+
+
+1046. Last Stone Weight
+
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        
+
+0399. Evaluate Division
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        
+
+
+
+Day 149, 12/08/2020 Tue
+Day 150, 12/09/2020 Wed
+Day 151, 12/10/2020 Thu
+Day 152, 12/11/2020 Fri
+Day 153, 12/12/2020 Sat
+Day 154, 12/13/2020 Sun
