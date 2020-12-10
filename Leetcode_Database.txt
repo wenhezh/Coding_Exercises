@@ -614,3 +614,19 @@ Day 144, 12/03/2020 Thu
 Day 145, 12/04/2020 Fri
 Day 146, 12/05/2020 Sat
 Day 147, 12/06/2020 Sun
+Day 148, 12/07/2020 Mon
+
+
+Day 149, 12/08/2020 Tue
+
+1677. Product's Worth Over Invoices
+
+1651. Hopper Company Queries III
+
+
+Day 150, 12/09/2020 Wed
+Day 151, 12/10/2020 Thu
+Day 152, 12/11/2020 Fri
+Day 153, 12/12/2020 Sat
+Day 154, 12/13/2020 Sun
+
