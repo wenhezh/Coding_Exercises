@@ -2028,19 +2028,34 @@ class Solution:
 
 1046. Last Stone Weight
 
-class Solution:
-    def lastStoneWeight(self, stones: List[int]) -> int:
-        
-
 0399. Evaluate Division
-class Solution:
-    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        
 
 
 
 Day 149, 12/08/2020 Tue
+
+
+
 Day 150, 12/09/2020 Wed
+
+1332. Remove Palindromic Subsequences
+
+class Solution:
+    def removePalindromeSub(self, s: str) -> int:
+        
+
+
+0721. Accounts Merge
+
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        
+
+
+
+
+
+
 Day 151, 12/10/2020 Thu
 Day 152, 12/11/2020 Fri
 Day 153, 12/12/2020 Sat
