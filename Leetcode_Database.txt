@@ -615,15 +615,7 @@ Day 145, 12/04/2020 Fri
 Day 146, 12/05/2020 Sat
 Day 147, 12/06/2020 Sun
 Day 148, 12/07/2020 Mon
-
-
 Day 149, 12/08/2020 Tue
-
-1677. Product's Worth Over Invoices
-
-1651. Hopper Company Queries III
-
-
 Day 150, 12/09/2020 Wed
 Day 151, 12/10/2020 Thu
 Day 152, 12/11/2020 Fri
@@ -651,9 +643,46 @@ Day 170, 12/29/2020 Tue
 
 1683. Invalid Tweets
 
+select tweet_id
+from Tweets
+where length(content) > 15;
+
+
+
 1677. Product's Worth Over Invoices
 
+select   p.name 
+       , sum(i.rest) rest
+       , sum(i.paid) paid
+       , sum(i.canceled) canceled
+       , sum(i.refunded) refunded
+from Invoice i left join Product p
+     on i.product_id = p.product_id
+group by i.product_id
+order by p.name;
+
+
+
 1645. Hopper Company Queries II
+
+select   l.month
+       , round(100 * ifnull((select count(distinct driver_id)
+                             from (select   a.driver_id
+                                          , rd.requested_at
+                                   from AcceptedRides a left join Rides rd
+                                   on a.ride_id = rd.ride_id) r
+                                   where year(requested_at) = 2020 
+                                   and month(requested_at) = l.month)
+                             /
+                             sum(case when year(d.join_date) < 2020 or (year(d.join_date) = 2020 and month(d.join_date) <= l.month) then 1
+                                 else 0 end), 0), 2) working_percentage
+from   (select cast(@m := @m + 1 as unsigned) month
+        from   information_schema.tables
+             , (select @m := 0) t
+        limit 12) l
+     , Drivers d
+group by l.month
+order by l.month;
 
 
 
