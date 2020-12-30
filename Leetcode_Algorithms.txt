@@ -2082,12 +2082,128 @@ Challenge. Reach a Number
 
 
 Day 170, 12/29/2020 Tue
+
+
 Day 171, 12/30/2020 Wed
+
+Challenge
+
+Longest Substring with At Most K Distinct Characters
+
+class Solution:
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        '''
+        Find the length of the longest substring with at most K distinct chars.
+        
+            -types: s (str)
+                    k (int)
+            -rtype: int
+        '''
+        # Special case when k is 0
+        if k == 0:
+            return 0
+        
+        max_len = curr_len = 1
+        num_of_distinct = 1
+        distinct_chars = {s[0]: 1}
+        i, j, l = 0, 1, len(s)
+        
+        # Loop s.
+        # If adding current char is not making num_of_distinct > k, then curr_len + 1 and j + 1
+        # Else, remove the first char of the substring and increment the substring start index
+        while j < l:
+            if num_of_distinct < k:
+                if s[j] in distinct_chars:
+                    distinct_chars[s[j]] += 1
+                else:
+                    distinct_chars[s[j]] = 1
+                    num_of_distinct += 1
+                curr_len += 1
+                j += 1
+            
+            elif s[j] in distinct_chars:
+                distinct_chars[s[j]] += 1
+                curr_len += 1
+                j += 1
+                
+            else:
+                distinct_chars[s[i]] -= 1
+                if distinct_chars[s[i]] == 0:
+                    num_of_distinct -=  1
+                    del distinct_chars[s[i]]
+                i += 1
+                curr_len -= 1
+            
+            max_len = max(max_len, curr_len)
+            print(max_len, curr_len, num_of_distinct)
+        return max_len
+
+
+
+1033. Moving Stones Until Consecutive
+
+class Solution:
+    def numMovesStones(self, a: int, b: int, c: int) -> List[int]:
+        '''
+        Find the min and maxm number of moves that can make positions consecutive
+        
+            -types: a (int)
+                    b (int)
+                    c (int)
+            -rtype: List[int]
+        '''
+        # Create a list to make a, b and c sorted
+        l = sorted([a, b, c])
+        
+        # Case when l is consective
+        if l[0] + 1 == l[1] and l[1] + 1 == l[2]:
+            return [0, 0]
+        
+        # Case when delta btw one neighbor is 1 and the other is 2
+        if (l[0] + 1 == l[1] and l[1] + 2 == l[2]) or (l[0] + 2 == l[1] and l[1] + 1 == l[2]):
+            return [1, 1]
+
+        # Case when delta btw 2 neighbors is 2
+        if l[0] + 2 == l[1] and l[1] + 2 == l[2]:
+            return [1, 2]
+
+        # Case when there is only 1 neighbored pair that delta = 1
+        if l[0] + 1 == l[1]:
+            return [1, l[2]-l[1]-1]
+        if l[1] + 1 == l[2]:
+            return [1, l[1]-l[0]-1]
+            
+        # Case when there is only 1 neighbored pair that delta = 2
+        if l[0] + 2 == l[1]:
+            return [1, l[2]-l[1]]
+        if l[1] + 2 == l[2]:
+            return [1, l[1]-l[0]]
+            
+        # Other cases
+        return [2, l[1]-l[0]-1+l[2]-l[1]-1]
+
+
+
 Day 172, 12/31/2020 Thu
+
+0695. Max Area of Island
+
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        
+
+
 Day 173, 01/01/2021 Fri
 Day 174, 01/02/2021 Sat
 Day 175, 01/03/2021 Sun
 
+Day 176, 01/04/2021 Mon
+Day 177, 01/05/2021 Tue
+Day 178, 01/06/2021 Wed
+Day 179, 01/07/2021 Thu
+Day 180, 01/08/2021 Fri
+Day 181, 01/09/2021 Sat
+Day 182, 01/10/2021 Sun
 
 
 
