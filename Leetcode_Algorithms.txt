@@ -2185,19 +2185,55 @@ class Solution:
 
 
 Day 172, 12/31/2020 Thu
-
-0695. Max Area of Island
-
-class Solution:
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        
-
-
 Day 173, 01/01/2021 Fri
 Day 174, 01/02/2021 Sat
 Day 175, 01/03/2021 Sun
 
+
 Day 176, 01/04/2021 Mon
+
+0050. Pow(x, n)
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        '''
+        Calculates x raised to the power n 
+        
+            -types: x (float)
+                    n (int)
+            -rtype: float
+        '''
+        from functools import reduce
+        # Case when x is 0 or 1
+        if x == 0 or x == 1:
+            return x
+        
+        # Case when x is -1
+        if x == -1:
+            return (-1) ** (abs(n)%2)
+        
+        # Case when n is 0
+        if n == 0:
+            return 1.0000     
+        
+        res = 1
+        cnt = 0
+        # Case when n > 0
+        if n > 0:
+            while cnt < abs(n) and abs(round(res, 6)) > 0:
+                res *= x
+                cnt += 1
+
+        # Case when n < 0
+        if n < 0:
+            while cnt < abs(n) and abs(round(res, 6)) > 0:
+                res *= 1/x
+                cnt += 1
+            
+        return round(res, 6)
+
+
+
 Day 177, 01/05/2021 Tue
 Day 178, 01/06/2021 Wed
 Day 179, 01/07/2021 Thu
