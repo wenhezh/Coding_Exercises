@@ -701,9 +701,34 @@ Day 177, 01/05/2021 Tue
 
 1693. Daily Leads and Partners
 
+select   date_id
+       , make_name
+       , count(distinct lead_id) unique_leads
+       , count(distinct partner_id) unique_partners
+from DailySales
+group by date_id, make_name;
+
+
 
 1699. Number of Calls Between Two Persons
 
+select   from_id person1
+       , to_id person2
+       , count(duration) call_count
+       , sum(duration) total_duration
+from (select   from_id
+             , to_id
+             , duration
+      from Calls 
+      where from_id < to_id
+      UNION ALL
+      select   c.to_id from_id
+             , c.from_id to_id
+             , duration
+      from Calls c
+      where c.from_id > c.to_id
+      ) temp
+group by from_id, to_id;
 
 
 
