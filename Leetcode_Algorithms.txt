@@ -2242,21 +2242,83 @@ Day 178, 01/06/2021 Wed
 
 1048. Longest String Chain
 
-class Solution:
-    def longestStrChain(self, words: List[str]) -> int:
-        
-
 Day 179, 01/07/2021 Thu
 Day 180, 01/08/2021 Fri
 Day 181, 01/09/2021 Sat
 Day 182, 01/10/2021 Sun
-
-
 Day 183, 01/11/2021 Mon
 Day 184, 01/12/2021 Tue
+
+
+
 Day 185, 01/13/2021 Wed
+
+Boats to Save People   
+
+
+
+0637. Average of Levels in Binary Tree
+
+class Solution:
+    def averageOfLevels(self, root: TreeNode) -> List[float]:
+        '''
+        Find the average value of the nodes on each level of root.
+        
+            -type : root (TreeNode)
+            -rtype: List[float]
+        '''
+        if not root: return []
+        
+        stack = [root]
+        storage = []
+        currSum = currCnt = 0
+        res = []
+        
+        # Loop one level and find all values and take average to append to res 
+        while stack:
+            while stack:
+                temp = stack.pop()
+                      
+                currSum += temp.val
+                currCnt += 1
+                
+                # Only include non-empty children
+                if temp.left:
+                    storage.append(temp.left)
+                if temp.right:
+                    storage.append(temp.right)  
+            
+            # Calculating average for this level
+            if currCnt:
+                res.append(currSum/currCnt)
+            
+            # Reset values
+            stack = storage
+            storage = []
+            currSum = currCnt = 0
+            
+        return res 
+        
+        
+
+
+0139. Word Break
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        
+
+
 Day 186, 01/14/2021 Thu
 Day 187, 01/15/2021 Fri
 Day 188, 01/16/2021 Sat
 Day 189, 01/17/2021 Sun
+
+Day 190, 01/18/2021 Mon
+Day 191, 01/19/2021 Tue
+Day 192, 01/20/2021 Wed
+Day 193, 01/21/2021 Thu
+Day 194, 01/22/2021 Fri
+Day 195, 01/23/2021 Sat
+Day 196, 01/24/2021 Sun
 
