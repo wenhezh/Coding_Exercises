@@ -2298,19 +2298,77 @@ class Solution:
             currSum = currCnt = 0
             
         return res 
-        
-        
+
 
 
 0139. Word Break
 
-class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        
 
 
 Day 186, 01/14/2021 Thu
+
+Minimum Operations to Reduce X to Zero
+
+0276. Paint Fence
+
+1423. Maximum Points You Can Obtain from Cards
+
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        '''
+        Find the maximum score you can obtain
+
+            -types: cardPoints (List[int])
+                             k (int)
+            -rtype: int
+        '''
+        l = len(cardPoints)
+        
+        # Special cases
+        # 1. l == k
+        if l == k:
+            return sum(cardPoints)
+        # 2. k is 1
+        if k == 1:
+            return max(cardPoints[0], cardPoints[-1])
+        
+        # Initiate two pointers to loop cardPoints from both ends, with assuming to start with
+        # taking k cards from the left, and then removing rightmost card on the left part and taking
+        # one card from the right part, until no cards left in the left part.
+        # In this process, dynamically recording max points.
+        i, j = k-1, l-1
+        maxPoints = currPoints = sum(cardPoints[:k])
+        while i >-1:
+            currPoints = currPoints - cardPoints[i] + cardPoints[j]
+            i -= 1
+            j -= 1
+            maxPoints = max(maxPoints, currPoints)
+        
+        return maxPoints
+            
+        
+        
+
+
 Day 187, 01/15/2021 Fri
+
+0987. Vertical Order Traversal of a Binary Tree
+
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+
+
+
+1428. Leftmost Column with at Least a One
+
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        
+        
+
+
+
+
 Day 188, 01/16/2021 Sat
 Day 189, 01/17/2021 Sun
 
