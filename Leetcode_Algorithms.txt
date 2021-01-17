@@ -2352,20 +2352,56 @@ class Solution:
 
 Day 187, 01/15/2021 Fri
 
+Get Maximum in Generated Array
+
+class Solution:
+    def getMaximumGenerated(self, n: int) -> int:
+        '''
+        Find the max of th generated array
+        
+            -type : n (int)
+            -rtype: int
+        '''
+        # Cases when n is 0
+        if n == 0:
+            return 0
+        
+        # Initiate the result array, and a variable t remember max
+        res = [0]*(n + 1)
+        res[1] = 1
+        maxNum = 1
+        
+        for i in range(2, n+1):
+            res[i] = res[i//2] if i%2 == 0 else res[(i-1)//2] + res[(i-1)//2+1]
+            maxNum = max(maxNum, res[i])
+        
+        return maxNum
+
+
+
+1708. Largest Subarray Length K
+
+class Solution:
+    def largestSubarray(self, nums: List[int], k: int) -> List[int]:
+        '''
+        Find the largest subarray of nums of length k
+           
+            -types: nums (List[int])
+                       k (int)
+            -rtype: List[int]
+        '''
+        # Since elements in nums are all distinct, just find where max of
+        # nums[:len(nums)-k+1] and the result array will be nums[maxPos:(maxPos+k)]
+        maxPos = max(nums[:len(nums)-k+1])
+        maxPos = nums.index(maxPos)
+        
+        return nums[maxPos:(maxPos+k)]
+
+
+
 0987. Vertical Order Traversal of a Binary Tree
 
-class Solution:
-    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
-
-
-
 1428. Leftmost Column with at Least a One
-
-class Solution:
-    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
-        
-        
-
 
 
 
@@ -2373,6 +2409,22 @@ Day 188, 01/16/2021 Sat
 Day 189, 01/17/2021 Sun
 
 Day 190, 01/18/2021 Mon
+
+0523. Continuous Subarray Sum
+
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        
+
+
+1583. Count Unhappy Friends
+
+class Solution:
+    def unhappyFriends(self, n: int, preferences: List[List[int]], pairs: List[List[int]]) -> int:
+
+
+
+
 Day 191, 01/19/2021 Tue
 Day 192, 01/20/2021 Wed
 Day 193, 01/21/2021 Thu
