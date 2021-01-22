@@ -2434,30 +2434,144 @@ class Solution:
                    t (str)
            -rtype: bool
         '''
+        # Special case if both s and t are empty, then return false
+        if not (s or t):
+            return False
+        
         # Keep removing chars one by one from the start of both s and t as long as
         # current elements of s and t are the same
         while s and t and s[0] == t[0]:
-            s = s[1:
-         
-        while s and t and s[0] == t[0]:
+            s = s[1:]
+            t = t[1:]
+        
+        # Keep removing chars one by one from the end of both s and t as long as
+        # current elements of s and t are the same
+        while s and t and s[-1] == t[-1]:
+            s = s[:-1]
+            t = t[:-1]
+        
+        # Determine if both s and t have length = 1, or just one has length = 1
+        return (len(s) == 1 and len(t) == 1) or (len(s) == 0 and len(t) == 1) or (len(s) == 1 and len(t) == 0)
+
+
 
 0539.Minimum Time Difference  
 
 class Solution:
     def findMinDifference(self, timePoints: List[str]) -> int:
-
+        '''
+        Find the min time difference between any two time elements in timePoints
+        
+            -type : timePoints (List[str])
+            -rtype: int
+        '''
+        # Sort timePoints
+        timePoints.sort()
+        
+        # Define a function, diffMin, to determine time difference, in minute, between two time-points
+        def diffMin(t1: str, t2: str) -> int:
+            '''
+            Find time difference (in minute) between t1 and t2
+            
+                -types: t1 (str)
+                        t2 (str)
+                -rtype: int
+            '''
+            # Split t1 and t2 to lists in format of ["HH", "MM"]
+            t1 = t1.split(':')
+            t2 = t2.split(':')
+            
+            # Find difference of HH and MM part
+            h = int(t1[0]) - int(t2[0])
+            m = int(t1[1]) - int(t2[1])
+            
+            # Convert h to positive and then m to minute diff btw t1 and t2
+            h = 24 + h if h < 0 else h
+            m = abs(60*h + m)
+            
+            # return min of m and 24*60-m
+            return min(m, 24*60-m)
+            
+        # Loop timePoints and find min diff btw any two time-points
+        res = 60*24
+        for i in range(len(timePoints)):
+            res = min(res, diffMin(timePoints[i-1], timePoints[i]))
+        
+        return res
+        
 
 
 0547. Number of Provinces
 
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        '''
+        Find the number of provinces based on the connection board
         
+            -type : isConnected (List[List[int]])
+            -rtype: int
+        '''
+        # Create a board, visited, that has the same size as isConnected, to 
+        # record positions visited
+        num_of_prov = len(isConnected)
+        self.visited = [False for _ in range(num_of_prov)]
+        
+        # Create a dictionary to record connected positions for each position
+        # Loop isConnected. If a 1 is seen, record this connected position in connection
+        self.connection = {}
+        for i in range(num_of_prov):
+            for j in range(num_of_prov):
+                if i in self.connection and isConnected[i][j] :
+                    self.connection[i].add(j)
+                elif isConnected[i][j]:
+                    self.connection[i] = set([j])
+
+        # Initiate result, number of connected province group(s)
+        res = 0
+
+        def findAllConnected(i: int) -> None:
+            '''
+            Find all connected positions and mark them as visited
+            
+                -type : i (int)
+                -rtype: None
+            '''
+            # Mark current position as visited
+            self.visited[i] = True
+            
+            for x in self.connection[i]:
+                if not self.visited[x] and i != x:
+                    findAllConnected(x)
+            return
+        
+        # Loop each position and mark their connected position(s)
+        for i in range(num_of_prov):
+            if not self.visited[i]:
+                res += 1        
+                findAllConnected(i)
+
+        return res
 
 
 
 Day 195, 01/23/2021 Sat
+
 Day 196, 01/24/2021 Sun
+
+
+
+0279. Perfect Squares
+
+class Solution:
+    def numSquares(self, n: int) -> int:
+
+
+
+0015. 3Sum
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        
 
 Day 197, 01/25/2021 Mon
 Day 198, 01/26/2021 Tue
