@@ -2407,28 +2407,62 @@ class Solution:
 
 Day 188, 01/16/2021 Sat
 Day 189, 01/17/2021 Sun
-
 Day 190, 01/18/2021 Mon
+Day 191, 01/19/2021 Tue
+Day 192, 01/20/2021 Wed
+
+Day 193, 01/21/2021 Thu
 
 0523. Continuous Subarray Sum
 
+1583. Count Unhappy Friends
+
+1673. Find the Most Competitive Subsequence
+
+
+
+Day 194, 01/22/2021 Fri
+
+One Edit Distance
+
 class Solution:
-    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+    def isOneEditDistance(self, s: str, t: str) -> bool:
+        '''
+        Determine if s and t are both one edit distance apart, 
+           
+           -types: s (str)
+                   t (str)
+           -rtype: bool
+        '''
+        # Keep removing chars one by one from the start of both s and t as long as
+        # current elements of s and t are the same
+        while s and t and s[0] == t[0]:
+            s = s[1:
+         
+        while s and t and s[0] == t[0]:
+
+0539.Minimum Time Difference  
+
+class Solution:
+    def findMinDifference(self, timePoints: List[str]) -> int:
+
+
+
+0547. Number of Provinces
+
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
         
 
 
-1583. Count Unhappy Friends
 
-class Solution:
-    def unhappyFriends(self, n: int, preferences: List[List[int]], pairs: List[List[int]]) -> int:
-
-
-
-
-Day 191, 01/19/2021 Tue
-Day 192, 01/20/2021 Wed
-Day 193, 01/21/2021 Thu
-Day 194, 01/22/2021 Fri
 Day 195, 01/23/2021 Sat
 Day 196, 01/24/2021 Sun
 
+Day 197, 01/25/2021 Mon
+Day 198, 01/26/2021 Tue
+Day 199, 01/27/2021 Wed
+Day 200, 01/28/2021 Thu
+Day 201, 01/29/2021 Fri
+Day 202, 01/30/2021 Sat
+Day 203, 01/31/2021 Sun
