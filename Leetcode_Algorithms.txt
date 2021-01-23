@@ -2558,7 +2558,11 @@ Day 195, 01/23/2021 Sat
 
 Day 196, 01/24/2021 Sun
 
+0207. Course Schedule
 
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        
 
 0279. Perfect Squares
 
@@ -2566,17 +2570,25 @@ class Solution:
     def numSquares(self, n: int) -> int:
 
 
+Day 197, 01/25/2021 Mon
 
 0015. 3Sum
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         
+        
 
-Day 197, 01/25/2021 Mon
 Day 198, 01/26/2021 Tue
 Day 199, 01/27/2021 Wed
 Day 200, 01/28/2021 Thu
 Day 201, 01/29/2021 Fri
 Day 202, 01/30/2021 Sat
 Day 203, 01/31/2021 Sun
+Day 204, 02/01/2021 Mon
+Day 205, 02/02/2021 Tue
+Day 206, 02/03/2021 Wed
+Day 207, 02/04/2021 Thu
+Day 208, 02/05/2021 Fri
+Day 209, 02/06/2021 Sat
+Day 210, 02/07/2021 Sun
