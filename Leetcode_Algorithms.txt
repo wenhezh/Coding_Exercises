@@ -2600,8 +2600,34 @@ class Solution:
 
 class Solution:
     def numSquares(self, n: int) -> int:
+        '''
+        Find the least number of perfect square numbers that sum to n.
+        
+            - type: n (int)
+            -rtype: int
+        '''
+        # List all perfect squares <= n
+        self.perfect_squares = set([x*x for x in range(1, int(n**0.5)+1)])
+        
+        # Case when n is already a perfect square number 
+        if n in self.perfect_squares:
+            return 1
+        
+        # Create a dp, where index = i and value = east number of 
+        # perfect square numbers that sum to i.
+        # If i is a perfect square, dp[i] = 1
+        # Else, loop all dp[i]-x (x = a perfect square < i) and find
+        # the smallest 1 + dp[i-x]
+        dp = [10000]*(n+1)
+        dp[1] = 1
+        for i in range(2, n+1):
+            if i in self.perfect_squares:
+                dp[i] = 1
+            else:
+                for x in [p for p in self.perfect_squares if p < i]:
+                    dp[i] = min(dp[i], 1 + dp[i-x])
 
-
+        return dp[-1]
 
 
 
