@@ -2558,16 +2558,52 @@ Day 195, 01/23/2021 Sat
 
 Day 196, 01/24/2021 Sun
 
-0207. Course Schedule
+Merge k Sorted Lists
 
 class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        '''
+        Merge k linked-lists lists, each in ascending order) into one sorted linked-list
         
+            - type: lists (List[ListNode])
+            -rtype: ListNode
+        '''
+        # Create a dict to find frequency of nodes with different values
+        d = {}
+        
+        for l in lists:
+            while l:
+                if l.val in d:
+                    d[l.val] += 1
+                else:
+                    d[l.val] = 1
+                l = l.next
+        
+        # Sort keys of d in ascending order, and append d[key] nodes with val = key to res0
+        keys = sorted(d.keys())
+        
+        res0 = res = ListNode()
+        
+        for k in keys:
+            for i in range(d[k]):
+                res0.next = ListNode(k)
+                res0 = res0.next
+        res = res.next
+        
+        return res
+
+
+
+0207. Course Schedule
 
 0279. Perfect Squares
 
 class Solution:
     def numSquares(self, n: int) -> int:
+
+
+
+
 
 
 Day 197, 01/25/2021 Mon
@@ -2576,6 +2612,12 @@ Day 197, 01/25/2021 Mon
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+
+
+0323. Number of Connected Components in an Undirected Graph
+
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
         
         
 
