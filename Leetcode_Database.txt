@@ -542,32 +542,16 @@ Day 125, 11/14/2020 Sat
 Day 126, 11/15/2020 Sun
 Day 127, 11/16/2020 Mon
 Day 128, 11/17/2020 Tue
+
+
 Day 129, 11/18/2020 Wed
-
-
 
 1517. Find Users With Valid E-Mails
 
 1645. Hopper Company Queries II
 
-select   cast(@num := @num + 1 AS UNSIGNED) month
 
-from   information_schema.tables
-     , (select @num := 0) t
 
-limit 10;
- 
- 
-
-select   month(r.requested_at) month
-       , count(month(r.requested_at))/count()
-from   Rides r
-     , AcceptedRides a
-     , Drivers d
-where r.ride_id = a.ride_id and year(r.requested_at) = 2020
-group by month(r.requested_at)
-
- 
 Day 130, 11/19/2020 Thu
 Day 131, 11/20/2020 Fri
 Day 132, 11/21/2020 Sat
@@ -831,6 +815,37 @@ from   Employees e1
 where e1.employee_id = e2.reports_to
 group by e1.employee_id
 order by e1.employee_id;
+
+
+
+1651. Hopper Company Queries II
+
+with l as (
+select   months.month
+       , count(d.driver_id) cum_active_users
+from (select cast(@num := @num + 1 as unsigned) month
+      from   information_schema.tables
+          , (select @num := 0) cnt
+      where @num < 12) months
+     left join 
+     Drivers d
+  on (year(d.join_date) = 2020 and month(d.join_date) <= months.month)
+      or year(d.join_date) < 2020
+group by months.month
+order by months.month)
+
+select   l.month
+       , round(100 * ifnull(r.accepted_ride/l.cum_active_users, 0), 2) working_percentage
+from l left join
+     (select   month(r.requested_at) month
+             , count(distinct a.driver_id) accepted_ride
+      from AcceptedRides a left join Rides r
+        on a.ride_id = r.ride_id
+      where year(r.requested_at) = 2020
+      group by month(r.requested_at)) r
+  on l.month = r.month
+order by l.month;
+
 
 
 
