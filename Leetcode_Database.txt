@@ -39,6 +39,7 @@ Day 036, 08/17/2020 Mon
 
 Day 037, 08/18/2020 Tue
 
+
 1543. Fix Product Name Format
 
 select   trim(lower(product_name)) product_name
