@@ -809,9 +809,29 @@ Day 197, 01/25/2021 Mon
 
 Day 198, 01/26/2021 Tue
 
+1729. Find Followers Count
+
+select   user_id
+       , count(distinct follower_id) followers_count
+from Followers
+group by user_id
+order by user_id;
+
+
+
 1731. The Number of Employees Which Report to Each Employee 
 
-1729. Find Followers Count
+select   e1.employee_id
+       , e1.name
+       , count(e2.employee_id) reports_count
+       , round(avg(e2.age), 0) average_age
+from   Employees e1
+     , Employees e2
+where e1.employee_id = e2.reports_to
+group by e1.employee_id
+order by e1.employee_id;
+
+
 
 1651. Hopper Company Queries III
 
