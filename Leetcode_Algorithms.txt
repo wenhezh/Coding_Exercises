@@ -1832,13 +1832,7 @@ class Solution:
 
 Day 144, 12/03/2020 Thu
 
-0039. Combination Sum
-
-class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        
-        
-        
+0039. Combination Sum   
 
 0624. Maximum Distance in Arrays
 
@@ -2634,22 +2628,206 @@ class Solution:
 
 Day 197, 01/25/2021 Mon
 
-0015. 3Sum
+Check If All 1's Are at Least Length K Places Away
 
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-
+    def kLengthApart(self, nums: List[int], k: int) -> bool:
+        '''
+        Check if all 1's are at least k places away from each other.
+        
+            -types: nums (List[int])
+                       k (int)
+            -rtype: bool
+        '''
+        # Loop nums. Every time when see a 1, record its position, pos.
+        # When see next 1, check if its position i and pos < k.
+        # If yes, return False. Else, assign i to pos and continue checking.
+        pos = 0 if nums[0] else -1
+        for i in range(1, len(nums)):
+            if pos > -1 and nums[i] and i != pos and i - pos <= k: 
+                return False
+            
+            if nums[i]:
+                pos = i
+                  
+        return True
+        
+0015. 3Sum
 
 0323. Number of Connected Components in an Undirected Graph
 
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        '''
+        Find the number of connected components in an undirected graph.
+            
+            -types:     n (int)
+                    edges (List[List[int]])
+            -rtype: int
+        '''
+        # Create a dict, d, to record nodes and its conneted nodes , where key
+        # = this node and value = a set of connected nodes
+        d = {}
+        for x, y in edges:
+            if x in d:
+                d[x].add(y)
+            else:
+                d[x] = set([y])
+            
+            if y in d:
+                d[y].add(x)
+            else:
+                d[y] = set([x])
+
+        # Create a set, visited, to record nodes visited
+        visited = set()
         
+        # Loop from 0 to n-1. Initiate final result = number of connected components, as res.
+        # If i has been visited, then skip i and run i + 1
+        # Talking about i has bot been visited:
+        # 1). If i in d, put i in visited. Create a queue to hold all its connected nodes that
+        #     are not visited. Keep adding unvisted connected nodes of nodes in the queue, until
+        #     the queue is empty
+        # 2). If i is not in d, then it means i is an isolated point, so res +1.
+        res = 0
         
+        for i in range(n):
+            if i not in visited:
+                if i in d:
+                    queue = [i]
+                    while queue:
+                        currNode = queue.pop()
+                        visited.add(currNode)
+                        queue = list(d[currNode]) + queue
+                        queue = [x for x in queue if x not in visited]
+                res += 1
+
+        return res
+
+
 
 Day 198, 01/26/2021 Tue
+
+Path With Minimum Effort
+
+
+
+
 Day 199, 01/27/2021 Wed
+
+Concatenation of Consecutive Binary Numbers
+
+class Solution:
+    def concatenatedBinary(self, n: int) -> int:
+        '''
+        Concatenating the binary representations of 1 to n in order and mod 10^9 + 7.
+        
+            - type: n (int)
+            -rtype: int
+        '''
+        res = ''
+        for x in range(1, n+1):
+            res += bin(x)[2:]
+        res = int(res, 2)%(10**9 + 7)
+        return res
+
+
+
+0152. Maximum Product Subarray
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        '''
+        Find  the largest product of contiguous subarrays within nums.
+        
+            - type: nums (List[int])
+            -rtype: int
+        '''
+        # Create two arrays, Max and Min, to record max and min 
+        # cumulative product before current element (inclusive).
+        # Initiate 1st ele for both as nums[0].
+        Max = [None for _ in range(len(nums))]
+        Min = [None for _ in range(len(nums))]
+        Max[0] = [nums[0]]
+        Min[0] = [nums[0]]
+        
+        # Loop nums for the 2nd ele.
+        # Determine current Max and Min at position i based on product of
+        # current ele with Max[i-1]/Min[-1] or nums[i] itself, since
+        # max/min can change with sign or multiplying by 0.
+        # The max of Max will then be the final result.
+        for i in range(1, len(nums)):
+            Max[i] = max(nums[i]*Max[i-1], nums[i]*Min[i-1], nums[i])
+            Min[i] = min(nums[i]*Max[i-1], nums[i]*Min[i-1], nums[i])
+        
+        return max(Max)
+
+
+
+0200. Number of Islands   
+
+class Solution:  
+    # Define a function, dfs, to search all connected cells in grid of 
+    # current cell and mark them as visited.
+    def dfs(self, x: int, y: int, h: int, w: int, grid: List[List[str]]) -> None:    
+        '''
+        Search all connected cells in grid for the cell at position (i, j) and mark
+        them as visited. Height and width of grid are h and w
+
+            -types:    x (int)
+                       y (int)
+                       h (int)
+                       w (int)
+                    grid (List[List[str]])
+            -rtype: None
+        '''
+        if 0 <= x < h and 0 <= y < w and grid[x][y] == '1' and not self.visited[x][y]:
+            self.visited[x][y] = 1
+            self.dfs(x+1, y, h, w, grid)
+            self.dfs(x, y+1, h, w, grid)
+            self.dfs(x-1, y, h, w, grid)
+            self.dfs(x, y-1, h, w, grid)
+
+    def numIslands(self, grid: List[List[str]]) -> int:
+        '''
+        Find total number of island in grid.
+        
+            - type: grid (List[List[str]])
+            -rtype: int
+        '''
+        h, w = len(grid), len(grid[0])
+        # Create a array of arrays, vistied, with same size as grid
+        # to record if a cell in grid is visited. Set each ele as 0 initially.
+        self.visited = [[0 for _ in range(w)] for _ in range(h)]
+        
+        # Loop grid. Once a cell has value = 1, mark it as visited and visit all its   
+        # neigbors, until none of them is 1 or all are visited.
+        res = 0
+        for i in range(h):
+            for j in range(w):
+                if grid[i][j] == '1' and self.visited[i][j] == 0:
+                    res += 1
+                    self.dfs(i, j, h, w, grid)
+        return res
+
+
+
 Day 200, 01/28/2021 Thu
+
+0437. Path Sum III
+
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        
+
+
+1197. Minimum Knight Moves
+
+class Solution:
+    def minKnightMoves(self, x: int, y: int) -> int:
+        
+
+
 Day 201, 01/29/2021 Fri
 Day 202, 01/30/2021 Sat
 Day 203, 01/31/2021 Sun
