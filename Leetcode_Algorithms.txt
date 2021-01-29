@@ -2814,21 +2814,56 @@ class Solution:
 
 Day 200, 01/28/2021 Thu
 
-0437. Path Sum III
+Smallest String With A Given Numeric Value
 
 class Solution:
-    def pathSum(self, root: TreeNode, sum: int) -> int:
+    def getSmallestString(self, n: int, k: int) -> str:
+        '''
+        Find the lexicographically smallest string with length equal to n and numeric value equal to k.
         
+            -types:   n (int)
+                      k (int)
+            -rtype: str
+        '''
+        # Initiate res.
+        res = ''
+        
+        # Determine how many 'a' we can have. 
+        while k - 1 <= (n-1) * 26:
+            res += 'a'
+            k -= 1
+            n -= 1
+        
+        # For remaining k, determine min number of 'z' we need,
+        # and then convert the remaining value to the letter
+        # btw 'a's and 'z's
+        res += chr(k - 26*(n-1) + 96) + (n-1)*'z'
+        
+        return res
 
+
+
+0437. Path Sum III
 
 1197. Minimum Knight Moves
 
-class Solution:
-    def minKnightMoves(self, x: int, y: int) -> int:
-        
 
 
 Day 201, 01/29/2021 Fri
+
+0543. Diameter of Binary Tree
+
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+
+
+0300. Longest Increasing Subsequence
+
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+
+
+
 Day 202, 01/30/2021 Sat
 Day 203, 01/31/2021 Sun
 Day 204, 02/01/2021 Mon
@@ -2838,3 +2873,10 @@ Day 207, 02/04/2021 Thu
 Day 208, 02/05/2021 Fri
 Day 209, 02/06/2021 Sat
 Day 210, 02/07/2021 Sun
+Day 211, 02/08/2021 Mon
+Day 212, 02/09/2021 Tue
+Day 213, 02/10/2021 Wed
+Day 214, 02/11/2021 Thu
+Day 215, 02/12/2021 Fri
+Day 216, 02/13/2021 Sat
+Day 217, 02/14/2021 Sun
