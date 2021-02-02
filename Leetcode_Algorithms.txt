@@ -2851,24 +2851,146 @@ class Solution:
 
 Day 201, 01/29/2021 Fri
 
+Number Of Corner Rectangles
+
+Vertical Order Traversal of a Binary Tree
+
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+        '''
+        Find vertical order traversal of root.
+        
+            -type : root (TreeNode)
+            -rtype: List[List[int]]
+        '''
+        # Case when root is empty
+        if not root:
+            return []
+        
+        # Assume coordinates of root is (0, 0).
+        # Traverse the root, once go left, x-coordinate - 1;
+        # once go right, x-coordinate + 1.
+        # Onc go down 1 level, y-coordinate + 1.
+        # Use a dict, d, with key = x-cor and val = another dict d0, to record nodes
+        # traversed.
+        # For d0, key = y-cor and value = a sorted list of values
+        d = {}
+        nodes_in_current_level = [[root, 0, 0]]
+        
+        while nodes_in_current_level:
+            child_nodes = []
+            while nodes_in_current_level:
+                curr_node = nodes_in_current_level.pop()
+                if curr_node[1] in d:
+                    if curr_node[2] in d[curr_node[1]]:
+                        d[curr_node[1]][curr_node[2]].append(curr_node[0].val)
+                    else:
+                        d[curr_node[1]][curr_node[2]] = [curr_node[0].val]
+                else:
+                    d[curr_node[1]] = {}
+                    d[curr_node[1]][curr_node[2]] = [curr_node[0].val]
+                
+                if curr_node[0].left:
+                    child_nodes.append([curr_node[0].left, curr_node[1] - 1, curr_node[2] + 1])
+                if curr_node[0].right:
+                    child_nodes.append([curr_node[0].right, curr_node[1] + 1, curr_node[2] + 1])
+            nodes_in_current_level = child_nodes
+        
+        # Combine values under same x and y coordinates
+        res = []
+        for x in sorted(d):
+            temp = []
+            for y in sorted(d[x]):
+                temp.extend(sorted(d[x][y])) 
+            res.append(temp)
+
+        return res
+
+
+
 0543. Diameter of Binary Tree
 
 class Solution:
     def diameterOfBinaryTree(self, root: TreeNode) -> int:
 
 
-0300. Longest Increasing Subsequence
-
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-
-
 
 Day 202, 01/30/2021 Sat
 Day 203, 01/31/2021 Sun
+
 Day 204, 02/01/2021 Mon
+
+Squirrel Simulation
+
+class Solution:
+    def minDistance(self, height: int, width: int, tree: List[int], squirrel: List[int], nuts: List[List[int]]) -> int:
+        
+
+0300. Longest Increasing Subsequence
+
+0735. Asteroid Collision
+
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        '''
+        Find out the state of the asteroids after all collisions.
+            
+            - type: asteroids (List[int])
+            -rtype: List[int]
+        '''
+        # Create result list, res
+        # Loop asteroids. 
+        # If res is empty or last ele in res has the same sign as current asteroid,
+        # append current asteroid to res.
+        # If the last ele in res > 0 (larger size) and current asteroid < 0 (smaller size),
+        # smash current asteroid and move to next asteriod.
+        # If the last ele in res > 0 (smaller size) and current asteroid < 0 (larger size),
+        # smash last ele in res (note if res will be empty) and keep comparing the last ele in res.
+        # If last ele in res > 0 and current asteroid < 0 and they have same size, 
+        # move to next asteriod and pop last ele in res.
+        # If last ele in res < 0 and current asteroid > 0, append current asteroid to res.
+        res = []
+        i, l = 0, len(asteroids)
+        while i < l:
+            if res:
+                while i < l and res and (res[-1]*asteroids[i] > 0 or res[-1] < 0 and asteroids[i] > 0):
+                    res.append(asteroids[i])
+                    i += 1
+                while i < l and res and res[-1] > 0 and asteroids[i] < 0 and abs(res[-1]) > abs(asteroids[i]):
+                    i += 1
+                while i < l and res and res[-1] > 0 and asteroids[i] < 0 and abs(res[-1]) < abs(asteroids[i]):
+                    res.pop()
+                while i < l and res and res[-1] > 0 and asteroids[i] < 0 and abs(res[-1]) == abs(asteroids[i]):
+                    res.pop()
+                    i += 1         
+            else:
+                res.append(asteroids[i])
+                i += 1
+ 
+        return res
+
+
+
+
+
 Day 205, 02/02/2021 Tue
+
 Day 206, 02/03/2021 Wed
+
+0695. Max Area of Island
+
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        
+
+1048. Longest String Chain
+
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+
+
+
+
 Day 207, 02/04/2021 Thu
 Day 208, 02/05/2021 Fri
 Day 209, 02/06/2021 Sat
