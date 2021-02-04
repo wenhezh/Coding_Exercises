@@ -2971,9 +2971,41 @@ class Solution:
 
 
 
-
-
 Day 205, 02/02/2021 Tue
+
+Trim a Binary Search Tree
+class Solution:
+    def trimBST(self, root: TreeNode, low: int, high: int) -> TreeNode:
+        '''
+        Find the tree with any values out of [low, high] trimmed.
+        
+            -types: root (TreeNode)
+                     low (int)
+                    high (int)
+            -rtype: TreeNode
+        '''
+        # Case when root is empty
+        if not root: return None
+        
+        # Case when root is not empty but itself < low or itself > high
+        while root.val < low or root.val > high:  
+            if root.val < low:
+                root = root.right
+            if root.val > high: 
+                root = root.left    
+        
+        # Trim left and right branches
+        while root.left and root.left.val < low:
+            root.left = root.left.right
+        root.left = self.trimBST(root.left, low, high)
+        
+        while root.right and root.right.val > high:
+            root.right = root.right.left
+        root.right = self.trimBST(root.right, low, high)
+        
+        return root
+
+
 
 Day 206, 02/03/2021 Wed
 
