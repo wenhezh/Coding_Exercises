@@ -3009,22 +3009,148 @@ class Solution:
 
 Day 206, 02/03/2021 Wed
 
+Day 207, 02/04/2021 Thu
+
+
+0286. Walls and Gates
+
+class Solution:
+    def wallsAndGates(self, rooms: List[List[int]]) -> None:
+        '''
+        Fill each empty room with the distance to its nearest gate.
+        
+            -type : rooms (List[List[int]])
+            -rtype: None
+        '''
+        # Find height and width of rooms
+        h, w = len(rooms), len(rooms[0])
+        
+        # self.visited = [[0 if rooms[x][y] == 0 else 1 for y in range(w)] for x in range(h)]
+        
+        # Define a fucntion to search and change values in rooms
+        def changeAllConnectEmptyCells(i: int, j: int, h: int, w: int, rooms: List[List[int]]) -> None:
+            if 0 <= i < h and 0 <= j < w and rooms[i][j] not in [0, -1]:
+                old_val = rooms[i][j]
+                rooms[i][j] = min(rooms[i][j], rooms[i-1][j]+1) if i-1 > -1 and rooms[i-1][j] != -1 else rooms[i][j]
+                rooms[i][j] = min(rooms[i][j], rooms[i+1][j]+1) if i+1 < h  and rooms[i+1][j] != -1 else rooms[i][j]
+                rooms[i][j] = min(rooms[i][j], rooms[i][j-1]+1) if j-1 > -1  and rooms[i][j-1] != -1 else rooms[i][j]
+                rooms[i][j] = min(rooms[i][j], rooms[i][j+1]+1) if j+1 < w  and rooms[i][j+1] != -1 else rooms[i][j]
+                
+                if rooms[i][j] != old_val:
+                    changeAllConnectEmptyCells(i-1, j, h, w, rooms)
+                    changeAllConnectEmptyCells(i+1, j, h, w, rooms)
+                    changeAllConnectEmptyCells(i, j-1, h, w, rooms)
+                    changeAllConnectEmptyCells(i, j+1, h, w, rooms)
+        
+        
+        # Loop rooms. If find a gate, go to every 4-directional cells, and their adjacent 
+        # cells. If the cell is empty, assign a value to it based on current search.
+        # If it is not empty (neither a wall nor a gate), replace it with min of its current value 
+        # and current search + 1.
+        # Stop when adjacent cells are walls or the value itself is already the shortest dist
+        # to a gate
+        for i in range(h):
+            for j in range(w):
+                if rooms[i][j] == 0:  # A gate
+                    changeAllConnectEmptyCells(i-1, j, h, w, rooms)
+                    changeAllConnectEmptyCells(i+1, j, h, w, rooms)
+                    changeAllConnectEmptyCells(i, j-1, h, w, rooms)
+                    changeAllConnectEmptyCells(i, j+1, h, w, rooms)
+                    
+        
+        
+
+
 0695. Max Area of Island
 
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        '''
+        Find the maximum area of an island in grid
         
+            -type : grid (List[List[int]])
+            -rtype: int
+        '''
+        # Initiate final result, max area
+        max_area = 0
+        
+        # Find height and width of grid
+        h = len(grid)
+        w = len(grid[0]) if h else 0
+        
+        # Create a reference grid, visited, with same
+        # size as grid, to indicate if a grid is 
+        # visited or not
+        self.visited = [[0 for _ in range(w)] for _ in range(h)]
+        
+        
+        # Define a function to search all in/directly connected cells
+        def totalDirected(i: int, j: int, h: int, w: int, grid: List[List[int]]) -> int:
+            '''
+            Find all in/directly connected cells
+            
+                -types:    i (int)
+                           j (int)
+                           w (int)
+                           i (int)
+                        grid (List[List[int]])
+                -rtype: int
+            '''
+            # Keep searching all 4-directional cells
+            if grid[i][j] and not self.visited[i][j]:
+                self.visited[i][j] = 1
+                res = 1
+                
+                res += totalDirected(i - 1, j, h, w, grid) if i - 1 > -1 else 0
+                res += totalDirected(i + 1, j, h, w, grid) if i + 1 < h else 0
+                res += totalDirected(i, j - 1, h, w, grid) if j - 1 > -1 else 0
+                res += totalDirected(i, j + 1, h, w, grid) if j + 1 < w else 0
+                
+                return res
+            return 0
+            
+        # Loop grid cell by cell, and if see a 1, find all in/directly 
+        # connect 1's and calculate their sum as the area.
+        # If area > max area, replace max area with area.
+        for i in range(h):
+            for j in range(w):
+                if grid[i][j] and not self.visited[i][j]:
+                    max_area = max(max_area, totalDirected(i, j, h, w, grid))
+        
+        return max_area
 
+
+    
 1048. Longest String Chain
 
-class Solution:
-    def longestStrChain(self, words: List[str]) -> int:
 
 
-
-
-Day 207, 02/04/2021 Thu
 Day 208, 02/05/2021 Fri
+
+0938. Range Sum of BST
+
+class Solution:
+    def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
+
+
+0322. Coin Change
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        
+
+
+1130. Minimum Cost Tree From Leaf Values
+
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+ 
+ 
+ 
+ 
+ 
+ 
+
 Day 209, 02/06/2021 Sat
 Day 210, 02/07/2021 Sun
 Day 211, 02/08/2021 Mon
@@ -3034,3 +3160,10 @@ Day 214, 02/11/2021 Thu
 Day 215, 02/12/2021 Fri
 Day 216, 02/13/2021 Sat
 Day 217, 02/14/2021 Sun
+Day 218, 02/15/2021 Mon
+Day 219, 02/16/2021 Tue
+Day 220, 02/17/2021 Wed
+Day 221, 02/18/2021 Thu
+Day 222, 02/19/2021 Fri
+Day 223, 02/20/2021 Sat
+Day 224, 02/21/2021 Sun
