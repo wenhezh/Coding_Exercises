@@ -880,15 +880,8 @@ Day 201, 01/29/2021 Fri
 Day 202, 01/30/2021 Sat
 Day 203, 01/31/2021 Sun
 Day 204, 02/01/2021 Mon
-Day 205, 02/02/2021 Tue
-Day 206, 02/03/2021 Wed
-Day 207, 02/04/2021 Thu
-Day 208, 02/05/2021 Fri
-Day 209, 02/06/2021 Sat
-Day 210, 02/07/2021 Sun
-Day 211, 02/08/2021 Mon
 
-Day 212, 02/09/2021 Tue
+Day 205, 02/02/2021 Tue
 
 1741. Find Total Time Spent by Each Employee
 
@@ -902,56 +895,32 @@ order by emp_id, event_day;
 
 Interview
 
-WITH r1 AS (
-select   c.contest_id
-       , sum(r.total_views) total_views
-       , sum(r.total_unique_views) total_unique_views
-       , sum(r.total_submissions) total_submissions
-       , sum(r.total_accepted_submissions) total_accepted_submissions
-from Colleges c
-     left join
-     (select   ch.college_id
-             , sum(v.total_views) total_views
-             , sum(v.total_unique_views) total_unique_views
-             , sum(s.total_submissions) total_submissions
-             , sum(s.total_accepted_submissions) total_accepted_submissions
-      from Challenges ch
-           left join 
-           (select   challenge_id
-                   , sum(total_views) total_views
-                   , sum(total_unique_views) total_unique_views
-            from View_Stats
-            group by challenge_id) v
-           on ch.challenge_id = v.challenge_id
-           left join
-           (select   challenge_id
-                   , sum(total_submissions) total_submissions
-                   , sum(total_accepted_submissions) total_accepted_submissions
-            from Submission_Stats
-            group by challenge_id) s
-            on ch.challenge_id = s.challenge_id
-       group by ch.college_id
-       ) r
-       on c.college_id = r.college_id
-group by c.contest_id)
-
-select   c.contest_id
-       , c.hacker_id
-       , c.name
-       , sum(r1.total_views) total_views
-       , sum(r1.total_unique_views) total_unique_views
-       , sum(r1.total_submissions) total_submissions
-       , sum(r1.total_accepted_submissions) total_accepted_submissions
-from Contests c left join r1
-  on c.contest_id = r1.contest_id
-group by c.contest_id
-having sum(r1.total_views) + sum(r1.total_unique_views) + sum(r1.total_submissions) + sum(r1.total_accepted_submissions) > 0
-order by c.contest_id;
 
 
+Day 206, 02/03/2021 Wed
+Day 207, 02/04/2021 Thu
+Day 208, 02/05/2021 Fri
+Day 209, 02/06/2021 Sat
+Day 210, 02/07/2021 Sun
+Day 211, 02/08/2021 Mon
+
+Day 212, 02/09/2021 Tue
+
+1747. Leetflex Banned Accounts
+
+Print Prime Numbers
 
 Day 213, 02/10/2021 Wed
 Day 214, 02/11/2021 Thu
 Day 215, 02/12/2021 Fri
 Day 216, 02/13/2021 Sat
 Day 217, 02/14/2021 Sun
+Day 218, 02/15/2021 Mon
+
+
+Day 219, 02/16/2021 Tue
+Day 220, 02/17/2021 Wed
+Day 221, 02/18/2021 Thu
+Day 222, 02/19/2021 Fri
+Day 223, 02/20/2021 Sat
+Day 224, 02/21/2021 Sun
