@@ -3127,35 +3127,166 @@ class Solution:
 
 Day 208, 02/05/2021 Fri
 
+Day 209, 02/06/2021 Sat
+
+Day 210, 02/07/2021 Sun
+
+Shortest Distance to a Character
+
+class Solution:
+    def shortestToChar(self, s: str, c: str) -> List[int]:
+        '''
+        Find the shortest distance from s[i] to c
+        
+            -types: s (str)
+                    c (str)
+            -rtype: List[int]
+        '''
+        # Loop s and find all indices of eles = c
+        indices = [i for i in range(len(s)) if s[i] == c]
+        
+        # Find indices of c in s. And find closest distance for each ele to c
+        answer = [abs(i-indices[0]) for i in range(indices[0]+1)]
+        for i in range(1, len(indices)):
+            mid = (indices[i] + indices[i-1]) // 2
+            answer.extend([abs(j-indices[i-1]) for j in range(indices[i-1]+1, mid+1)])
+            answer.extend([abs(j-indices[i]) for j in range(mid+1, indices[i]+1)])
+        
+        # Find distances for all ele after the last occurence of c
+        anwer.extend([abs(i-indices[-1]) for i in range(indices[-1]+1, len(s))])
+        
+        return answer
+ 
+
+
+Day 211, 02/08/2021 Mon
+
+Number of Distinct Islands
+
+class Solution:
+    def numDistinctIslands(self, grid: List[List[int]]) -> int:
+        '''
+        Find number of unique islands in grid
+        
+            -type : grid (List[List[int]])
+            -rtype: int
+        '''
+        # Find height and width of grid
+        h, w = len(grid), len(grid[0])
+        
+        # Use another list of list, visited, as a reference
+        # to record if a cell in grid is visited or not
+        self.visited = [[0 for _ in range(w)] for _ in range(h)]
+        
+        # Create a set, pattern, to record patterns of islands
+        # we have seen.
+        pattern = set()
+        
+        
+        # Define a function to depict the current island we find, and mark all found island
+        # cells as visited. 
+        # Use a string to depict the island
+        def depictIsland(i: int, j: int, x: int, y: int, h: int, w: int, grid: List[List[int]]) -> str:
+            '''
+            Depict the current island found
+            
+                -types:    i (int)
+                           j (int)
+                           x (int)
+                           y (int)
+                           h (int)
+                           w (int)
+                        grid (List[List[int]])
+                -rtype: str
+            '''
+            # Mark the cell as visisted
+            self.visited[i][j] = 1
+            
+            # Initiate result. Use coordinates to string of current cell as ID
+            res = str(i-x)+str(j-y)
+            
+            # Keep visiting all adjacent tcells,
+            # until none of them is an island cell / visited
+            if i + 1 < h and grid[i+1][j] and not self.visited[i+1][j]:
+                res +=  depictIsland(i+1, j, x, y, h, w, grid)
+            if j + 1 < w and grid[i][j+1] and not self.visited[i][j+1]:
+                res +=  depictIsland(i, j+1, x, y, h, w, grid)
+            if i - 1 > -1 and grid[i-1][j] and not self.visited[i-1][j]:
+                res +=  depictIsland(i-1, j, x, y, h, w, grid)
+            if j - 1 > -1 and grid[i][j-1] and not self.visited[i][j-1]:
+                res +=  depictIsland(i, j-1, x, y, h, w, grid)
+            
+            return res
+        
+        # Loop grid. If current cell is a 1 and not visited, find all its connected cells
+        # and mark them as visted, and record  the pattern of the island
+        num_of_distinct_islands = 0
+        for i in range(h):
+            for j in range(w):
+                if grid[i][j] and not self.visited[i][j]:
+                    current_island = depictIsland(i, j, i, j, h, w, grid)
+                    num_of_distinct_islands += current_island not in pattern
+                    pattern.add(current_island)
+        return num_of_distinct_islands
+
+
+
 0938. Range Sum of BST
 
 class Solution:
     def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
-
-
-0322. Coin Change
-
-class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
+        '''
+        Find the sum of node values between low and high
         
+            -types: root (TreeNode)
+                     low (int)
+                    high (int)
+            -rtype: int
+        '''
+        # Case when root is empty
+        if not root: return 0
+        
+        # Initiate final answer
+        self.ans = 0
+        
+        # Case when root.val < low, then just search right part
+        if root.val < low:
+            self.ans += self.rangeSumBST(root.right, low, high)
+        # Case when root.val > high, then just search left part
+        if root.val > high:
+            self.ans += self.rangeSumBST(root.left, low, high)
+        # Case when root.val is between low and high, then just search both left and right
+        elif low <= root.val <= high:
+            self.ans += root.val
+            self.ans += self.rangeSumBST(root.left, low, high) 
+            self.ans += self.rangeSumBST(root.right, low, high)
+             
+        return self.ans
+
 
 
 1130. Minimum Cost Tree From Leaf Values
 
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
- 
- 
- 
- 
- 
- 
 
-Day 209, 02/06/2021 Sat
-Day 210, 02/07/2021 Sun
-Day 211, 02/08/2021 Mon
+
 Day 212, 02/09/2021 Tue
+
 Day 213, 02/10/2021 Wed
+
+0322. Coin Change
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+    
+    
+0091. Decode Ways
+
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        
+
 Day 214, 02/11/2021 Thu
 Day 215, 02/12/2021 Fri
 Day 216, 02/13/2021 Sat
