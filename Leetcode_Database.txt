@@ -903,13 +903,7 @@ Day 208, 02/05/2021 Fri
 Day 209, 02/06/2021 Sat
 Day 210, 02/07/2021 Sun
 Day 211, 02/08/2021 Mon
-
 Day 212, 02/09/2021 Tue
-
-1747. Leetflex Banned Accounts
-
-Print Prime Numbers
-
 Day 213, 02/10/2021 Wed
 Day 214, 02/11/2021 Thu
 Day 215, 02/12/2021 Fri
@@ -917,8 +911,17 @@ Day 216, 02/13/2021 Sat
 Day 217, 02/14/2021 Sun
 Day 218, 02/15/2021 Mon
 
-
 Day 219, 02/16/2021 Tue
+
+1757. Recyclable and Low Fat Products
+
+
+1747. Leetflex Banned Accounts
+
+Print Prime Numbers
+
+
+
 Day 220, 02/17/2021 Wed
 Day 221, 02/18/2021 Thu
 Day 222, 02/19/2021 Fri
