@@ -915,8 +915,21 @@ Day 219, 02/16/2021 Tue
 
 1757. Recyclable and Low Fat Products
 
+select product_id
+from Products
+where low_fats = 'Y' and recyclable = 'Y';
+
+
 
 1747. Leetflex Banned Accounts
+
+select distinct l1.account_id account_id
+from LogInfo l1, LogInfo l2
+where l1.account_id = l2.account_id
+      and l1.ip_address <> l2.ip_address
+      and (l1.login <= l2.logout and l1.logout >= l2.login);
+
+
 
 Print Prime Numbers
 
