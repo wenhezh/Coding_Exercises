@@ -3281,21 +3281,216 @@ Day 217, 02/14/2021 Sun
 
 Day 218, 02/15/2021 Mon
 
+Kill Process
+
+class Solution:
+    def killProcess(self, pid: List[int], ppid: List[int], kill: int) -> List[int]:
+        '''
+        Find the list of PIDs of processes that will be killed in the end
+        
+            -types:  pid (List[int])
+                    ppid (List[int]) 
+                    kill (int)
+            -rtype: List[int]
+        '''
+        # Create dict, d, with key = ppid and values = list of pid
+        d = {}
+        for i in range(len(pid)):
+            if ppid[i] in d:
+                d[ppid[i]].append(pid[i])
+            else:
+                d[ppid[i]] = [pid[i]]
+        
+        # Check the number to kill
+        # If it is not in d, then it must be a leaf. Just return
+        # the number in a list format.
+        if kill not in d:
+            return [kill]
+        
+        # Otherwise, find all its children pids.
+        else:
+            res = [kill]
+            stack = [kill]
+            while stack:
+                num = stack.pop()
+                if num in d:
+                    res.extend(d[num])
+                    stack.extend(d[num])
+        return res 
+
+
+
+The K Weakest Rows in a Matrix
+
+class Solution:
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        '''
+        Find the k weakest rows in the matrix ordered from the weakest to the strongest
+        
+            -types: mat (List[List[int]])
+                      k (int)
+            -rtype: List[int]
+        '''
+        # Find row sum in mat
+        res = [sum(x) for x in mat]
+        
+        # Sort res based row sum, row num
+        res = [[y, x] for x, y in enumerate(res)]
+        res.sort()
+        
+        # Return first k row#
+        return [x[1] for x in res[:k]]
+
+
+
+0091. Decode Ways
+
+
+
+Day 219, 02/16/2021 Tue
+
+Letter Case Permutation
+
+class Solution:
+    def letterCasePermutation(self, S: str) -> List[str]:
+        res = ['']
+        for i in range(len(S)-1, -1, -1):
+            if S[i].isalpha():
+                res = [S[i].upper()+x for x in res] + [S[i].lower()+x for x in res]
+            else:
+                res = [S[i]+x for x in res]
+        return res
+    
+    
+    
+Day 220, 02/17/2021 Wed
+
+Container With Most Water
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        '''
+        Find max area that any two lines forming a container that contains the most water
+        
+            -type : height (List[int])
+            -rtype: int
+        '''
+        # Starting from both ends of height
+        left, right = 0, len(height)-1
+        
+        # Moving both left and right to the center, and each time only the smaller one with
+        # 1 unit. And each time find the max of current area and max area.
+        max_area = 0
+        while left < right:
+            max_area = max(max_area, min(height[left], height[right]) * (right - left))
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
+        
+        return max_area
+
+
+
+
+
+Day 221, 02/18/2021 Thu
+
+Arithmetic Slices
+
+class Solution:
+    def numberOfArithmeticSlices(self, A: List[int]) -> int:
+        '''
+        Find the number of arithmetic slices in A
+        
+            -type : A (List[int])
+            -rtype: int
+        '''
+        # Loop A from 0 to len(A)-3, inclusive (since a slice has to have length > 2). 
+        # Once see diff of i and i+i = diff of i+1 and i+2, keep incrementing i, and 
+        # recording the length of this slice. Then the possible number of combination
+        # = (1+n)*n//2
+        i = 0
+        res = 0
+        l = len(A)-2
+        while i < l:
+            diff = A[i]-A[i+1]
+            curr_l = 0
+            while i < l and A[i+1]-A[i+2] == diff:
+                curr_l += 1
+                i += 1
+            res += (1+curr_l)*curr_l//2
+            i += 1 # Increment i since continuity is break 
+        return res
+
+
+
+0739. Daily Temperatures
+
+1209. Remove All Adjacent Duplicates in String II
+
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        '''
+        Find s after k duplicatie removal
+        
+            -types: s (str)
+                    k (int)
+            -rtype: str
+        '''
+        l = len(s)
+        new_l = l   # Find new length for next loop. Stop the big
+                    # loop when l == new_l
+        while True:
+            curr_l = 1  # to record duplicates with length >= k
+            i = 1       # Initiate the pointer
+            ans = ''
+
+            while i < l: 
+                # Keep looking for duplicates 
+                if s[i-1] == s[i]:
+                    curr_l += 1
+                # Duplicated breaks, update new info
+                else:
+                    ans += (curr_l%k)*s[i-1]
+                    new_l -= (curr_l//k)*k
+                    curr_l = 1
+                i += 1
+  
+            # Determine what to append to ans
+            ans += (curr_l%k)*s[i-1]
+            new_l -= (curr_l//k)*k
+            
+            # Determine if to stop the big loop
+            if l == new_l or new_l == 0:
+                break
+            else:
+                l = new_l
+            
+            # Update s
+            s = ans
+        
+        return ans
+
+
+
+Day 222, 02/19/2021 Fri
+
+0098. Validate Binary Search Tree
+
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        
+
 0322. Coin Change
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
     
-    
-0091. Decode Ways
 
-class Solution:
-    def numDecodings(self, s: str) -> int:
 
-Day 219, 02/16/2021 Tue
-Day 220, 02/17/2021 Wed
-Day 221, 02/18/2021 Thu
-Day 222, 02/19/2021 Fri
+
+
 Day 223, 02/20/2021 Sat
 Day 224, 02/21/2021 Sun
 
