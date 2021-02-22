@@ -690,7 +690,7 @@ class Solution:
         Remove the minimum number of parentheses to make s valid and return updated s
         
             -type: s (str)
-            -rtpe: str
+            -rtype: str
         '''
         # Record positions of left parentheses we see so far
         leftParentheses = []
@@ -3476,28 +3476,214 @@ class Solution:
 
 Day 222, 02/19/2021 Fri
 
+Minimum Remove to Make Valid Parentheses
+
+
+
+Day 223, 02/20/2021 Sat
+
+Day 224, 02/21/2021 Sun
+
+Broken Calculator
+
+class Solution:
+    def brokenCalc(self, X: int, Y: int) -> int:
+        '''
+        Find the minimum number of operations needed to display Y
+        
+            -types: X (int)
+                    Y (int)
+            -rtype: int
+        '''
+        # Case when X >= Y
+        if X >= Y:
+            return X - Y
+        
+        res = 0 # Initiate final answer
+        
+        # Keep halving Y until Y is odd, then increment Y and keep halving new Y
+        # unitil Y == X. (Reverse solving)
+        while Y != X:
+            if Y%2 or Y < X:
+                Y += 1
+            else:
+                Y = Y//2
+            res += 1
+        return res
+
+
+
 0098. Validate Binary Search Tree
 
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
+        '''
+        Determine if root is a valid BST
         
+            -type : root (TreeNode)
+            -rtype: bool
+        '''
+        
+        def canStillSearch(root: TreeNode, Min: int, Max: int) -> bool:
+            '''
+            Determine if a BST can still be determine if it valid
+            
+                -types: root (TreeNode)
+                         min (int)
+                         max (int)
+                -rtype: bool
+            '''
+            # Case when root is null
+            if not root: return True
+            
+            # Check if node's val is btw Min and Max, exclusive
+            if Min < root.val < Max:
+                res = canStillSearch(root.left, Min, root.val)
+                if res:
+                    return res and canStillSearch(root.right, root.val, Max)
+                else:
+                    return False
+            else:
+                return False
+        
+        return canStillSearch(root, -2**31-1, 2**31)
+
+
 
 0322. Coin Change
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-    
+        '''
+        Find the min number of coins to make amount. If impossible, return -1    
+            
+            -types:  coins (List[int])
+                    amount (int)
+            -rtype: int
+        '''
+        # Create an array, dp, with length = amount, to record min number of coins
+        # from coin to make dp[i] for i = 0, 1, 2, ..., amount
+        dp = [0]*(amount+1)
+        
+        # Convert coins to a set, so that search can be efficient
+        coins = set(coins)
+        
+        # Loop dp. If dp[i] in coins, then dp[i] = 1.
+        # Else, given dp[i], loop dp[i]-coin for every coin in coins,
+        # and set dp[i] as min of 1 + dp[i]-coin, or 0 if its impossible
+        for i in range(1, amount+1):
+            if i in coins:
+                dp[i] = 1
+            else:
+                dp[i] = [dp[i-c] for c in coins if i - c > 0 and dp[i-c] != 0]
+                dp[i] = min(dp[i]) if dp[i] else 0
+                if dp[i]:
+                    dp[i] += 1
+        
+        # Return the last ele in dp, if it is not 0. Else, -1
+        return dp[-1] if dp[-1] or amount == 0 else -1
 
 
 
-
-Day 223, 02/20/2021 Sat
-Day 224, 02/21/2021 Sun
 
 Day 225, 02/22/2021 Mon
+
+Find the Celebrity
+
+class Solution:
+    def findCelebrity(self, n: int) -> int:
+        '''
+        Find the celebrity among the n people. If there is not celebrity, return -1
+        
+            -type : n (int)
+            -rtype: int
+        '''
+        # Find possible celebrity
+        possible_celebrity = [i for i in range(n) if i and knows(0, i)]
+        
+        # Check if 0 is the celebrity
+        if not possible_celebrity:
+            i = 1
+            while i < n:
+                if not knows(i, 0):
+                    return -1
+                i += 1
+            return 0 
+class Solution:
+    def findCelebrity(self, n: int) -> int:
+        '''
+        Find the celebrity among the n people. If there is not celebrity, return -1
+        
+            -type : n (int)
+            -rtype: int
+        '''
+        # Find possible celebrity
+        possible_celebrity = [i for i in range(n) if i and knows(0, i)]
+        
+        # Check if 0 is the celebrity
+        if not possible_celebrity:
+            i = 1
+            while i < n:
+                if not knows(i, 0):
+                    return -1
+                i += 1
+            return 0 
+        
+        # Else, check all possible celebrity
+        for x in possible_celebrity:
+            # Check if all people know x
+            i = 1
+            who_know_you = 1
+            while i < n:
+                if x == i:
+                    who_know_you += 1
+                elif knows(i, x):
+                    who_know_you += 1
+                else:
+                    break
+                i += 1
+            
+            # Check if x does not know any one
+            if who_know_you == n:
+                j = 0
+                while j < n:
+                    if x != j and knows(x, j):
+                        break
+                    j += 1
+                
+                if j == n:
+                    return x
+
+        return -1
+
+
+
+0417. Pacific Atlantic Water Flow
+
+class Solution:
+    def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
+
+
+
+0723. Candy Crush
+
+class Solution:
+    def candyCrush(self, board: List[List[int]]) -> List[List[int]]:
+        
+
+
+
+
 Day 226, 02/23/2021 Tue
 Day 227, 02/24/2021 Wed
 Day 228, 02/25/2021 Thu
 Day 229, 02/26/2021 Fri
 Day 230, 02/27/2021 Sat
 Day 231, 02/28/2021 Sun
+Day 232, 03/01/2021 Mon
+Day 233, 03/02/2021 Tue
+Day 234, 03/03/2021 Wed
+Day 235, 03/04/2021 Thu
+Day 236, 03/05/2021 Fri
+Day 237, 03/06/2021 Sat
+Day 238, 03/07/2021 Sun
