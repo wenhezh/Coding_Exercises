@@ -3609,25 +3609,6 @@ class Solution:
                     return -1
                 i += 1
             return 0 
-class Solution:
-    def findCelebrity(self, n: int) -> int:
-        '''
-        Find the celebrity among the n people. If there is not celebrity, return -1
-        
-            -type : n (int)
-            -rtype: int
-        '''
-        # Find possible celebrity
-        possible_celebrity = [i for i in range(n) if i and knows(0, i)]
-        
-        # Check if 0 is the celebrity
-        if not possible_celebrity:
-            i = 1
-            while i < n:
-                if not knows(i, 0):
-                    return -1
-                i += 1
-            return 0 
         
         # Else, check all possible celebrity
         for x in possible_celebrity:
@@ -3658,10 +3639,267 @@ class Solution:
 
 
 
-0417. Pacific Atlantic Water Flow
+Longest Word in Dictionary through Deleting
 
 class Solution:
-    def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
+    def findLongestWord(self, s: str, d: List[str]) -> str:
+        '''
+        Find the longest string in d that can be formed by deleting some characters of s
+            
+            -types: s (str)
+                    d (List[str])
+            -rtype: str
+        '''
+        
+        # Define a function to check if a word can be formed by deleting some characters of s
+        def isAPart(word: str, s: str) -> bool:
+            '''
+            Determine if word can be formed by deleting some characters of s
+            
+                -types: word (str)
+                           s (str)
+                -rtype: bool
+            '''
+            i = j = 0
+            l_w, l_s = len(word), len(s)
+            
+            while i < l_w and j < l_s:
+                if word[i] == s[j]:
+                    curr_i = i
+                    next_j = j + 1
+                 
+                    while i < l_w and j < l_s:
+                        if  word[i] == s[j]:
+                            i += 1
+                            j += 1
+                        else:
+                            j += 1
+                    if i == l_w:
+                        return True
+                 
+                    i, j = curr_i, next_j
+                else:
+                    j += 1
+                
+            return i == l_w
+        
+        
+        max_l = 0
+        res = ''
+        for x in d:
+            l = len(x)*isAPart(x, s)
+            
+            if max_l < l:
+                max_l = l
+                res = x
+            elif max_l == l:
+                res = min(res, x)
+        
+        return res        
+
+
+
+0417. Pacific Atlantic Water Flow
+          
+
+
+Day 226, 02/23/2021 Tue
+
+0074. Search a 2D Matrix
+
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        '''
+        Determine if target is in matrix
+        
+            -types: matrix (List[List[int]])
+                    target (int)
+            -rtype: bool
+        '''
+        # Find height (h) and width (w) of matrix
+        h, w = len(matrix), len(matrix[0])
+        
+        # Loop matrix from first row.
+        # If target is btw first ele and last ele of this row, then search this row.
+        # Start with the one of first ele and last ele, which is closer to target.
+        # If not in this row, then search next row.
+        # If teh first ele in a row is > target, then stop and return False
+        for i in range(h):
+            if matrix[i][0] <= target <= matrix[i][-1]:
+                if target - matrix[i][0] <= matrix[i][-1] - target:
+                    j = 0
+                    while j < w and matrix[i][j] <= target:
+                        j += 1
+                    if matrix[i][j-1] == target:
+                        return True
+                else:
+                    j = w-1
+                    while j > -1 and matrix[i][j] >= target:
+                        j -= 1
+                    if matrix[i][j+1] == target:
+                        return True   
+            elif matrix[i][0] > target:
+                return False
+        return False       
+
+
+
+Search a 2D Matrix II
+
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        '''
+        Determine if target is in matrix
+        
+            -types: matrix (List[List[int]])
+                    target (int)
+            -rtype: bool
+        '''
+        # Find height (h) and width (w) of matrix
+        h, w = len(matrix), len(matrix[0])
+        
+        # Loop matrix from first row.
+        # If target is btw first ele and last ele of this row, then search this row.
+        # Start with the one of first ele and last ele, which is closer to target.
+        # If not in this row, then search next row.
+        # If teh first ele in a row is > target, then stop and return False
+        for i in range(h):
+            if matrix[i][0] <= target <= matrix[i][-1]:
+                if target - matrix[i][0] <= matrix[i][-1] - target:
+                    j = 0
+                    while j < w and matrix[i][j] <= target:
+                        j += 1
+                    if matrix[i][j-1] == target:
+                        return True
+                else:
+                    j = w-1
+                    while j > -1 and matrix[i][j] >= target:
+                        j -= 1
+                    if matrix[i][j+1] == target:
+                        return True            
+        return False
+
+
+
+Day 227, 02/24/2021 Wed
+
+Score of Parentheses
+
+class Solution:
+    def scoreOfParentheses(self, S: str) -> int:
+        '''
+        Find the score of S based on the balance rule 
+        
+            -type : S (str)
+            -rtype: int
+        '''
+        i = len(S)-1
+        stack = []
+        
+        # Loop S from the very last element
+        while i > -1:
+            # If current element is a ), then append it to stack
+            if S[i] == ')':
+                stack.append(S[i])
+                i -= 1
+            
+            # If current element is a (
+            else:
+                # Check if stack is not empty. If no, just return 0.
+                if stack == []:
+                    return 0
+                # If the last element of stack is a number, pop stack as header.
+                # Multiply header by 2, pop the next (, and put header back to stack
+                elif stack and stack[-1] not in ['(',')']:
+                    header = 2*stack.pop()
+                    if stack:
+                        stack.pop()
+                    
+                    if stack and stack[-1] not in ['(',')']:
+                        stack[-1] += header
+                    else:
+                        stack.append(header)
+                    i -= 1
+
+                # If the last element of stack is a ), set header = -1
+                # Pop stack until stack is empty or stack[-1] is not a )
+                # Increment header every pop, and 2^header is the number
+                # need to put back to stack.
+                # Before putting  2^header to stack, check if stack is not empty
+                # and its last element is a number. If yes, then add 2 ** header to
+                # its last element. Otherwise, append 2 ** header to stack.
+                elif stack and stack[-1] == ')':
+                    header = -1
+                    while stack and stack[-1] == ')' and i >-1 and S[i] == '(':
+                        stack.pop()
+                        header += 1
+                        i -= 1
+                    if stack and stack[-1] != ')':
+                        stack[-1] += 2 ** header
+                    else:
+                        stack.append(2 ** header)
+            print(i, stack)
+        return sum(stack)
+
+
+
+Day 228, 02/25/2021 Thu
+
+Shortest Unsorted Continuous Subarray
+
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        '''
+        Find the length of a continuous subarray such sorting it will make the entire array sorted
+        
+            -type : nums (List[int]) 
+            -rtyep: int
+        '''
+        # Find length of nums
+        l = len(nums)
+        
+        # Initiate two pointers from both ends
+        i, j = 0, l-1
+        
+        # Special case when nums[i] > nums[j]
+        if nums[i] > nums[j]:
+            return l
+        
+        # Loop nums from both ends, to find max possible i and min possible j
+        # such that all eles before i/after j are sorted
+        while i < j and nums[i] <= nums[i+1]:
+            i += 1
+        while i < j and nums[j-1] <= nums[j]:
+            j -= 1    
+        
+        # Case when array sorted
+        if i == j:
+            return 0
+        
+        # Decreasing i/ increasing j to make nums[i] <= nums[j]
+        while nums[i] > nums[j]:
+            if (i > 0 and nums[i-1] < nums[j]) or (j == l-1 and i > 0):
+                i -= 1
+            elif (j < l-1 and nums[i] < nums[j+1]) or (i == 0 and j < l-1):
+                j += 1
+            else:
+                i -= 1
+                j += 1        
+ 
+        # Find min and max btw nums[i] and nums[j]
+        Min, Max = min(nums[i+1:j]), max(nums[i+1:j])
+        
+        # Decrease i until nums[i] <= min of nums[i+1:j],
+        # and meanwhile update max of nums[i+1:j]
+        while i >= 0 and nums[i] > Min:
+            Max = max(Max, nums[i])
+            i -= 1
+            
+        # Increase j until nums[j] >= max of nums[i+1:j]
+        while j < l and nums[j] < Max:
+            j += 1
+        
+        return j - i - 1
 
 
 
@@ -3669,15 +3907,165 @@ class Solution:
 
 class Solution:
     def candyCrush(self, board: List[List[int]]) -> List[List[int]]:
+        '''
+        Perform a basic elimination algorithm for Candy Crush untik the board is stable
         
-dsasa
+            -type : board (List[List[int]])
+            -rtype: List[List[int]]
+        '''
+        # Find height and width of board
+        h, w = len(board), len(board[0])
+        
+        # Create a referece board, visited, to record what cells have been
+        # visited at current step
+        self.visited = [[0 for _ in range(w)] for _ in range(h)]
+        
+        # Create a variable, num_of_visited, to record how many cells have been visited
+        # And another variable, self.last_num_of_visited, to record its value in last update 
+        self.num_of_visited = 0
+        self.last_num_of_visited = -1
+        
+        # Define a function, cellsToEliminate, to find cells need to eliminate
+        # Cells in self.visited_cells can indicate what cells will be eliminated
+        def findCandiesToEliminate(board: List[List[int]], h: int, w: int) ->None:
+            '''
+            Find cells need to eliminate
+            
+                -types: board (List[List[int]])
+                            h (int)
+                            w (int)
+                -rtype: None 
+            '''
+            # Loop every cell and find if 3 or more candies of the same type are 
+            # adjacent vertically or horizontally, and mark self.visited
+            for i in range(h):
+                for j in range(w):
+                    if not self.visited[i][j]:
+                        x, y = i, j
+                        
+                        # Check if 3 or more candies of the same type are adjacent vertically
+                        while x + 2 < h and board[x][y] == board[x+1][y] == board[x+2][y]:
+                            self.num_of_visited += self.visited[x][y] != 1
+                            self.num_of_visited += self.visited[x+1][y] != 1
+                            self.num_of_visited += self.visited[x+2][y] != 1
+                            self.visited[x][y] = 1
+                            self.visited[x+1][y] = 1
+                            self.visited[x+2][y] = 1
+                            x += 1 
+                        x = i
+                        
+                        while x + 1 < h and x - 1 >= 0 and board[x-1][y] == board[x][y] == board[x+1][y]:
+                            self.num_of_visited += self.visited[x-1][y] != 1
+                            self.num_of_visited += self.visited[x][y] != 1
+                            self.num_of_visited += self.visited[x+1][y] != 1
+                            self.visited[x-1][y] = 1
+                            self.visited[x][y] = 1
+                            self.visited[x+1][y] = 1
+                            x += 1 
+                        x = i
+                        
+                        while x - 2 >= 0 and x < h and board[x-2][y] == board[x-1][y] == board[x][y]:
+                            self.num_of_visited += self.visited[x-2][y] != 1
+                            self.num_of_visited += self.visited[x-1][y] != 1
+                            self.num_of_visited += self.visited[x][y] != 1
+                            self.visited[x-2][y] = 1
+                            self.visited[x-1][y] = 1
+                            self.visited[x][y] = 1
+                            x += 1 
+                        x = i
+                        
+                        # Check if 3 or more candies of the same type are adjacent horizontally
+                        while y + 2 < w and board[x][y+1] == board[x][y] == board[x][y+2]:
+                            self.num_of_visited += self.visited[x][y] != 1
+                            self.num_of_visited += self.visited[x][y+1] != 1
+                            self.num_of_visited += self.visited[x][y+2] != 1
+                            self.visited[x][y] = 1
+                            self.visited[x][y+1] = 1
+                            self.visited[x][y+2] = 1
+                            y += 1 
+                        y = j
+                        
+                        while y + 1 < w and y - 1 >= 0 and board[x][y-1] == board[x][y] == board[x][y+1]:
+                            self.num_of_visited += self.visited[x][y-1] != 1
+                            self.num_of_visited += self.visited[x][y] != 1
+                            self.num_of_visited += self.visited[x][y+1] != 1
+                            self.visited[x][y-1] = 1
+                            self.visited[x][y] = 1
+                            self.visited[x][y+1] = 1
+                            y += 1 
+                        y = j
+                        
+                        while y - 2 >= 0 and y < w and board[x][y-2] == board[x][y-1] == board[x][y]:
+                            self.num_of_visited += self.visited[x][y-2] != 1
+                            self.num_of_visited += self.visited[x][y-1] != 1
+                            self.num_of_visited += self.visited[x][y] != 1
+                            self.visited[x][y-2] = 1
+                            self.visited[x][y-1] = 1
+                            self.visited[x][y] = 1
+                            y += 1 
+                        y = j
+                        
+        
+        # Define a fucntion updateBoard, to update board based on visited candies
+        def updateBoard(board: List[List[int]], h: int, w: int) -> List[List[int]]:
+            '''
+            Update board based on visited candies
+                 -types: board (List[List[int]])
+                            h (int)
+                            w (int)
+                -rtype: None           
+            '''
+            # For each column, update candy positions after elimination
+            for j in range(w):
+                cells_go_down = 0
+                i = h-1
+                while i > -1:
+                    if cells_go_down and not self.visited[i][j]:
+                        board[i+cells_go_down][j] = board[i][j]
+                    cells_go_down += self.visited[i][j]
+                    i -= 1
+                
+                # Fill all candies above eliminated cells as 0
+                cells_go_down -= 1
+                while cells_go_down > -1:
+                    board[cells_go_down][j] = 0
+                    cells_go_down -= 1
+                    
+            return board
+        
+        # Update board until board is stable
+        while self.num_of_visited != self.last_num_of_visited:
+            self.last_num_of_visited = self.num_of_visited
+            self.num_of_visited = 0
+            findCandiesToEliminate(board, h, w)
+            board = updateBoard(board, h, w)
+            self.visited = [[0 for _ in range(w)] for _ in range(h)]
+        
+        return board
+            
+
+
+0542. 01 Matrix
 
 
 
-Day 226, 02/23/2021 Tue
-Day 227, 02/24/2021 Wed
-Day 228, 02/25/2021 Thu
 Day 229, 02/26/2021 Fri
+
+
+0909. Snakes and Ladders
+
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+    
+    
+
+0822. Card Flipping Game
+
+class Solution:
+    def flipgame(self, fronts: List[int], backs: List[int]) -> int:
+        
+
+
 Day 230, 02/27/2021 Sat
 Day 231, 02/28/2021 Sun
 Day 232, 03/01/2021 Mon
@@ -3687,3 +4075,10 @@ Day 235, 03/04/2021 Thu
 Day 236, 03/05/2021 Fri
 Day 237, 03/06/2021 Sat
 Day 238, 03/07/2021 Sun
+Day 239, 03/08/2021 Mon
+Day 240, 03/09/2021 Tue
+Day 241, 03/10/2021 Wed
+Day 242, 03/11/2021 Thu
+Day 243, 03/12/2021 Fri
+Day 244, 03/13/2021 Sat
+Day 245, 03/14/2021 Sun
