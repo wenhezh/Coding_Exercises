@@ -4051,30 +4051,161 @@ class Solution:
 
 Day 229, 02/26/2021 Fri
 
+Validate Stack Sequences
 
 0909. Snakes and Ladders
 
+
+
+Day 230, 02/27/2021 Sat
+
+Divide Two Integers
+
 class Solution:
-    def snakesAndLadders(self, board: List[List[int]]) -> int:
-    
-    
+    def divide(self, dividend: int, divisor: int) -> int:
+        '''
+        Divide dividend by divisor without using multiplication, division, and mod operator
+        
+            -types: dividend (int)
+                     divisor (int)
+            -rtype: int 
+        '''
+        # If dividend is 0, just return 0
+        if dividend == 0:
+            return 0
+            
+        # Determine sign of final result
+        if dividend > 0 and divisor > 0 or dividend < 0 and divisor < 0:
+            sign = 1
+        else:
+            sign = -1
+
+        # Since divisor != 0, convert both divisor and dividend to
+        # abs(divisor) from abs(dividend). Use math functions to find
+        # the quote (res)
+        dividend, divisor = abs(dividend), abs(divisor)
+        import math
+        res = int(2 ** (math.log2(dividend) - math.log2(divisor)))
+        
+        if res < -2**31 or res > 2**31-1:
+            return 2**31-1
+        return sign*res
+        
+        # Avoid overflow
+        if quote < -2**31 or quote > 2**31-1:
+            return 2**31-1
+        
+        # Return the quote, with multiplying original sign
+        return sign*quote
+
+
+
+Day 231, 02/28/2021 Sun
+
+
+Day 232, 03/01/2021 Mon
+
+Single-Row Keyboard
+
+class Solution:
+    def calculateTime(self, keyboard: str, word: str) -> int:
+        '''
+        Calculate how much time it takes to type word with one finger in keyboard
+        
+            -type: keyboard (str)
+                       word (str)
+            -rtype: int
+        '''
+        # Use a dictionary, d, to indicate position of each char in keyboard
+        d = {k:v for k, v in zip(keyboard, range(26))}
+        
+        # Find cumulative distance of char in word based on d
+        res = [abs(d[word[i]]-d[word[i-1]]) for i in range(1, len(word))]
+        return d[word[0]] + sum(res)
+
+
+
+Distribute Candies
+
+class Solution:
+    def distributeCandies(self, candyType: List[int]) -> int:
+        '''
+        Find the maximum number of different types of candies she can eat if she only eats n / 2 of them
+        
+            -type : candyType (List[int])
+            -rtype: int
+        '''
+        # Find number of different types of candies
+        n_diff = len(set(candyType))
+        
+        # 
+        return min(len(candyType)//2, n_diff)
+        
+        
 
 0822. Card Flipping Game
 
 class Solution:
     def flipgame(self, fronts: List[int], backs: List[int]) -> int:
+        '''
+        Find the smallest number that is good.  If no number is good, output 0.
         
+            -types: fronts (List[int])
+                     backs (List[int])
+            -rtype: int
+        '''
+        # Loop front and back at the same time.
+        # Find cards that has same value on front and back, and put its 
+        # value in a set, impossible
+        impossible = set()
+        for i in range(len(fronts)):
+            if fronts[i] == backs[i]:
+                impossible.add(fronts[i])
+        
+        # Loop front and back at the same time and find the good card
+        good_card = 2001
+        for i in range(len(fronts)):
+            if fronts[i] not in impossible and backs[i] not in impossible:
+                good_card = min(fronts[i], backs[i], good_card)
+            elif fronts[i] not in impossible and backs[i] in impossible:
+                good_card = min(fronts[i], good_card)
+            elif backs[i] not in impossible and fronts[i] in impossible:    
+                good_card = min(backs[i], good_card)
+            
+        return good_card if good_card <= 2000 else 0
 
 
-Day 230, 02/27/2021 Sat
-Day 231, 02/28/2021 Sun
-Day 232, 03/01/2021 Mon
+
 Day 233, 03/02/2021 Tue
+
 Day 234, 03/03/2021 Wed
+
+0039. Combination Sum
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        '''
+        '''
+        
+1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+
+class Solution:
+    def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
+
+
+
+
 Day 235, 03/04/2021 Thu
 Day 236, 03/05/2021 Fri
 Day 237, 03/06/2021 Sat
 Day 238, 03/07/2021 Sun
+Day 239, 03/08/2021 Mon
+Day 240, 03/09/2021 Tue
+Day 241, 03/10/2021 Wed
+Day 242, 03/11/2021 Thu
+Day 243, 03/12/2021 Fri
+Day 244, 03/13/2021 Sat
+Day 245, 03/14/2021 Sun
 Day 239, 03/08/2021 Mon
 Day 240, 03/09/2021 Tue
 Day 241, 03/10/2021 Wed
