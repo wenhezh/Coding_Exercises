@@ -4177,8 +4177,113 @@ class Solution:
 
 
 Day 233, 03/02/2021 Tue
-
 Day 234, 03/03/2021 Wed
+Day 235, 03/04/2021 Thu
+Day 236, 03/05/2021 Fri
+Day 237, 03/06/2021 Sat
+Day 238, 03/07/2021 Sun
+Day 239, 03/08/2021 Mon
+Day 240, 03/09/2021 Tue
+Day 241, 03/10/2021 Wed
+Day 242, 03/11/2021 Thu
+
+Day 243, 03/12/2021 Fri
+
+Strobogrammatic Number
+
+class Solution:
+    def isStrobogrammatic(self, num: str) -> bool:
+        '''
+        Determine if num is a strobogrammatic number
+        
+            - type: str
+            -rtype: bool
+        '''
+        # Create a dictionary, d, to map a didgit and its strobogrammatic number
+        d = {'6': '9', '9': '6', '0': '0', '8': '8', '1':'1'}
+        
+        # Create another num, n.
+        # Reverse n and map all its chars to their corresponding strobogrammatic numbers
+        n = list(reversed(num))
+
+        for i in range(len(n)):
+            if n[i] not in d:
+                return False
+            n[i] = d[n[i]]
+        
+        # Find if n is exactly num
+
+        return num == ''.join(n)
+
+
+
+Check If a String Contains All Binary Codes of Size K
+
+class Solution:
+    def hasAllCodes(self, s: str, k: int) -> bool:
+        '''
+        Determine if every binary code of length k is a substring of s
+        
+            -types: s (str)
+                    k (int)
+            -rtype: bool
+        '''
+        # Loop s and find all its unique substrings with length = k,
+        # and put them in a set, substrings
+        substrings = set()
+        for i in range(len(s)-k+1):
+            substrings.add(s[i:i+k])
+        
+        # Check if length of substrings == 2 ** k.
+        return len(substrings) == 2 ** k
+
+
+
+Day 244, 03/13/2021 Sat
+
+Binary Trees With Factors
+
+class Solution:
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
+        '''
+        Find the number of binary tress where each non-leaf node's value
+        should be equal to the product of the values of its children.
+        
+            -type : arr (List[int])
+            -rtype: int
+        '''
+        # Create a dictionary, nodes, with key = val for arr and value = 
+        # a list of lists representing possible children
+        nodes = {k:v for k, v in zip(arr, [[] for _ in range(len(arr))])}
+        
+        # Sort arr and Loop arr to find all possibel product of any two
+        # elements and the product is also in arr/nodes
+        arr.sort()
+        for i in range(len(arr)):
+            for j in range(i, len(arr)):
+                if arr[i]*arr[j] in nodes:
+                    if arr[i] == arr[j]:
+                        nodes[arr[i]*arr[j]].append([arr[i], arr[j]])
+                    else:
+                        nodes[arr[i]*arr[j]].append([arr[i], arr[j]])
+                        nodes[arr[i]*arr[j]].append([arr[j], arr[i]])
+        
+        
+        # Remove keys in nodes where their value = []
+        nodes = {k: v for k, v in nodes.items() if v}
+        
+        from functools import reduce
+        curr_nodes = reduce(lambda x, y: x + y, nodes[max(nodes)])
+        res += len(nodes[max(nodes)]) + 1
+        while curr_node:
+            
+            
+        
+        
+
+                    
+
+Day 245, 03/14/2021 Sun
 
 0039. Combination Sum
 
@@ -4193,12 +4298,6 @@ class Solution:
     def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
 
 
-
-
-Day 235, 03/04/2021 Thu
-Day 236, 03/05/2021 Fri
-Day 237, 03/06/2021 Sat
-Day 238, 03/07/2021 Sun
 Day 239, 03/08/2021 Mon
 Day 240, 03/09/2021 Tue
 Day 241, 03/10/2021 Wed
@@ -4206,10 +4305,10 @@ Day 242, 03/11/2021 Thu
 Day 243, 03/12/2021 Fri
 Day 244, 03/13/2021 Sat
 Day 245, 03/14/2021 Sun
-Day 239, 03/08/2021 Mon
-Day 240, 03/09/2021 Tue
-Day 241, 03/10/2021 Wed
-Day 242, 03/11/2021 Thu
-Day 243, 03/12/2021 Fri
-Day 244, 03/13/2021 Sat
-Day 245, 03/14/2021 Sun
+Day 246, 03/15/2021 Mon
+Day 247, 03/16/2021 Tue
+Day 248, 03/17/2021 Wed
+Day 249, 03/18/2021 Thu
+Day 250, 03/19/2021 Fri
+Day 251, 03/20/2021 Sat
+Day 252, 03/21/2021 Sun
