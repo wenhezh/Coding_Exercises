@@ -4312,3 +4312,88 @@ Day 249, 03/18/2021 Thu
 Day 250, 03/19/2021 Fri
 Day 251, 03/20/2021 Sat
 Day 252, 03/21/2021 Sun
+Day 253, 03/22/2021 Mon
+Day 254, 03/23/2021 Tue
+Day 255, 03/24/2021 Wed
+Day 256, 03/25/2021 Thu
+Day 257, 03/26/2021 Fri
+Day 258, 03/27/2021 Sat
+Day 259, 03/28/2021 Sun
+Day 260, 03/29/2021 Mon
+Day 261, 03/30/2021 Tue
+Day 262, 03/31/2021 Wed
+
+Day 263, 04/01/2021 Thu
+
+Largest Unique Number
+
+class Solution:
+    def largestUniqueNumber(self, A: List[int]) -> int:
+        '''
+        Find the largest integer that only occurs once. Otherwise, return -1.
+        
+            -type : A (List[int])
+            -rtype: int
+        '''
+        # Use a counter to filter out intgers only occur once, and find the largest one.
+        # If the counter is empty, then return -1
+        from collections import Counter
+        res = [k for k in Counter(A) if Counter(A)[k] == 1]
+        
+        return max(res) if res else -1
+
+
+
+Palindrome Linked List
+
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        '''
+        Determine if head is a palindrome.
+        
+            -type : head (ListNode)
+            -rtype: bool
+        '''
+        # Find length of this list
+        head_l = head
+        l = 0
+        while head_l:
+            l += 1
+            head_l = head_l.next
+        
+        # Find the second half of the list
+        l = (l+1)//2 if l%2 else l//2
+        second_half = head
+        while l:
+            second_half = second_half.next
+            l -= 1
+        
+        # Reverse the second half
+        new_head = None
+        while second_half:
+            temp = second_half
+            second_half = second_half.next
+            temp.next = new_head
+            new_head = temp
+
+        # Compare head and new_head
+        while new_head:
+            if new_head.val != head.val:
+                return False
+            new_head = new_head.next
+            head = head.next
+        
+        return True
+
+
+
+Day 264, 04/02/2021 Fri
+Day 265, 04/03/2021 Sat
+Day 266, 04/04/2021 Sun
+Day 267, 04/05/2021 Mon
+Day 268, 04/06/2021 Tue
+Day 269, 04/07/2021 Wed
+Day 270, 04/08/2021 Thu
+Day 271, 04/09/2021 Fri
+Day 272, 04/10/2021 Sat
+Day 273, 04/11/2021 Sun
