@@ -4275,29 +4275,11 @@ class Solution:
         from functools import reduce
         curr_nodes = reduce(lambda x, y: x + y, nodes[max(nodes)])
         res += len(nodes[max(nodes)]) + 1
-        while curr_node:
-            
-            
-        
-        
+        while curr_node:     
 
-                    
+
 
 Day 245, 03/14/2021 Sun
-
-0039. Combination Sum
-
-class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        '''
-        '''
-        
-1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
-
-class Solution:
-    def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
-
-
 Day 239, 03/08/2021 Mon
 Day 240, 03/09/2021 Tue
 Day 241, 03/10/2021 Wed
@@ -4387,7 +4369,48 @@ class Solution:
 
 
 
+1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+
+class Solution:
+    def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
+        '''
+        Find the maximum area of a piece of cake after cut at all horizontal and vertical positions
+        
+            -types:              h (int)
+                                 w (int)
+                    horizontalCuts (List[int])
+                      verticalCuts (List[int])
+            -rtype: int
+        '''
+        # Sort and find distance between each cut
+        horizontalCuts.sort()
+        verticalCuts.sort()
+        horizontalCuts = [0] + horizontalCuts + [h]
+        verticalCuts = [0] + verticalCuts + [w]
+        horizontalCuts = [horizontalCuts[i]-horizontalCuts[i-1] for i in range(1, len(horizontalCuts))]
+        verticalCuts = [verticalCuts[i]-verticalCuts[i-1] for i in range(1, len(verticalCuts))]
+        
+        # Return the max product
+        return max(horizontalCuts)*max(verticalCuts) % (10**9+7)
+
+
 Day 264, 04/02/2021 Fri
+
+0039. Combination Sum
+
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        '''
+        '''
+0739. Daily Temperatures
+
+class Solution:
+    def dailyTemperatures(self, T: List[int]) -> List[int]:
+        
+
+        
+
+
 Day 265, 04/03/2021 Sat
 Day 266, 04/04/2021 Sun
 Day 267, 04/05/2021 Mon
