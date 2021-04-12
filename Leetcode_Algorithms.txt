@@ -4409,11 +4409,26 @@ class Solution:
         
 
         
-
-
 Day 265, 04/03/2021 Sat
 Day 266, 04/04/2021 Sun
+
 Day 267, 04/05/2021 Mon
+
+Global and Local Inversions
+
+class Solution:
+    def isIdealPermutation(self, A: List[int]) -> bool:
+        '''
+        Determine iff the number of global inversions is equal to the number of local inversions.
+            
+            -type : A (List[int])
+            -rtype: bool
+        '''
+        # Check if every number changed its position at most 1.
+        return max([abs(j-i) for i, j in enumerate(A)]) <= 1
+
+
+
 Day 268, 04/06/2021 Tue
 Day 269, 04/07/2021 Wed
 Day 270, 04/08/2021 Thu
