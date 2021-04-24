@@ -4435,3 +4435,145 @@ Day 270, 04/08/2021 Thu
 Day 271, 04/09/2021 Fri
 Day 272, 04/10/2021 Sat
 Day 273, 04/11/2021 Sun
+Day 274, 04/12/2021 Mon
+Day 275, 04/13/2021 Tue
+Day 276, 04/14/2021 Wed
+Day 277, 04/15/2021 Thu
+Day 278, 04/16/2021 Fri
+Day 279, 04/17/2021 Sat
+Day 280, 04/18/2021 Sun
+
+Day 281, 04/19/2021 Mon
+
+Minimum Swaps to Group All 1's Together
+
+class Solution:
+    def minSwaps(self, data: List[int]) -> int:
+        """
+        Find the minimum number of swaps required to group all 1’s together
+        
+            -type : data (List[int])
+            -rtype: int
+        """
+        # Find sum of data
+        s = sum(data)
+        
+        # Case when no 1, or just one 1
+        if s in [0, 1]: return 0
+        
+        # Find the max number of ones in data[i:i+s], where
+        # i = 0, 1,..., len(data)-s, and subtract it from s
+        Sum = currSum = sum(data[:s])
+        for i in range(1, len(data)-s+1):
+            currSum += data[s+i-1] - data[i-1]
+            Sum = max(Sum, currSum)
+        return s - Sum
+
+
+
+Day 282, 04/20/2021 Tue
+
+Day 283, 04/21/2021 Wed
+
+Triangle
+
+
+
+Day 284, 04/22/2021 Thu
+
+Brick Wall
+
+class Solution:
+    def leastBricks(self, wall: List[List[int]]) -> int:
+        '''
+        Find out a line to cross the least bricks and return the number of crossed bricks.
+        
+            -type : wall (List[List[int]])
+            -rtype: int
+        '''
+        # Find out height of the wall, and total width of wach row
+        h, w = len(wall), sum(wall[0])
+        
+        
+        # Find cumulative sum at each position on each row
+        for i in range(h):
+            for j in range(1, len(wall[i])):
+                wall[i][j] += wall[i][j-1]
+        
+        # Convert wall to a 1-d array
+        from functools import reduce
+        wall = reduce(lambda x, y : x + y, wall)
+        
+        # Remove the very end edge in each row
+        wall = [x for x in wall if x != w]
+        
+        # Find the most common edges, and subtract it from h if wall is not empty
+        # Otherwise, just return h
+        from collections import Counter
+        return h - Counter(wall).most_common(1)[0][1] if wall else h
+    
+
+
+
+Day 285, 04/23/2021 Fri
+
+1328. Break a Palindrome
+
+class Solution:
+    def breakPalindrome(self, palindrome: str) -> str:
+        '''
+        Replace exactly one character to break palindrome and that it is the lexicographically smallest one possible
+        
+            -type : palindrome (str)
+            -rtype: str
+        '''
+        # Find length of palindrome
+        l = len(palindrome)
+        
+        # If its length is 1, then there is no way to break palindrome
+        if l == 1: return ''
+                
+        # Convert palindrome to a list
+        palindrome = list(palindrome)
+            
+        # Loop the first half, and replace the first char that is not 'a'
+        i = 0
+        while i < l//2 and palindrome[i] == 'a':
+            i += 1
+        
+        # Check if i is in the middle of the string
+        if i == l//2:
+            # Case when length of l is even
+            if l%2 == 0:
+                palindrome[l-i] = 'b'
+            # Case when length of l is odd
+            else:
+                if palindrome[i] == 'a':
+                    palindrome[-1] = 'b'
+                else:
+                    palindrome[-1] = 'b'
+
+            # Else, replace char at i with 'a' and return palindrome as a str
+
+        # If no, replace ith char to 'a' and return palindrome as a str
+        else:
+            palindrome[i] = 'a'
+            
+        return ''.join(palindrome) 
+        
+        
+        
+
+Day 286, 04/24/2021 Sat
+
+Day 287, 04/25/2021 Sun
+
+
+
+Day 288, 04/26/2021 Mon
+Day 289, 04/27/2021 Tue
+Day 290, 04/28/2021 Wed
+Day 291, 04/29/2021 Thu
+Day 292, 04/30/2021 Fri
+Day 293, 05/01/2021 Sat
+Day 294, 05/02/2021 Sun
