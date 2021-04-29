@@ -4568,12 +4568,141 @@ Day 286, 04/24/2021 Sat
 
 Day 287, 04/25/2021 Sun
 
+1152. Analyze User Website Visit Pattern
+
+class Solution:
+    def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+        '''
+        Find the 3-sequence visited by the largest number of users.
+        
+            -types:  username (List[str]) 
+                    timestamp (List[int]) 
+                      website (List[str])
+            -rtype: List[str]
+        '''
+        # Create a dictionary, d, with key = timestamp and value = [username, website] 
+        d = {y:[x, z] for x, y, z in zip(username, timestamp, website)}
+        
+        # Create another dictionary, d1, with key = username, and value = a list of
+        # webistes visited by timestamp in an ascending order. Always keey length of
+        # value <= 3
+        d0 = {}
+        
+        # Create a counter, to count frequency of each 3-sequence
+        from collections import Counter
+        cnt = Counter()
+        
+        # Meanwhile, loop d from 0 to max of timestamp
+        # Once see a user, append website at this timestamp to its value
+        for t in sorted(timestamp):
+            if t in d:
+                if d[t][0] in d0:
+                    d0[d[t][0]].append(d[t][1])
+                else:
+                    d0[d[t][0]] = [d[t][1]]
+        
+        # For each user, find all possible combo of 3
+        from itertools import combinations
+        d0 = {k: list(combinations(d0[k], 3)) for k in d0}
+        d0 = {k: list(set([','.join(x) for x in d0[k]])) for k in d0}
+        
+        # Combine all values in do to a list, and convert all values in format
+        # as a string of original values seperated by comma
+        from functools import reduce
+        d0 = reduce(lambda x, y : x + y, d0.values())
+        
+        # Find the smallest most frequent ele in cnt, and seperate it to a list
+        from collections import Counter
+        cnt = Counter(d0)
+        return min([k for k in cnt if cnt[k] == cnt.most_common(1)[0][1]]).split(',')
+        
 
 
 Day 288, 04/26/2021 Mon
+
+Furthest Building You Can Reach
+
+
+
 Day 289, 04/27/2021 Tue
+
+0934. Shortest Bridge
+
+
+
 Day 290, 04/28/2021 Wed
+
+0062. Unique Paths
+
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        '''
+        Find how many possible ways with moving either down or right
+        from the top-left corner to the the bottom-right corner.
+        
+            -types: m (int)
+                    n (int)
+            -rtype: int
+        '''
+        # Initiate the grids, and assign the start grid as 1
+        # Assign the two grids next to the top-left corner to 1
+        res = [[0 for _ in range(n)] for _ in range(m)]
+        res[0][0] = 1
+        if n > 1: res[0][1] = 1
+        if m > 1: res[1][0] = 1
+        
+        # Loop the grid, and its value = sum of cell value from
+        # left and up
+        for i in range(m):
+            for j in range(n):
+                if res[i][j] == 0:
+                    res[i][j] += res[i][j-1] if j-1 > -1 else 0
+                    res[i][j] += res[i-1][j] if i-1 > -1 else 0
+        return res[-1][-1]
+            
+
+
+
+Unique Paths II
+
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        '''
+        Find how many unique paths would there be that the robot can move from the
+        left-top to the right-bottom corner, with only moving down or right.
+        
+            -type : obstacleGrid (List[List[int]])
+            -rtype: int
+        '''
+        # Find height and width of obstacleGrid
+        h, w = len(obstacleGrid), len(obstacleGrid[0])
+        
+        # Loop obstacleGrid from left-top to right-bottom
+        # If the grid is originally 1, then set it to 0
+        # Else, assign it to the sum of values from left
+        # and top cells.
+        obstacleGrid[0][0] = 1
+        for i in range(h):
+            for j in range(w):
+                if obstacleGrid[i][j] == 0:
+                    obstacleGrid[i][j] += obstacleGrid[i][j-1] if j-1 >= 0 else 0
+                    obstacleGrid[i][j] += obstacleGrid[i-1][j] if i-1 >= 0 else 0
+                elif i + j > 0:
+                    obstacleGrid[i][j] = 0
+ 
+        return obstacleGrid[-1][-1]
+        
+        
+
+
 Day 291, 04/29/2021 Thu
 Day 292, 04/30/2021 Fri
 Day 293, 05/01/2021 Sat
 Day 294, 05/02/2021 Sun
+Day 295, 05/03/2021 Mon
+Day 296, 05/04/2021 Tue
+Day 297, 05/05/2021 Wed
+Day 298, 05/06/2021 Thu
+Day 299, 05/07/2021 Fri
+Day 300, 05/08/2021 Sat
+Day 301, 05/09/2021 Sun
