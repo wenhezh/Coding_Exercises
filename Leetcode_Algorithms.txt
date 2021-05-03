@@ -4696,8 +4696,96 @@ class Solution:
 
 
 Day 291, 04/29/2021 Thu
+
+Find First and Last Position of Element in Sorted Array
+
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        '''
+        Find the starting and ending position of target.
+        
+           -types:   nums (List[int]) 
+                   target (int)
+           -rtype: List[int]
+        '''
+        # Use bisect to find first and last position
+        import bisect
+        start, end = bisect.bisect_left(nums, target), bisect.bisect_right(nums, target)
+        
+        return [-1, -1] if start == end else [start, end-1]
+        
+
+
+Meeting Scheduler
+
+
 Day 292, 04/30/2021 Fri
+
 Day 293, 05/01/2021 Sat
+
+Number of Connected Components in an Undirected Graph
+
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        '''
+        Find the number of connected components in the graph.
+        
+            -types:     n (int)
+                    edges (List[List[int]])
+            -rtype: int
+        '''
+        # Create a dictionary, connections, with looping edges to find
+        # connections between nodes
+        connections = {}
+        for [n1, n2] in edges:
+            if n1 in connections:
+                connections[n1].append(n2)
+            else:
+                connections[n1] = [n2]
+            
+            if n2 in connections:
+                connections[n2].append(n1)
+            else:
+                connections[n2] = [n1]
+        
+        # Create another dictionary, group, with key = node ID and value = group ID
+        # Initiate all group Id as None
+        group = {k:v for k, v in zip(range(n), [None]*n)}
+        
+        # Initiate an new variable, group_num = 0.
+        group_num = 0
+        
+        # Create a function to assign all connected nodes to the same group
+        def assignGroup(curr_node: int, connections: dict, group: dict, group_num: int) -> None:
+            '''
+            Assign all connected nodes to the same group.
+            
+                -types:   curr_node (int)
+                        connections (dict)
+                              group (dict)
+                          group_num (int) 
+                -rtype: None
+            '''
+            group[curr_node] = group_num
+            if curr_node in connections:
+                for node in connections[curr_node]:
+                    if group[node] == None:
+                        assignGroup(node, connections, group, group_num)
+
+        # Loop all nodes. 
+        # If current node has group = None, then loop all its connected nodes in connections, 
+        # and assign all its connect nodes to group_num.
+        # After completing looping, increment group_num.
+        
+        for i in range(n):
+            if group[i] == None:
+                assignGroup(i, connections, group, group_num)
+                group_num += 1
+                    
+        return group_num
+        
+        
+
 Day 294, 05/02/2021 Sun
 Day 295, 05/03/2021 Mon
 Day 296, 05/04/2021 Tue
