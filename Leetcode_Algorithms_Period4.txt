@@ -49,36 +49,105 @@ class Solution:
 
 0740. Delete and Earn
 
-class Solution:
-    def deleteAndEarn(self, nums: List[int]) -> int:
-    
-
 
 
 Day 002, 06/08/2021 Tue
 
-0399. Evaluate Division
+0490. The Maze
 
-class Solution:
-    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        
+0593. Valid Square
 
 
 
 Day 003, 06/09/2021 Wed
 
+0055. Jump Game
 
+0241. Different Ways to Add Parentheses
 
+0316. Remove Duplicate Letters
 
 
 Day 004, 06/10/2021 Thu
+
+My Calendar I
+
+0739. Daily Temperatures
+
+
+1405. Longest Happy String
+
+
+
 Day 005, 06/11/2021 Fri
+
 Day 006, 06/12/2021 Sat
+
+0390. Elimination Game
+
+
 Day 007, 06/13/2021 Sun
+
+
+
 Day 008, 06/14/2021 Mon
+
+Maximum Units on a Truck
+
+class Solution:
+    def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+        '''
+        Find the maximum total number of units that can be put on the truck.
+        
+            -types:  boxTypes (List[List[int]])
+                    truckSize (int)
+            -rtype: int
+        '''
+        # Sort boxTypes based on number of units.
+        boxTypes.sort(key = lambda x: x[1])
+        
+        # Put boxTypes eles from the very end t the truck, until the truck
+        # reaches its max capacity
+        res = [0, 0]  # First ele = total # of boxes, and second ele = total # of units
+        while boxTypes and res[0] + boxTypes[-1][0] <= truckSize:
+            res[0] += boxTypes[-1][0]
+            res[1] += boxTypes[-1][0]*boxTypes[-1][1]
+            boxTypes.pop()
+        
+        # Check if the truck ca load more boxes
+        if boxTypes:
+            res[1] += (truckSize - res[0])*boxTypes[-1][1]
+            res[0] += truckSize - res[0]
+        
+        return res[1]
+
+
+
+The Maze II
+
+
+
 Day 009, 06/15/2021 Tue
+
+
+
+1717. Maximum Score From Removing Substrings
+
+class Solution:
+    def maximumGain(self, s: str, x: int, y: int) -> int:
+        
+
+
+
 Day 010, 06/16/2021 Wed
 Day 011, 06/17/2021 Thu
 Day 012, 06/18/2021 Fri
 Day 013, 06/19/2021 Sat
 Day 014, 06/20/2021 Sun
+Day 015, 06/21/2021 Mon
+Day 016, 06/22/2021 Tue
+Day 017, 06/23/2021 Wed
+Day 018, 06/24/2021 Thu
+Day 019, 06/25/2021 Fri
+Day 020, 06/26/2021 Sat
+Day 021, 06/27/2021 Sun
