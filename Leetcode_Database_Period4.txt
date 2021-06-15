@@ -1,7 +1,357 @@
 Day 001, 06/07/2021 Mon
+
+1853. Convert Date Format
+
+select date_format(d.day, '%W, %M %e, %Y') day from Days d;
+
+
+
+1873. Calculate Special Bonus
+
+select   employee_id
+       , case when mod(employee_id, 2) = 1 and substring(name, 1, 1) <> 'M' then salary
+         else 0 end bonus
+from Employees
+order by employee_id;
+
+
+
+1867. Orders With Maximum Quantity Above Average
+
+select distinct order_id
+from OrdersDetails
+where quantity > (select max(avg_q)
+                  from (select sum(o.quantity)/count(distinct o.product_id) avg_q
+                        from OrdersDetails o
+                        group by order_id
+                       ) temp
+                 );
+
+
+
+1875. Group Employees of the Same Salary
+
+select   t1.employee_id
+       , t1.name
+       , t1.salary
+       , t2.r team_id
+from Employees t1
+     left join
+     (select   e.salary
+             , (select count(distinct e0.salary)
+                from (select salary
+                      from Employees
+                      group by salary
+                      having count(salary) > 1
+                      order by salary) e0
+                where e0.salary <= e.salary) r
+      from Employees e
+      group by e.salary
+      having count(e.salary) > 1
+      order by e.salary) t2
+      on t1.salary = t2.salary
+where t2.salary is not NULL
+order by team_id, t1.employee_id;
+
+
+
 Day 002, 06/08/2021 Tue
+
+1821. Find Customers With Positive Revenue this Year
+
+select customer_id
+from Customers
+where year = 2021
+group by customer_id
+having sum(revenue) > 0;
+
+
+
+1843. Suspicious Bank Accounts
+
+select distinct table1.account_id
+from   (select   t1.account_id
+               , y_m
+               , case when t1.amount > a1.max_income then 1 
+                 else 0 end exceed
+         from (select   account_id
+                      , date_format(day, '%Y-%m-%d') y_m
+                      , sum(amount) amount
+              from Transactions
+              where type = 'Creditor'
+              group by account_id, date_format(day, '%Y-%m')
+              order by account_id, y_m) t1
+              left join Accounts a1
+              on t1.account_id = a1.account_id) table1
+      , (select   t2.account_id
+                , y_m
+                , case when t2.amount > a2.max_income then 1 
+                 else 0 end exceed
+         from (select   account_id
+                      , date_format(day, '%Y-%m-%d') y_m
+                      , sum(amount) amount
+              from Transactions
+              where type = 'Creditor'
+              group by account_id, date_format(day, '%Y-%m')
+              order by account_id, y_m) t2
+              left join Accounts a2
+              on t2.account_id = a2.account_id) table2
+where table1.account_id = table2.account_id
+      and table1.exceed = 1 and table2.exceed = 1
+      and ((year(table1.y_m) = year(table2.y_m) and month(table1.y_m)+1 = month(table2.y_m))
+           or 
+           (year(table1.y_m) = year(table2.y_m) and month(table1.y_m)-1 = month(table2.y_m))
+           or
+           (year(table1.y_m)-1 = year(table2.y_m) and month(table1.y_m) = 1 and month(table2.y_m) = 12)
+           or 
+           (year(table1.y_m)+1 = year(table2.y_m) and month(table1.y_m) = 12 and month(table2.y_m) = 1 )
+          )
+order by table1.account_id;
+
+
+
 Day 003, 06/09/2021 Wed
+
+1809. Ad-Free Sessions
+
+select session_id
+from Playback
+where session_id not in (select p.session_id
+                         from   Playback p
+                              , Ads a
+                         where p.customer_id = a.customer_id
+                               and p.start_time <= a.timestamp
+                               and a.timestamp <= p.end_time);
+
+
+1811. Find Interview Candidates
+
+select   name
+       , mail
+from Users
+where user_id in (select   gold_medal user_id
+                  from Contests
+                  group by gold_medal
+                  having count(gold_medal) > 2
+                  UNION
+                  select t1.user_id
+                  from   (select   gold_medal user_id
+                                 , contest_id
+                          from Contests
+                          UNION
+                          select   silver_medal user_id
+                                 , contest_id
+                          from Contests
+                          UNION
+                          select   bronze_medal user_id
+                                 , contest_id
+                          from Contests) t1
+                       , (select   gold_medal user_id
+                                 , contest_id
+                          from Contests
+                          UNION
+                          select   silver_medal user_id
+                                 , contest_id
+                          from Contests
+                          UNION
+                          select   bronze_medal user_id
+                                 , contest_id
+                          from Contests) t2
+                       , (select   gold_medal user_id
+                                 , contest_id
+                          from Contests
+                          UNION
+                          select   silver_medal user_id
+                                 , contest_id
+                          from Contests
+                          UNION
+                          select   bronze_medal user_id
+                                 , contest_id
+                          from Contests) t3
+                  where t1.user_id = t2.user_id and t1.user_id = t3.user_id
+                        and t1.contest_id + 1 = t2.contest_id
+                        and t2.contest_id + 1 = t3.contest_id);
+
+
+
+1831. Maximum Transaction Each Day
+
+select t1.transaction_id
+from Transactions t1
+     left join 
+     (select   date_format(day, '%Y-%m-%d') curr_date
+             , max(amount) amount
+      from Transactions
+      group by date_format(day, '%Y-%m-%d')) t2
+     on t1.amount = t2.amount and date_format(t1.day, '%Y-%m-%d') = t2.curr_date
+where t2.curr_date is not NULL
+order by t1.transaction_id;
+
+
+
 Day 004, 06/10/2021 Thu
 Day 005, 06/11/2021 Fri
 Day 006, 06/12/2021 Sat
 Day 007, 06/13/2021 Sun
+
+
+
+Day 008, 06/14/2021 Mon
+
+1777. Product's Price for Each Store    
+
+select   distinct p.product_id
+       , t1.price store1
+       , t2.price store2
+       , t3.price store3
+from Products p
+left join 
+(select   product_id 
+       , sum(price) price
+ from Products
+ where store = 'store1'
+ group by product_id) t1
+on p.product_id = t1.product_id
+left join 
+(select   product_id 
+       , sum(price) price
+ from Products
+ where store = 'store2'
+ group by product_id) t2
+on p.product_id = t2.product_id
+left join 
+(select   product_id 
+       , sum(price) price
+ from Products
+ where store = 'store3'
+ group by product_id) t3
+on p.product_id = t3.product_id
+order by p.product_id;
+
+
+
+1789. Primary Department for Each Employee
+
+select   employee_id
+       , department_id
+from  Employee
+group by employee_id
+having count(employee_id) = 1
+UNION
+select   employee_id
+       , department_id
+from  Employee
+where primary_flag = 'Y';
+
+
+
+1783. Grand Slam Titles	
+
+select   t1.player_id
+       , p.player_name
+       , count(t1.player_id) grand_slams_count
+from (select Wimbledon player_id
+      from Championships
+      UNION ALL
+      select Fr_open player_id
+      from Championships
+      UNION ALL
+      select US_open player_id
+      from Championships
+      UNION ALL
+      select Au_open player_id
+      from Championships) t1
+     left join Players p
+     on t1.player_id = p.player_id
+group by t1.player_id;
+
+
+
+Day 009, 06/15/2021 Tue
+
+1795. Rearrange Products Table
+
+select   product_id
+       , 'store1' store
+       , store1 price
+from Products
+where store1 is not NULL
+UNION ALL
+select   product_id
+       , 'store2' store
+       , store2 price
+from Products
+where store2 is not NULL
+UNION ALL
+select   product_id
+       , 'store3' store
+       , store3 price
+from Products
+where store3 is not NULL;
+
+
+
+1890. The Latest Login in 2020
+
+select   user_id
+       , max(time_stamp) last_stamp     
+from Logins
+where year(time_stamp) = 2020
+group by user_id;
+
+
+
+1841. League Statistics
+
+select   team_name 
+       , matches_played 
+       , points
+       , goal_for
+       , goal_against
+       , goal_diff 
+from Teams t 
+     left join
+     (select   g.team_id
+             , count(g.team_id) matches_played
+             , sum(g.points) points
+             , sum(g.goal_for) goal_for
+             , sum(g.goal_against) goal_against
+             , sum(g.goal_for) - sum(g.goal_against) goal_diff 
+      from (select   home_team_id team_id
+                   , home_team_goals goal_for
+                   , away_team_goals goal_against
+                   , case when home_team_goals > away_team_goals then 3
+                          when home_team_goals < away_team_goals then 0
+                          else 1 end points
+            from Matches
+            UNION ALL
+            select   away_team_id team_id
+                   , away_team_goals goal_for
+                   , home_team_goals goal_against
+                   , case when away_team_goals > home_team_goals then 3
+                          when away_team_goals < home_team_goals then 0
+                          else 1 end points
+            from Matches) g
+       group by g.team_id) t0
+       on t.team_id = t0.team_id
+where t0.matches_played is not NULL
+order by points desc, goal_diff desc, team_name;
+
+
+
+Day 010, 06/16/2021 Wed
+
+
+
+Day 011, 06/17/2021 Thu
+Day 012, 06/18/2021 Fri
+Day 013, 06/19/2021 Sat
+Day 014, 06/20/2021 Sun
+
+Day 015, 06/21/2021 Mon
+Day 016, 06/22/2021 Tue
+Day 017, 06/23/2021 Wed
+Day 018, 06/24/2021 Thu
+Day 019, 06/25/2021 Fri
+Day 020, 06/26/2021 Sat
+Day 021, 06/27/2021 Sun
