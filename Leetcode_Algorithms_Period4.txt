@@ -228,13 +228,95 @@ class Solution:
         
 
 Day 014, 06/20/2021 Sun
+
+1721. Swapping Nodes in a Linked List
+
+
+1722. Minimize Hamming Distance After Swap Operations
+
+
+
+
 Day 015, 06/21/2021 Mon
+
+1733. Minimum Number of People to Teach
+
+
 Day 016, 06/22/2021 Tue
+
+1167. Minimum Cost to Connect Sticks
+
+class Solution:
+    def connectSticks(self, sticks: List[int]) -> int:
+        '''
+        Find the minimum cost of connecting all the given sticks into one stick.
+        
+        :type - sticks: List[int]
+        :rtype- int
+        '''
+        import heapq
+        sticks.sort()
+        cost = 0
+        
+        # Use heap to find the 2 smallest stick and combine them.
+        # Then put the combined back to sticks
+        # Repeat the process until the is only 1 stick left.
+        while True:
+            sticks_out = heapq.heappop(sticks)
+            
+            # Check if sticks is now empty.
+            # If yes, then just return cost
+            if not sticks: return cost
+            
+            sticks_out += heapq.heappop(sticks)
+            cost += sticks_out
+            heapq.heappush(sticks, sticks_out)
+
+
+
+Number of Matching Subsequences
+
+
+
+All Paths from Source Lead to Destination
+
+class Solution:
+    def leadsToDestination(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+
+
+
+
+
+
+
+
 Day 017, 06/23/2021 Wed
+
+0139. Word Break
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+
+
+
+1120. Maximum Average Subtree
+
+class Solution:
+    def maximumAverageSubtree(self, root: TreeNode) -> float:
+        
+
+
 Day 018, 06/24/2021 Thu
 Day 019, 06/25/2021 Fri
 Day 020, 06/26/2021 Sat
 Day 021, 06/27/2021 Sun
+
+1552. Magnetic Force Between Two Balls
+
+class Solution:
+    def maxDistance(self, position: List[int], m: int) -> int:
+    
+
 Day 022, 06/28/2021 Mon
 Day 023, 06/29/2021 Tue
 Day 024, 06/30/2021 Wed
