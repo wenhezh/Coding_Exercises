@@ -343,19 +343,87 @@ Day 010, 06/16/2021 Wed
 
 Day 011, 06/17/2021 Thu
 
+Day 012, 06/18/2021 Fri
+
+Day 013, 06/19/2021 Sat
+
 1892. Page Recommendations II
 
+select   user1 user_id 
+       , l1.page_id page_id
+       , count(l1.page_id) friends_likes
+from (select   user1_id user1
+            , user2_id user2
+      from Friendship
+      UNION
+      select   user2_id user1
+             , user1_id user2
+      from Friendship) u1
+     left join Likes l1
+     on u1.user2 = l1.user_id
+     left join Likes l2
+     on u1.user1 = l2.user_id 
+     and l1.page_id = l2.page_id
+where l2.user_id  is NULL
+group by user1, l1.page_id;
 
 
 
-Day 012, 06/18/2021 Fri
-Day 013, 06/19/2021 Sat
 Day 014, 06/20/2021 Sun
-
 Day 015, 06/21/2021 Mon
 Day 016, 06/22/2021 Tue
+
 Day 017, 06/23/2021 Wed
+
+1907. Count Salary Categories
+
+select   c.category
+       , ifnull(a.accounts_count, 0) accounts_count
+from (select 'Low Salary' category
+      UNION 
+      select 'Average Salary' category
+      UNION 
+      select 'High Salary' category) c
+     left join 
+     (select   category
+             , count(category) accounts_count
+      from (select case when income < 20000 then 'Low Salary'
+                        when income > 50000 then 'High Salary'
+                        else 'Average Salary' end category
+            from Accounts) t
+      group by category) a
+     on c.category = a.category;
+
+select   'Low Salary' category
+       , ifnull(sum(case when income < 20000 then 1 end), 0) accounts_count
+from Accounts
+UNION
+select   'Average Salary' category
+       , ifnull(sum(case when 20000 <= income and income <= 50000 then 1 end), 0) accounts_count
+from Accounts
+UNION
+select   'High Salary' category
+       , ifnull(sum(case when income > 50000 then 1 end), 0) accounts_count
+from Accounts;
+
+
+
 Day 018, 06/24/2021 Thu
+
+1179. Reformat Department Table
+1132. Reported Posts II
+1097. Game Play Analysis V
+1194. Tournament Winners
+1127. User Purchase Platform
+1159. Market Analysis II
+1204. Last Person to Fit in the Elevator
+1205. Monthly Transactions II
+0175. Combine Two Tables
+0176. Second Highest Salary
+0177. Nth Highest Salary
+
+
+
 Day 019, 06/25/2021 Fri
 Day 020, 06/26/2021 Sat
 Day 021, 06/27/2021 Sun
