@@ -292,32 +292,231 @@ class Solution:
 
 Day 017, 06/23/2021 Wed
 
-0139. Word Break
+Reverse Linked List II
 
 class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+    def reverseBetween(self, head: ListNode, left: int, right: int) -> ListNode:
+        '''
+        Reverse the nodes of the list from position left to position right, and return the reversed list.
+        
+        :types -  head: ListNode
+                  left: int
+                 right: int
+        :rtype - ListNode
+        '''        
+        curr_pos = 1
+        
+        # Create a new ListNode and move it to the node with position = left
+        t = head
+        while t and curr_pos < left:
+            t = t.next
+            curr_pos += 1 
+        mid = None  # Part to reverse
+        
+        # Reverse the part btw left and right, inclusively
+        while curr_pos <= right:
+            temp = t
+            t = t.next
+            temp.next = mid
+            mid = temp
+            curr_pos += 1
+        
+        # Combine part not reversed, part reversed, and tail
+        p = head
+        p_pos = 1
+        if left == 1:
+            head = mid
+        else:
+            while p_pos + 1 < left:
+                p = p.next
+                p_pos += 1
+            p.next = mid
+
+        while p and p.next:
+            p = p.next
+        p.next = t
+            
+        return head
+
+
+
+0139. Word Break
+
+
+
+Day 018, 06/24/2021 Thu
+
+Out of Boundary Paths
+
+class Solution:
+    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+        '''
+        Find the number of paths to move the ball out of the grid boundary.
+        
+            -types:           m (int)
+                              n (int) 
+                        maxMove (int) 
+                       startRow (int)
+                    startColumn (int)
+            -rtype: int
+        '''
+        # Initiate a variable to record the number of paths
+        self.res = 0
+        # Initiate a variable to record if a grid has been visited
+        self.visited = set()
+        
+        # Define a function to move the ball to next grids (left, right, top, or bottom). Determine if
+        # current position is out of grid  and maxMove >= 0, then increment self.res.
+        def ifOOB(m: int, n: int, moves_remaining: int, currRow: int, currColumn: int) -> None:
+            '''
+            Determine if adjacent cells are out of boundry and number of remaining moves is still > 0.
+
+                -types:               m (int)
+                                      n (int) 
+                        moves_remaining (int) 
+                               currtRow (int)
+                             currColumn (int)
+                -rtype: None
+            '''
+            # Case when current position is out of boundry, then return True
+            if currRow == -1 or currRow == m or currColumn == -1 or currColumn == n:
+                self.res += 1
+            
+            # Case when no extra move is available
+            elif moves_remaining == 0: return
+            
+            # Move to all four adjacent cells
+            else:
+                for dx, dy in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
+                    ifOOB(m, n, moves_remaining - 1, currRow + dx, currColumn + dy)
+        
+        ifOOB(m, n, maxMove, startRow, startColumn)
+        return self.res % (10 ** 9 + 7)
+        
+
+
+1091. Shortest Path in Binary Matrix
+
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        '''
+        Find the length of the shortest clear path in grid.
+        
+            -type : grid (List[List[int]])
+            -rtype: int
+        '''
+        # Case when the top-left cell or the bottom-right is 1, then just -1
+        if grid[0][0] or grid[-1][-1]: return -1
+        
+        # Define some variables
+        n = len(grid) # Length of each side of grid
+        
+        # A n*n matrix to record min steps of a clear path from the top-left cell to current position
+        self.steps = [[n*n for _ in range(n)] for _ in range(n)]
+        self.steps[0][0] = 1
+        
+        # Define a function to update min steps of clear path from the top-left to current position
+        def minSteps(x:int, y:int, n: int, grid: List[List[int]]) -> None:
+            '''
+            Update min steps of clear path from top-left to current position
+            
+                -types:    x (int)
+                           y (int)
+                           n (int)
+                        grid (List[List[int]])
+                -rtype: None
+            '''
+            for dx, dy in [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]:
+                new_x, new_y = x + dx, y + dy
+                if 0 <= new_x < n and 0 <= new_y < n and grid[new_x][new_y] == 0:
+                    self.steps[x][y] = min(self.steps[x][y], self.steps[new_x][new_y]+1)
+        
+        # Loop grid, find the min steps of the bottom-right cell
+        for i in range(n):
+            for j in range(n):
+                minSteps(i, j, n, grid)
+        return self.steps[-1][-1] if self.steps[-1][-1] <= n*n else -1
+                    
+
+
 
 
 
 1120. Maximum Average Subtree
 
 class Solution:
+    # Define a function to find the number of nodes, and sum of all nodes values, and the max average seen so far
+    def sumAndCount(self, root: TreeNode) -> List[List]:
+        '''
+        Find the number of nodes, and sum of all nodes values, and the max average seen so far
+
+            -type : root (TreeNode)
+            -rtype: List[List]
+        '''
+        # Case when root is null
+        if not root: return [0, 0.0, 0.0]
+
+        # Case when only left subtree exists
+        elif not root.right: 
+            temp = self.sumAndCount(root.left)
+            return [1 + temp[0], 1.0*root.val + temp[1], max(temp[2], (1.0*root.val + temp[1])/(1 + temp[0]))]
+
+        # Case when only right subtree exists
+        elif not root.left: 
+            temp = self.sumAndCount(root.right)
+            return [1 + temp[0], 1.0*root.val + temp[1], max(temp[2], (1.0*root.val + temp[1])/(1 + temp[0]))]
+
+        # Case when both left and right subtrees exist
+        else:
+            t1 = self.sumAndCount(root.right)
+            t2 = self.sumAndCount(root.left)
+            return [1+t1[0]+t2[0], 1.0*(root.val+t1[1]+t2[1]), max(1.0*(root.val+t1[1]+t2[1])/(1+t1[0]+t2[0]), t1[2], t2[2])]
+            
+    
+    
     def maximumAverageSubtree(self, root: TreeNode) -> float:
+        '''
+        Find the maximum average value of any subtree of the tree.
+        
+            -type : root (TreeNode)
+            -rtype: float
+        '''
+        return self.sumAndCount(root)[2]
+        
         
 
 
-Day 018, 06/24/2021 Thu
 Day 019, 06/25/2021 Fri
+
+Redundant Connection
+
+
+
 Day 020, 06/26/2021 Sat
+
+
+
 Day 021, 06/27/2021 Sun
+
+0207. Course Schedule
+
+
 
 1552. Magnetic Force Between Two Balls
 
-class Solution:
-    def maxDistance(self, position: List[int], m: int) -> int:
-    
+
 
 Day 022, 06/28/2021 Mon
+
+
+1737. Change Minimum Characters to Satisfy One of Three Conditions
+
+class Solution:
+    def minCharacters(self, a: str, b: str) -> int:
+ 
+
+
+
 Day 023, 06/29/2021 Tue
 Day 024, 06/30/2021 Wed
 Day 025, 07/01/2021 Thu
@@ -331,3 +530,10 @@ Day 032, 07/08/2021 Thu
 Day 033, 07/09/2021 Fri
 Day 034, 07/10/2021 Sat
 Day 035, 07/11/2021 Sun
+Day 036, 07/12/2021 Mon
+Day 037, 07/13/2021 Tue
+Day 038, 07/14/2021 Wed
+Day 039, 07/15/2021 Thu
+Day 040, 07/16/2021 Fri
+Day 041, 07/17/2021 Sat
+Day 042, 07/18/2021 Sun
