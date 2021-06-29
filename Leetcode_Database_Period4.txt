@@ -478,17 +478,21 @@ having count(distinct l1.song_id) > 2;
 
 
 
+0185. Department Top Three Salaries
+
+
+
+
+
+
+
+
+
+
+
+
+
 1097. Game Play Analysis V
-
-
-
-
-
-
-
-
-
-
 1194. Tournament Winners
 1127. User Purchase Platform
 1159. Market Analysis II
@@ -513,3 +517,11 @@ Day 032, 07/08/2021 Thu
 Day 033, 07/09/2021 Fri
 Day 034, 07/10/2021 Sat
 Day 035, 07/11/2021 Sun
+Day 036, 07/12/2021 Mon
+Day 037, 07/13/2021 Tue
+Day 038, 07/14/2021 Wed
+Day 039, 07/15/2021 Thu
+Day 040, 07/16/2021 Fri
+Day 041, 07/17/2021 Sat
+Day 042, 07/18/2021 Sun
+
