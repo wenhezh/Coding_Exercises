@@ -538,18 +538,144 @@ class Solution:
             max_l = max(max_l, i - start + 1)
         
         return max_l
-            
-                
-                
-                    
-                    
+
             
             
+Day 024, 06/30/2021 Wed
+
+Lowest Common Ancestor of a Binary Tree
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        '''
+        Find the lowest common ancestor (LCA) of p and q.
         
+            -types: root ('TreeNode')
+                       p ('TreeNode') 
+                       q ('TreeNode')
+            -rtype: 'TreeNode'
+        '''
+        # Create a dictionary where key = node.val and value = node.val of its parent node
+        self.r = {}
+        
+        # Define a function to find the parent node value for all nodes in the tree
+        def findParentNodeValue(root: 'TreeNode', par_node: 'TreeNode') -> None:
+            '''
+            Find parent node values for all nodes in the tree.
+        
+                -types:    root ('TreeNode')
+                        par_val (int)
+                -rtype: None
+            '''
+            self.r[root] = par_node
+            
+            if root.left: findParentNodeValue(root.left, root)
+            if root.right: findParentNodeValue(root.right, root)
+            else: return 
+        findParentNodeValue(root, None)
+        
+        # Find p's path to root
+        p_path = []
+        curr_node = p
+        while curr_node != root:
+            p_path.append(curr_node)
+            curr_node = self.r[curr_node]
+        p_path.append(root)
+        
+        # Find q's path to root
+        q_path = []
+        curr_node = q
+        while curr_node != root:
+            q_path.append(curr_node)
+            curr_node = self.r[curr_node]
+        q_path.append(root)
+        
+        # keep popping both p_path and q_path, the last node val is the LCA.
+        res = None
+        while p_path and q_path and p_path[-1] == q_path[-1]: 
+            res = p_path.pop()
+            q_path.pop()
+        
+        return res
+
+
+
+Day 025, 07/01/2021 Thu
+
+Gray code
+
+
+
+Find Leaves of Binary Tree
+
+class Solution:
+    def findLeaves(self, root: TreeNode) -> List[List[int]]:
+        '''
+        Collect root's nodes from leaves.
+        
+            -type : root (TreeNode) 
+            -rtype: List[List[int]]
+        '''
+        # Case when root is null
+        if not root: return [[]]
+        
+        self.res = []
+        
+        # Define a fucntion to remove and collect leaf nodes 
+        def removeLeaves(root: TreeNode) -> List[int]:
+            '''
+            Remove and collect all leaf nodes for root.
+        
+                -type : root (TreeNode) 
+                -rtype: List[int]
+            '''
+            res = []
+            
+            if not root: return res
+            
+            if not (root.left or root.right):
+                res.append(root.val)
+                root.val = 101
+                return res
+            if root.left and root.right and root.left.val == 101 and root.right.val == 101:
+                res.append(root.val)
+                root.val = 101
+                return res
+            if root.left and root.left.val == 101 and not root.right:
+                res.append(root.val)
+                root.val = 101
+                return res
+            if root.right and root.right.val == 101 and not root.left:
+                res.append(root.val)
+                root.val = 101
+                return res
+            
+            if root.left and root.left.val != 101:
+                res.extend(removeLeaves(root.left))
+            if root.right and root.right.val != 101:
+                res.extend(removeLeaves(root.right))
+            
+            return res
+        
+        # Traverse root, from left to right, until we reach all its leaves
+        # Append its leaves as a list to self.res, and make all leaves's values = 101
+        while root.val != 101:
+            self.res.append(removeLeaves(root))
+        return self.res
         
 
 
+Day 026, 07/02/2021 Fri
+Day 027, 07/03/2021 Sat
+Day 028, 07/04/2021 Sun
+Day 029, 07/05/2021 Mon
+Day 030, 07/06/2021 Tue
 
+
+
+
+
+Day 031, 07/07/2021 Wed
 
 1737. Change Minimum Characters to Satisfy One of Three Conditions
 
@@ -557,18 +683,6 @@ class Solution:
     def minCharacters(self, a: str, b: str) -> int:
  
 
-
-
-
-
-Day 024, 06/30/2021 Wed
-Day 025, 07/01/2021 Thu
-Day 026, 07/02/2021 Fri
-Day 027, 07/03/2021 Sat
-Day 028, 07/04/2021 Sun
-Day 029, 07/05/2021 Mon
-Day 030, 07/06/2021 Tue
-Day 031, 07/07/2021 Wed
 Day 032, 07/08/2021 Thu
 Day 033, 07/09/2021 Fri
 Day 034, 07/10/2021 Sat
@@ -580,3 +694,10 @@ Day 039, 07/15/2021 Thu
 Day 040, 07/16/2021 Fri
 Day 041, 07/17/2021 Sat
 Day 042, 07/18/2021 Sun
+Day 043, 07/19/2021 Mon
+Day 044, 07/20/2021 Tue
+Day 045, 07/21/2021 Wed
+Day 046, 07/22/2021 Thu
+Day 047, 07/23/2021 Fri
+Day 048, 07/24/2021 Sat
+Day 049, 07/25/2021 Sun
