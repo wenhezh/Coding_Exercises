@@ -480,33 +480,65 @@ having count(distinct l1.song_id) > 2;
 
 0185. Department Top Three Salaries
 
-
-
-
-
-
-
-
-
-
-
-
-
-1097. Game Play Analysis V
-1194. Tournament Winners
-1127. User Purchase Platform
-1159. Market Analysis II
-1204. Last Person to Fit in the Elevator
-1205. Monthly Transactions II
-0175. Combine Two Tables
-0176. Second Highest Salary
-0177. Nth Highest Salary
+select   d.Name Department
+       , e1.Name Employee
+       , e1.Salary
+from   Employee e1
+     , Employee e2
+     , Department d
+where e1.DepartmentId = e2.DepartmentId
+      and e1.Salary <= e2.Salary
+      and d.Id = e1.DepartmentId
+group by e1.Name
+having count(distinct e2.Salary) < 4;
 
 
 
 Day 023, 06/29/2021 Tue
+
+115. Market Analysis II
+
+select   u.user_id seller_id
+       , case when u.favorite_brand = i.item_brand then 'yes'
+              else 'no' end 2nd_item_fav_brand
+from  Users u
+      left join 
+      (select   o1.seller_id
+              , o1.item_id
+      from   Orders o1
+           , Orders o2
+      where o1.seller_id = o2.seller_id
+            and o1.order_date >= o2.order_date
+      group by o1.seller_id, o1.order_date
+      having count(o2.order_date) = 2) t
+     on u.user_id = t.seller_id
+     left join Items i
+     on t.item_id = i.item_id
+order by u.user_id;
+
+
+
 Day 024, 06/30/2021 Wed
+
 Day 025, 07/01/2021 Thu
+
+177. Nth Highest Salary
+
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+  SET N = N - 1;
+  RETURN (
+      select Salary 
+      from Employee
+      group by Salary
+      order by Salary desc
+      limit 1
+      offset N
+  );
+END
+
+
+
 Day 026, 07/02/2021 Fri
 Day 027, 07/03/2021 Sat
 Day 028, 07/04/2021 Sun
@@ -515,13 +547,108 @@ Day 030, 07/06/2021 Tue
 Day 031, 07/07/2021 Wed
 Day 032, 07/08/2021 Thu
 Day 033, 07/09/2021 Fri
+
+
 Day 034, 07/10/2021 Sat
+
+0175. Combine Two Tables
+
+select   p.FirstName
+       , p.LastName
+       , a.City
+       , a.State
+from Person p left join Address a
+  on p.PersonId = a.PersonId;
+
+
+
+0181. Employees Earning More Than Their Managers
+
+select e1.Name Employee
+from Employee e1
+where e1.salary > (select Salary
+                   from Employee e2
+                   where e2.Id = e1.ManagerId);
+
+
+
+0184. Department Highest Salary
+
+select   d.Name Department
+       , e1.Name Employee
+       , e1.Salary
+from   Employee e1
+     , Employee e2
+     , Department d
+where e1.DepartmentId = e2.DepartmentId
+      and e1.Salary <= e2.Salary
+      and e1.DepartmentId = d.Id
+group by e1.DepartmentId, e1.Name
+having count(distinct e2.Salary) = 1;
+
+
+
 Day 035, 07/11/2021 Sun
+
+
+
 Day 036, 07/12/2021 Mon
+
+The PADS
+
+select case when o1.Occupation = 'Professor' then concat(o1.Name, '(P)')
+            when o1.Occupation = 'Singer' then concat(o1.Name, '(S)')
+            when o1.Occupation = 'Actor' then concat(o1.Name, '(A)')
+            else concat(o1.Name, '(D)') end c1
+from OCCUPATIONS o1
+order by Name;
+select concat("There are a total of ", count(o2.Occupation), " ", LOWER(o2.Occupation), "s.") c1
+from OCCUPATIONS o2
+group by o2.Occupation
+order by count(o2.Occupation), o2.Occupation;
+
+
+
+Occupations
+
+select   min(case when Occupation = 'Doctor' then Name end) Doctor
+       , min(case when Occupation = 'Professor' then Name end) Professor
+       , min(case when Occupation = 'Singer' then Name end) Singer
+       , min(case when Occupation = 'Actor' then Name end) Actor
+from OCCUPATIONS
+group by Name
+
+
 Day 037, 07/13/2021 Tue
+
+Binary Tree Nodes
+
+select   N
+       , case when P is NULL then 'Root'
+              when N not in (select P from BST where P is not null) then 'Leaf'
+              else 'Inner' end Type
+from BST
+order by N;
+
+
+
 Day 038, 07/14/2021 Wed
+
 Day 039, 07/15/2021 Thu
+
+New Companies
+
+
+
+
+
 Day 040, 07/16/2021 Fri
 Day 041, 07/17/2021 Sat
 Day 042, 07/18/2021 Sun
-
+Day 050, 07/26/2021 Mon
+Day 051, 07/27/2021 Tue
+Day 052, 07/28/2021 Wed
+Day 053, 07/29/2021 Thu
+Day 054, 07/30/2021 Fri
+Day 055, 07/31/2021 Sat
+Day 056, 08/01/2021 Sun
