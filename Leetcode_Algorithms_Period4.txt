@@ -670,30 +670,343 @@ Day 027, 07/03/2021 Sat
 Day 028, 07/04/2021 Sun
 Day 029, 07/05/2021 Mon
 Day 030, 07/06/2021 Tue
-
-
-
-
-
 Day 031, 07/07/2021 Wed
+Day 032, 07/08/2021 Thu
+
+
+Day 033, 07/09/2021 Fri
+
+Longest Increasing Subsequence
+
+
+
+Reverse Words in a String II
+
+class Solution:
+    def reverseWords(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        # Reverse each word inplace in s
+        start = 0   # Start position of a word
+        i = 0       # Pointer to loop s
+        l = len(s)  # Length of s
+        
+        while i < l:
+            if i + 1 < l and s[i + 1] == " " or i == l - 1:
+                # Reverse the word
+                end = i
+                while start < end:
+                    s[start], s[end] = s[end], s[start]
+                    start += 1
+                    end -= 1
+            elif s[i] == " ":
+                start = i + 1
+            i += 1
+        
+        # Reverse the whole list
+        s.reverse()
+
+
+
+Day 034, 07/10/2021 Sat
+
+
+
+Day 035, 07/11/2021 Sun
+
+1041. Robot Bounded In Circle
+
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        '''
+        Determine if and only if there exists a circle in the plane such that the robot never leaves the circle.
+        
+            -type : instructions (str)
+            -rtype: bool
+        '''
+        # Repeat instructions another 4 times, in case the robot goes only 1/4 of a circle with the original instruction
+        instructions = 5*instructions
+        
+        # Define a list of integers, coordinates = [dis_h, dis_v], to record current coordinates of the robot
+        coordinates = [0, 0]
+        
+        # Define a dictionary, position, where key = the coordinates (in tuple) after current instruction, and value = the current instruction
+        position = {}
+        
+        # Define a variable direction, with 4 elements, indicating updated unit vector when receiving a new instruction
+        direction = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        # Index + 1 means rotate clockwise
+        move_index = 0
+        
+        # Loop instructions
+        for ins in instructions:
+            # Move, or rotate the robot            
+            if ins == 'R':
+                move_index += 1
+                move_index %= 4
+            elif ins == 'L':
+                move_index -= 1
+                move_index %= 4
+            else:
+                coordinates[0] += direction[move_index][0]
+                coordinates[1] += direction[move_index][1]
+            
+            # Check if current current and instruction occurs in position
+            if (coordinates[0], coordinates[1]) in position:
+                if ins in position[(coordinates[0], coordinates[1])]:
+                    return True
+                position[(coordinates[0], coordinates[1])].append(ins)
+            else:
+                position[(coordinates[0], coordinates[1])] = [ins]
+            
+        return False
+        
+        
+
+
+
+
+
+
+Day 036, 07/12/2021 Mon
+
+Isomorphic Strings
+
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        '''
+        Determine if ts and t are isomorphic.
+        
+            -types: s (str)
+                    t (str)
+            -rtype: bool
+        '''
+        l = len(s) # Length of s and t
+        
+        # Create a dictionary, where key = a char in s, and value = the corresponding char in t
+        ds = {}
+        
+        # Create a dictionary, where key = a char in t, and value = the corresponding char in s
+        dt = {}
+        
+        # Loop s and t. 
+        # If the current char is not in ds, then put it in d and make its value the corresponding char in t.
+        # If the current char is in ds and its corresponding char in t is not the the char in t at current position,
+        # then return false. Same procedures on dt.
+        for i in range(l):
+            if s[i] not in ds:
+                ds[s[i]] = t[i]
+            elif ds[s[i]] != t[i]:
+                return False
+                
+            if t[i] not in dt:
+                dt[t[i]] = s[i]
+            elif dt[t[i]] != s[i]:
+                return False
+        return True
+        
+
+
+0496. Next Greater Element I
+
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        '''
+        Find the array with length = nums1.length such that each ele is the next greater element of the 
+        cooresponding nums1 ele in nums2.
+        
+            -types: nums1 (List[int])
+                    nums2 (List[int])
+            -rtype: List[int]
+        '''
+        # Loop nums2 from right to left. 
+        # Create a dictionary, d, with key = current ele in nums2 and value = its next greater element in nums2.
+        # In each loop, if current ele < its next ele, then d[current ele] = its next ele. Else, keep search d[d[next ele]]
+        # until we see a number > current ele or -1
+        l = len(nums2)
+        d = {}
+        d[nums2[-1]] = -1
+        for i in range(l-2, -1, -1):
+            next_greater = nums2[i + 1]
+            while nums2[i] >= next_greater and next_greater != -1:
+                next_greater = d[next_greater]
+            d[nums2[i]] = next_greater
+        
+        # Map the next greater ele for ele in nums1
+        return [d[x] for x in nums1]
+
+
+
+0503. Next Greater Element II        
+
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        '''
+        Find next greater number for each integer in nums (a circular integer array)
+        
+            -type : nums (List[int])
+            -rtype: List[int]
+        '''
+        # Extend nums with another nums
+        nums += nums
+        
+        l = len(nums) # Length of nums
+        
+        # Create an array with the same length as the new nums, and each ele is None at the beginning
+        next_greater_indices = [None for _ in range(l)]
+        
+        # Loop nums from right to left. Find the next greater ele in nums for all ele.
+        for i in range(l-2, -1, -1):
+            next_greater_index = i + 1
+            while next_greater_index is not None and nums[i] >= nums[next_greater_index]:
+                next_greater_index = next_greater_indices[next_greater_index]
+            next_greater_indices[i] = next_greater_index
+        
+        next_greater_indices[l//2:] = [next_greater_indices[i] - l//2 if next_greater_indices[i] is not None and next_greater_indices[i] > l//2 else next_greater_indices[i] for i in range(l//2, l)]
+        
+        return [nums[next_greater_indices[i]] if next_greater_indices[i] is not None else -1 for i in range(l//2)]
+
+
+
+Day 037, 07/13/2021 Tue
+
+Find Peak Element
+
+0973. K Closest Points to Origin
+
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        '''
+        Find the k closest points to the origin (0, 0)
+        
+            -types: points (List[List[int]]) 
+                         k (int)
+            -rtype: List[List[int]]
+        '''
+        # Use heap
+        points = [[(x ** 2 + y ** 2) ** 0.5, [x, y]] for x, y in points]
+        import heapq
+        heapq.heapify(points)
+        return [p[1] for p in heapq.nsmallest(k, points)]
+
+
+
+
+Day 038, 07/14/2021 Wed
+
+Custom Sort String
+
+class Solution:
+    def customSortString(self, order: str, str: str) -> str:
+        '''
+        Permutate str based on the the order.
+        
+            -types: order (str)
+                      str (str)
+            -rtype: str
+        '''
+        # Give each char an integer (starting from 0) as their order, and put them in a dict, d
+        d = {k:v for v, k in enumerate(order)}
+        
+        # Create a string, res, with length = len(d) + 1, and each ele is started as an empty string, ''
+        res = ['']*(len(d)+1)
+        
+        # Loop str. Append each ele to the ele in res, where the index of the ele in res = d[the ele in str]
+        # If the ele in str is not in d, the append it to the last ele in res
+        for s in str:
+            if s in d:
+                res[d[s]] += s
+            else:
+                res[-1] += s
+        
+        return ''.join(res)
+
+
+
+Day 039, 07/15/2021 Thu
+
+Valid Triangle Number
+
+
+
+Day 040, 07/16/2021 Fri
+
+4Sum
+
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        '''
+        Find all the unique quadruplets nums[a], nums[b], nums[c], nums[d]] sum up to target.
+        
+            -types:   nums: (List[int])
+                    target: (int)
+            -rtype: List[List[int]]
+        '''
+        l = len(nums)   # Length of nums
+        
+        if l < 4: return []
+        
+        # Sort nums
+        nums.sort()
+        
+        # Create a dictionary, where key = the sorted tuple of the first two elements,
+        # and value = another dictionary with key = the sorted tuple of the last two elements
+        d = {}
+        
+        # Use two loops to find the first two elements
+        for i in range(l):
+            for j in range(i+1, l):
+                # Set a new target, new_target, = target - the two eles
+                new_target = target - nums[i] - nums[j]
+                
+                key = (nums[i], nums[j]) if nums[i] <= nums[j] else (nums[j], nums[i])
+                if key not in d:  # Proceed only if this key is not in d
+                    d[key] = {}
+
+
+                    # Use another two pointers, one from the very left and the other
+                    # from the very right, to search if any two eles sum up to new_target,
+                    # and neither of the two pointers = i or j
+                    x, y = j + 1, l - 1
+                    while x < y:
+                        if x != i and x != j and y != i and y != j and nums[x] + nums[y] == new_target:
+                            sub_key = (nums[x], nums[y]) if nums[x] < nums[y] else (nums[y], nums[x])
+                            d[key][sub_key] = 1
+                            x += 1
+                            y -= 1
+                        elif nums[x] + nums[y] > new_target:
+                            y -= 1
+                        else:
+                            x += 1
+                            
+        # Only keep keys in d with non-empty values
+        d = [[x, d[x]] for x in d if d[x]]
+        
+        # Pair keys in d with each of their sub-dict keys
+        from itertools import product
+        d = [list(product([x[0]], x[1].keys())) for x in d]
+
+        # Combine all quadruplets
+        d = [[a+b for a, b in x] for x in d]
+
+        # Convert to a list of lists
+        from functools import reduce
+        d = reduce(lambda x, y : x + y, d) if d else d
+        d = [list(x) for x in d]
+        
+        return d
+
+
+
+Day 041, 07/17/2021 Sat
+Day 042, 07/18/2021 Sun
 
 1737. Change Minimum Characters to Satisfy One of Three Conditions
 
 class Solution:
     def minCharacters(self, a: str, b: str) -> int:
- 
-
-Day 032, 07/08/2021 Thu
-Day 033, 07/09/2021 Fri
-Day 034, 07/10/2021 Sat
-Day 035, 07/11/2021 Sun
-Day 036, 07/12/2021 Mon
-Day 037, 07/13/2021 Tue
-Day 038, 07/14/2021 Wed
-Day 039, 07/15/2021 Thu
-Day 040, 07/16/2021 Fri
-Day 041, 07/17/2021 Sat
-Day 042, 07/18/2021 Sun
+    
 Day 043, 07/19/2021 Mon
 Day 044, 07/20/2021 Tue
 Day 045, 07/21/2021 Wed
@@ -701,3 +1014,10 @@ Day 046, 07/22/2021 Thu
 Day 047, 07/23/2021 Fri
 Day 048, 07/24/2021 Sat
 Day 049, 07/25/2021 Sun
+Day 050, 07/26/2021 Mon
+Day 051, 07/27/2021 Tue
+Day 052, 07/28/2021 Wed
+Day 053, 07/29/2021 Thu
+Day 054, 07/30/2021 Fri
+Day 055, 07/31/2021 Sat
+Day 056, 08/01/2021 Sun
