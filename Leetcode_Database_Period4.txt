@@ -638,8 +638,39 @@ Day 039, 07/15/2021 Thu
 
 New Companies
 
-
-
+select   c.company_code
+       , c.founder
+       , ifnull(l.cnt, 0) lead_manger_cnt
+       , ifnull(s.cnt, 0) senior_manger_cnt
+       , ifnull(m.cnt, 0) manger_cnt
+       , ifnull(e.cnt, 0) employee_cnt
+from Company c
+     left join
+     (select   company_code
+             , count(distinct lead_manager_code) cnt
+      from Lead_Manager
+      group by company_code) l
+     on c.company_code = l.company_code
+     left join
+     (select   company_code
+             , count(distinct senior_manager_code) cnt
+      from Senior_Manager
+      group by company_code) s
+     on c.company_code = s.company_code
+     left join
+     (select   company_code
+             , count(distinct manager_code) cnt
+      from Manager
+      group by company_code) m
+     on c.company_code = m.company_code
+     left join
+     (select   company_code
+             , count(distinct employee_code) cnt
+      from Employee
+      group by company_code) e
+     on c.company_code = e.company_code
+order by c.company_code;
+     
 
 
 Day 040, 07/16/2021 Fri
