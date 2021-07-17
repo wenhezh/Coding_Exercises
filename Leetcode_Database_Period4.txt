@@ -674,6 +674,33 @@ order by c.company_code;
 
 
 Day 040, 07/16/2021 Fri
+
+Weather Observation Station 18
+
+select round(max(LAT_N) - min(LAT_N) + max(LONG_W)- min(LONG_W), 4) distance
+from STATION;
+
+
+
+Weather Observation Station 19
+
+select round(sqrt((max(LAT_N) - min(LAT_N))*(max(LAT_N) - min(LAT_N)) + (max(LONG_W)- min(LONG_W))*(max(LONG_W)- min(LONG_W))), 4) distance
+from STATION;
+
+
+
+Weather Observation Station 20
+
+select round(avg(LAT_N), 4) median
+from (select   @n := @n + 1 r
+             , LAT_N
+      from   STATION
+           , (select @n := 0) c
+      order by LAT_N) t
+where r in (floor(((select count(*) from STATION) + 1)/2), ceiling(((select count(*) from STATION) + 1)/2));
+
+
+
 Day 041, 07/17/2021 Sat
 Day 042, 07/18/2021 Sun
 Day 050, 07/26/2021 Mon
