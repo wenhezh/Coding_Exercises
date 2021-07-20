@@ -702,7 +702,83 @@ where r in (floor(((select count(*) from STATION) + 1)/2), ceiling(((select coun
 
 
 Day 041, 07/17/2021 Sat
+
+1934. Confirmation Rate
+
+select   s.user_id 
+       , round(ifnull(count(case when action= 'confirmed' then c.user_id end) / count(c.user_id), 0), 2) confirmation_rate
+from Signups s left join Confirmations c
+     on s.user_id = c.user_id 
+group by s.user_id;
+
+
+
+The Report
+
+select   s.name Name
+       , g.Grade
+       , s.Marks
+from   Students s
+     , Grades g
+where s.Marks >= g.Min_Mark and s.Marks <= g.Max_Mark
+      and g.Grade >= 8
+order by g.Grade desc, s.name;
+select   NULL as Name
+       , g.Grade
+       , s.Marks
+from   Students s
+     , Grades g
+where s.Marks >= g.Min_Mark and s.Marks <= g.Max_Mark
+      and g.Grade < 8
+order by g.Grade desc, s.Marks;
+
+
+
 Day 042, 07/18/2021 Sun
+
+
+
+Day 043, 07/19/2021 Mon
+
+1939. Users That Actively Request Confirmation Messages
+
+select c1.user_id
+from   Confirmations c1
+     , Confirmations c2
+where timestampdiff(second, c1.time_stamp, c2.time_stamp) <= 86400
+      and timestampdiff(second, c1.time_stamp, c2.time_stamp) > 0
+      and c1.user_id = c2.user_id
+group by c1.user_id;
+
+
+
+Top Competitors
+
+select   t.hacker_id
+       , h.name
+from   (select   s.hacker_id
+               , count(s.hacker_id) cnt
+        from Submissions s 
+             left join Challenges c
+             on s.challenge_id = c.challenge_id
+             left join Difficulty d
+             on c.difficulty_level = d.difficulty_level
+        where s.score = d.score
+        group by s.hacker_id) t
+      , Hackers h
+where t.hacker_id = h.hacker_id
+      and t.cnt > 1
+order by t.cnt desc, t.hacker_id;
+
+
+
+
+Day 044, 07/20/2021 Tue
+Day 045, 07/21/2021 Wed
+Day 046, 07/22/2021 Thu
+Day 047, 07/23/2021 Fri
+Day 048, 07/24/2021 Sat
+Day 049, 07/25/2021 Sun
 Day 050, 07/26/2021 Mon
 Day 051, 07/27/2021 Tue
 Day 052, 07/28/2021 Wed
