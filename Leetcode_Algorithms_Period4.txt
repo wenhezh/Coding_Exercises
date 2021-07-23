@@ -1024,11 +1024,31 @@ Partition Array into Disjoint Intervals
 
 
 
+Day 047, 07/23/2021 Fri
 
+Binary Tree Pruning
 
+class Solution:
+    def pruneTree(self, root: TreeNode) -> TreeNode:
+        '''
+        Remove subtrees of root where every all node.val in a subtree are 0.
 
-
-
+            -type : root (TreeNode)
+            -rtype: TreeNode
+        '''
+        # Check if current root has left part
+        if root and root.left:
+            root.left = self.pruneTree(root.left)
+        # Check if current root has right part
+        if root and root.right:
+            root.right = self.pruneTree(root.right)
+        
+        # Check if current node is a leaf. If yes, and current node.val = 0,
+        # then make itself NULL 
+        if not (root.left or root.right) and root.val == 0:
+            root = None
+        
+        return root
 
 
 
@@ -1038,8 +1058,6 @@ class Solution:
     def minCharacters(self, a: str, b: str) -> int:
 
 
-
-Day 047, 07/23/2021 Fri
 Day 048, 07/24/2021 Sat
 Day 049, 07/25/2021 Sun
 Day 050, 07/26/2021 Mon
@@ -1049,3 +1067,20 @@ Day 053, 07/29/2021 Thu
 Day 054, 07/30/2021 Fri
 Day 055, 07/31/2021 Sat
 Day 056, 08/01/2021 Sun
+
+Day 057, 08/02/2021 Mon
+Day 058, 08/03/2021 Tue
+Day 059, 08/04/2021 Wed
+Day 060, 08/05/2021 Thu
+Day 061, 08/06/2021 Fri
+Day 062, 08/07/2021 Sat
+Day 063, 08/08/2021 Sun
+
+Day 064, 08/09/2021 Mon
+Day 065, 08/10/2021 Tue
+Day 066, 08/11/2021 Wed
+Day 067, 08/12/2021 Thu
+Day 068, 08/13/2021 Fri
+Day 069, 08/14/2021 Sat
+Day 070, 08/15/2021 Sun
+
