@@ -1052,6 +1052,61 @@ class Solution:
 
 
 
+0142. Linked List Cycle II
+
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        '''
+        Find the node where the cycle begins. If there is no cycle, return null.
+            
+            -type : head (ListNode)
+            -rtype: ListNode
+        '''
+        # Check if head is empty
+        if not head: return None
+        
+        cycle_length = 0 # Initiate the length of the cycle if it exists
+        
+        # Check if head has a cycle by using two pointers
+        slow, fast = head, head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+            
+            # Check if a cycle exists
+            if slow == fast:
+                # Find cycle_length
+                cycle_length = 1
+                temp_pointer = slow
+                temp_pointer = temp_pointer.next
+                while temp_pointer != slow:
+                    temp_pointer = temp_pointer.next
+                    cycle_length += 1
+                break
+            
+        # No cycle
+        if cycle_length == 0: return None
+        
+        # Start from the vey beginning. Define two pointers, p1 and p2.
+        # Move p2 cycle_length steps forward. Then move p1 and p2 at the same time.
+        # When p1 and p2 meet, p1 is then the start of the cycle.
+        p1, p2 = head, head
+        while cycle_length:
+            p2 = p2.next
+            cycle_length -= 1
+        
+        while p1 != p2:
+            p1 = p1.next
+            p2 = p2.next
+
+        return p1
+
+
+
+0143. Reorder List
+            
+            
+
 1737. Change Minimum Characters to Satisfy One of Three Conditions
 
 class Solution:
