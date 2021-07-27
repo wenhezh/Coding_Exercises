@@ -1103,18 +1103,17 @@ class Solution:
 
 
 
-0143. Reorder List
-            
-            
+Day 048, 07/24/2021 Sat
+
+
+
+
+Day 049, 07/25/2021 Sun
 
 1737. Change Minimum Characters to Satisfy One of Three Conditions
 
-class Solution:
-    def minCharacters(self, a: str, b: str) -> int:
 
 
-Day 048, 07/24/2021 Sat
-Day 049, 07/25/2021 Sun
 Day 050, 07/26/2021 Mon
 Day 051, 07/27/2021 Tue
 Day 052, 07/28/2021 Wed
@@ -1138,4 +1137,12 @@ Day 067, 08/12/2021 Thu
 Day 068, 08/13/2021 Fri
 Day 069, 08/14/2021 Sat
 Day 070, 08/15/2021 Sun
+
+Day 071, 08/16/2021 Mon
+Day 072, 08/17/2021 Tue
+Day 073, 08/18/2021 Wed
+Day 074, 08/19/2021 Thu
+Day 075, 08/20/2021 Fri
+Day 076, 08/21/2021 Sat
+Day 077, 08/22/2021 Sun
 
