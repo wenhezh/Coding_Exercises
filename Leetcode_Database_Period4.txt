@@ -779,7 +779,70 @@ Day 046, 07/22/2021 Thu
 
 
 Day 047, 07/23/2021 Fri
+
+Ollivander's Inventory
+
+select   w0.id
+       , t.age
+       , t.coins_needed
+       , t.power 
+from  (select   wp.age
+              , w.power 
+              , min(w.coins_needed) coins_needed
+       from Wands w left join Wands_Property wp
+            on w.code = wp.code
+       where wp.is_evil = 0
+       group by w.power, wp.age) t
+       left join 
+       Wands w0
+       on t.coins_needed = w0.coins_needed and t.power = w0.power
+       left join 
+       Wands_Property wp0
+       on wp0.age = t.age and wp0.code = w0.code
+where wp0.is_evil = 0
+order by t.power desc, t.age desc
+
+
+
 Day 048, 07/24/2021 Sat
+
+Challenges
+
+Need:
+# hacker_id
+# name
+# the total number of challenges created by each student. 
+
+
+# Sort your results by the total number of challenges in descending order, by hacker_id. 
+
+If more than one student created the same number of challenges and the count is less than the maximum number of challenges created,
+then exclude those students from the result.
+
+
+select   h.hacker_id
+       , h.name
+       , t.cnt 
+from   Hackers h
+     , (select  hacker_id
+              , count(challenge_id) cnt
+       from Challenges
+       group by hacker_id) t
+where h.hacker_id = t.hacker_id
+      and t.cnt = (select count(hacker_id) cnt
+                   from Challenges
+                   group by hacker_id
+                   order by cnt desc
+                   limit 1)
+      or t.cnt in (select cnt 
+                   from (select count(hacker_id) cnt
+                         from Challenges
+                         group by hacker_id) t1
+                   group by cnt
+                   having count(cnt) = 1)
+order by t.cnt desc, h.hacker_id;
+
+
 Day 049, 07/25/2021 Sun
 Day 050, 07/26/2021 Mon
 Day 051, 07/27/2021 Tue
@@ -804,3 +867,10 @@ Day 068, 08/13/2021 Fri
 Day 069, 08/14/2021 Sat
 Day 070, 08/15/2021 Sun
 
+Day 071, 08/16/2021 Mon
+Day 072, 08/17/2021 Tue
+Day 073, 08/18/2021 Wed
+Day 074, 08/19/2021 Thu
+Day 075, 08/20/2021 Fri
+Day 076, 08/21/2021 Sat
+Day 077, 08/22/2021 Sun
