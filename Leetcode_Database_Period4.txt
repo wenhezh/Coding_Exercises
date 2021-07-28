@@ -808,18 +808,6 @@ Day 048, 07/24/2021 Sat
 
 Challenges
 
-Need:
-# hacker_id
-# name
-# the total number of challenges created by each student. 
-
-
-# Sort your results by the total number of challenges in descending order, by hacker_id. 
-
-If more than one student created the same number of challenges and the count is less than the maximum number of challenges created,
-then exclude those students from the result.
-
-
 select   h.hacker_id
        , h.name
        , t.cnt 
@@ -845,7 +833,15 @@ order by t.cnt desc, h.hacker_id;
 
 Day 049, 07/25/2021 Sun
 Day 050, 07/26/2021 Mon
+
+
+
 Day 051, 07/27/2021 Tue
+
+1949. Strong Friendship
+
+
+
 Day 052, 07/28/2021 Wed
 Day 053, 07/29/2021 Thu
 Day 054, 07/30/2021 Fri
