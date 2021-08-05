@@ -1113,13 +1113,20 @@ Day 049, 07/25/2021 Sun
 1737. Change Minimum Characters to Satisfy One of Three Conditions
 
 
-
 Day 050, 07/26/2021 Mon
 Day 051, 07/27/2021 Tue
 Day 052, 07/28/2021 Wed
 Day 053, 07/29/2021 Thu
 Day 054, 07/30/2021 Fri
+
+
 Day 055, 07/31/2021 Sat
+
+0549. Binary Tree Longest Consecutive Sequence II
+
+
+
+
 Day 056, 08/01/2021 Sun
 
 Day 057, 08/02/2021 Mon
@@ -1146,3 +1153,10 @@ Day 075, 08/20/2021 Fri
 Day 076, 08/21/2021 Sat
 Day 077, 08/22/2021 Sun
 
+Day 078, 08/23/2021 Mon
+Day 079, 08/24/2021 Tue
+Day 080, 08/25/2021 Wed
+Day 081, 08/26/2021 Thu
+Day 082, 08/27/2021 Fri
+Day 083, 08/28/2021 Sat
+Day 084, 08/29/2021 Sun
