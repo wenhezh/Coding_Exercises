@@ -845,9 +845,52 @@ Day 051, 07/27/2021 Tue
 Day 052, 07/28/2021 Wed
 Day 053, 07/29/2021 Thu
 Day 054, 07/30/2021 Fri
+
 Day 055, 07/31/2021 Sat
+
+Placements
+
+select s.name
+from Students s
+     left join
+     Friends f
+     on s.ID = f.ID
+     left join
+     Packages p1
+     on s.ID = p1.ID
+     left join 
+     Packages p2
+     on f.Friend_ID = p2.ID
+where p2.Salary > p1.Salary
+order by p2.Salary;
+
+
+
 Day 056, 08/01/2021 Sun
+
+
+
 Day 057, 08/02/2021 Mon
+
+1951. All the Pairs With the Maximum Number of Common Followers
+
+select   r1.user_id user1_id
+       , r2.user_id user2_id
+from   Relations r1
+     , Relations r2
+where r1.user_id < r2.user_id
+      and r1.follower_id = r2.follower_id
+group by r1.user_id, r2.user_id
+having count(*) = (select count(r1.user_id) cnt
+                   from   Relations r1
+                        , Relations r2
+                   where r1.user_id < r2.user_id
+                         and r1.follower_id = r2.follower_id
+                   group by r1.user_id, r2.user_id
+                   order by count(r1.user_id) desc
+                   limit 1);
+
+
 Day 058, 08/03/2021 Tue
 Day 059, 08/04/2021 Wed
 Day 060, 08/05/2021 Thu
