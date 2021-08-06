@@ -893,7 +893,132 @@ having count(*) = (select count(r1.user_id) cnt
 
 Day 058, 08/03/2021 Tue
 Day 059, 08/04/2021 Wed
+
+
+
 Day 060, 08/05/2021 Thu
+
+0175. Combine Two Tables
+
+select   p.FirstName
+       , p.LastName
+       , a.City
+       , a.State
+from Person p left join Address a
+     on p.PersonId = a.PersonId;
+
+
+
+0181. Employees Earning More Than Their Managers
+
+select e1.Name Employee 
+from   Employee e1
+     , Employee e2
+where e1.ManagerId = e2.Id
+      and e1.Salary > e2.Salary;
+
+
+
+0185. Department Top Three Salaries
+
+select   d.Name Department
+       , e1.Name Employee
+       , e1.Salary Salary 
+from   Employee e1
+     , Employee e2
+     , Department d
+where e1.DepartmentId = e2.DepartmentId
+      and e1.Salary <= e2.Salary
+      and d.Id = e1.DepartmentId
+group by e1.Name
+having count(distinct e2.Salary) < 4;
+
+
+
+1757. Recyclable and Low Fat Products
+
+select product_id 
+from Products
+where (low_fats, recyclable) = ("Y", "Y") ;
+
+
+
+0184. Department Highest Salary
+
+select   d.Name Department
+       , e.Name Employee
+       , e.Salary
+from   Employee e
+     , (select   DepartmentId
+               , max(salary) salary
+        from Employee
+        group by DepartmentId) t
+     , Department d
+where e.DepartmentId = d.Id
+      and e.Salary = t.Salary 
+      and e.DepartmentId = t.DepartmentId
+
+
+
+0180. Consecutive Numbers
+
+select l2.Num ConsecutiveNums
+from   Logs l1 
+     , Logs l2
+     , Logs l3
+where l1.id = l2.id - 1 and l1.Num = l2.Num
+      and l3.id = l2.id + 1 and l2.Num = l3.Num
+group by l2.Num;
+
+
+
+1412. Find the Quiet Students in All Exams
+
+with Scores as (select   exam_id  
+                       , min(score) low
+                       , max(score) high
+                from Exam
+                group by exam_id)
+                
+select   e.student_id
+       , s.student_name
+from  Exam e, Student s
+where e.student_id not in (select student_id
+                           from   Exam e
+                                , Scores s
+                           where e.exam_id = s.exam_id
+                                 and (e.score = s.low or e.score = s.high))
+     and e.student_id = s.student_id
+group by e.student_id
+order by e.student_id;
+
+
+
+0610. Triangle Judgement
+
+select   x
+       , y 
+       , z
+       , case when x + y > z and y + z > x then 'Yes'
+         else 'No' end triangle 
+from triangle;
+
+
+
+0178. Rank Scores   
+
+select   s1.Score 
+       , count(distinct s2.Score) AS 'Rank'
+from   Scores s1
+     , Scores s2
+where s1.Score <= s2.Score
+group by s1.Id
+order by s1.Score desc;
+
+
+
+
+
 Day 061, 08/06/2021 Fri
 Day 062, 08/07/2021 Sat
 Day 063, 08/08/2021 Sun
