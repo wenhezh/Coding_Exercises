@@ -1017,9 +1017,131 @@ order by s1.Score desc;
 
 
 
-
-
 Day 061, 08/06/2021 Fri
+
+0262. Trips and Users
+
+with Unbanned_user as (select Users_Id 
+                       from Users
+                       where Banned = 'No')
+
+select    Request_at 'Day'
+        , rate "Cancellation Rate"
+from (select   Request_at
+             , round(sum(case when Client_Id in (select * from Unbanned_user) 
+                                   and Driver_Id in (select * from Unbanned_user)
+                                   and Status like 'cancelled_by_%' then 1
+                              else 0 end)
+                      /
+                      sum(case when Client_Id in (select * from Unbanned_user)
+                                    and Driver_Id in (select * from Unbanned_user) then 1
+                               else 0 end)
+               , 2) rate
+      from Trips
+      where Request_at between "2013-10-01" and "2013-10-03"
+      group by Request_at) t 
+where rate is not null
+ 
+
+
+1270. All People Report to the Given Manager
+
+select employee_id
+from Employees e0
+where employee_id <> 1 and manager_id = 1
+UNION ALL
+select e1.employee_id
+from   Employees e1
+     , Employees e2
+where e2.employee_id = e1.manager_id
+      and e2.manager_id = 1 
+      and e2.employee_id <> 1
+UNION ALL    
+select e4.employee_id
+from   Employees e4
+     , Employees e5
+     , Employees e6
+where e5.employee_id = e4.manager_id
+      and e6.employee_id = e5.manager_id
+      and e6.manager_id = 1 
+      and e6.employee_id <> 1;
+
+
+
+196. Delete Duplicate Emails
+
+delete from Person where (Id, Email) not in (select *
+                                             from (select   min(Id) Id
+                                                          , Email
+                                                   from person
+                                                   group by Email) p0);
+
+
+
+1179. Reformat Department Table
+
+select   id
+       , sum(case when month = 'Jan' then revenue end) Jan_Revenue
+       , sum(case when month = 'Feb' then revenue end) Feb_Revenue
+       , sum(case when month = 'Mar' then revenue end) Mar_Revenue
+       , sum(case when month = 'Apr' then revenue end) Apr_Revenue
+       , sum(case when month = 'May' then revenue end) May_Revenue
+       , sum(case when month = 'Jun' then revenue end) Jun_Revenue
+       , sum(case when month = 'Jul' then revenue end) Jul_Revenue
+       , sum(case when month = 'Aug' then revenue end) Aug_Revenue
+       , sum(case when month = 'Sep' then revenue end) Sep_Revenue
+       , sum(case when month = 'Oct' then revenue end) Oct_Revenue
+       , sum(case when month = 'Nov' then revenue end) Nov_Revenue
+       , sum(case when month = 'Dec' then revenue end) Dec_Revenue
+from Department
+group by id;
+
+
+
+0626. Exchange Seats
+
+select   case when mod(id, 2) = 0 then id - 1
+              when mod(id, 2) = 1 and id + 1 in (select id from seat) then id + 1
+         else id end id
+       , student
+from seat
+order by id;
+
+
+
+0627. Swap Salary
+
+
+
+0597. Friend Requests I: Overall Acceptance Rate
+
+select round(ifnull((select count(*) from (select requester_id, accepter_id from RequestAccepted group by requester_id, accepter_id) n)
+                     /
+                    (select count(*) from (select sender_id, send_to_id from FriendRequest group by sender_id, send_to_id) d), 0), 2) accept_rate;
+
+
+
+1225. Report Contiguous Dates
+
+
+
+1398. Customers Who Bought Products A and B but Not C
+
+with Unique_C_O as (select   customer_id 
+                           , product_name
+                    from Orders
+                    group by customer_id, product_name)
+
+select   customer_id
+       , customer_name
+from Customers
+where (customer_id, 'A') in (select * from Unique_C_O)
+      and (customer_id, 'B') in (select * from Unique_C_O)
+      and (customer_id, 'C') not in (select * from Unique_C_O)
+order by customer_id;
+
+
+
 Day 062, 08/07/2021 Sat
 Day 063, 08/08/2021 Sun
 
