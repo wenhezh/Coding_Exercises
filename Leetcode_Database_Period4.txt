@@ -1143,6 +1143,70 @@ order by customer_id;
 
 
 Day 062, 08/07/2021 Sat
+
+1336. Number of Transactions per Visit
+
+with all_trans as (select   user_id
+                         , visit_date date
+                         , 0 transaction_cnt
+                  from Visits
+                  where (user_id, visit_date) not in (select   user_id
+                                                             , transaction_date
+                                                      from Transactions)
+                  UNION ALL
+                  select   user_id
+                         , transaction_date date
+                         , count(user_id) transaction_cnt
+                  from Transactions
+                  group by user_id, transaction_date)
+    , all_cnt as (select 0 cnt
+                  UNION ALL
+                  select cast(@num := @num + 1 AS UNSIGNED) cnt
+                  from   (select @num := 0) c
+                       , Transactions
+                  where @num < (select count(user_id) from Transactions group by user_id, transaction_date order by count(user_id) desc limit 1))
+
+select   c.cnt transactions_count
+       , ifnull(t.visits_count, 0) visits_count
+from  all_cnt c
+      left join 
+      (select   transaction_cnt
+              , count(transaction_cnt) visits_count
+       from all_trans
+       group by transaction_cnt) t
+      on c.cnt = t.transaction_cnt;
+
+
+
+1511. Customer Order Frequency
+
+select   c.customer_id
+       , c.name 
+from   Customers c
+     , Product p
+     , Orders o
+where p.product_id = o.product_id
+      and o.customer_id = c.customer_id 
+group by c.customer_id
+having sum(case when month(o.order_date) = 6 and year(o.order_date) = 2020 then o.quantity * p.price end) >= 100
+       and sum(case when month(o.order_date) = 7 and year(o.order_date) = 2020 then o.quantity * p.price end) >= 100;
+ 
+ 
+ 
+0197. Rising Temperature
+
+select w1.id
+from   Weather w1
+     , Weather w2
+where datediff(w1.recordDate, w2.recordDate) = 1
+      and w1.Temperature > w2.Temperature;
+
+
+
+
+
+
+
 Day 063, 08/08/2021 Sun
 
 Day 064, 08/09/2021 Mon
