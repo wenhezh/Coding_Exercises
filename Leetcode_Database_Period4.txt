@@ -1203,11 +1203,106 @@ where datediff(w1.recordDate, w2.recordDate) = 1
 
 
 
-
-
-
-
 Day 063, 08/08/2021 Sun
+
+Occupations
+
+select   min(case when Occupation = 'Doctor' then Name end) Doctor
+       , min(case when Occupation = 'Professor' then Name end) Professor
+       , min(case when Occupation = 'Singer' then Name end) Singer
+       , min(case when Occupation = 'Actor' then Name end) Actor
+from (select    case when Occupation = 'Actor' then @anum := @anum + 1
+                     when Occupation = 'Doctor' then @dnum := @dnum + 1
+                     when Occupation = 'Professor' then @pnum := @pnum + 1
+                     else @snum := @snum + 1 end r
+              , Name
+              , Occupation
+      from   Occupations
+           , (select @anum := 0) a
+           , (select @dnum := 0) d
+           , (select @pnum := 0) p
+           , (select @snum := 0) s
+      order by Name) modified
+group by r;
+
+
+
+1699. Number of Calls Between Two Persons
+
+with NewCalls as (select   from_id
+                         , to_id
+                         , duration
+                  from Calls
+                  where from_id < to_id
+                  UNION ALL
+                  select   to_id from_id
+                         , from_id to_id
+                         , duration
+                  from Calls
+                  where from_id > to_id)
+
+select   from_id person1
+       , to_id person2
+       , count(duration) call_count
+       , sum(duration) total_duration 
+from NewCalls
+group by from_id, to_id;
+
+
+
+1384. Total Sales Amount by Year
+
+with s as (select   product_id
+                  , year
+                  , case when year(period_start) > year or year(period_end) < year then 0
+                         when year(period_start) < year and year(period_end) > year then 365 * average_daily_sales
+                         when year(period_start) = year and year(period_end) = year then (1 + datediff(period_end, period_start)) * average_daily_sales
+                         when year(period_start) = year and year(period_end) != year then (1 + datediff(concat(year, '-12-31'), period_start)) * average_daily_sales
+                         when year(period_start) != year and year(period_end) = year then (1 + datediff(period_end, concat(year, '-01-01'))) * average_daily_sales
+                         end total_amount
+           from   (select 2018 year
+                   UNION ALL
+                   select 2019 year
+                   UNION ALL
+                   select 2020 year)y
+                , Sales s)
+
+select   s.product_id
+       , p.product_name
+       , cast(s.year as CHAR) report_year
+       , s.total_amount
+from   s
+     , Product p
+where s.total_amount > 0 and s.product_id = p.product_id
+order by s.product_id, report_year;
+
+
+
+0615. Average Salary: Departments VS Company
+
+with company_avg as (select   date_format(pay_date, '%Y-%m') pay_month
+                            , avg(amount) amount
+                     from salary s
+                     group by date_format(pay_date, '%Y-%m'))
+    , department_avg as (select   date_format(s.pay_date, '%Y-%m') pay_month
+                                , e.department_id
+                                , avg(s.amount) amount
+                         from salary s left join employee e
+                              on s.employee_id = e.employee_id
+                         group by e.department_id, date_format(s.pay_date, '%Y-%m')
+                        )
+select   d.pay_month
+       , d.department_id
+       , case when d.amount > c.amount then 'higher'
+              when d.amount < c.amount then 'lower'
+         else 'same' end comparison
+from   department_avg d
+     , company_avg c
+where c.pay_month = d.pay_month
+order by d.pay_month, d.department_id;
+
+
+
 
 Day 064, 08/09/2021 Mon
 Day 065, 08/10/2021 Tue
