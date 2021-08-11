@@ -1508,8 +1508,101 @@ limit 10;
 
 
 
+1369. Get the Second Most Recent Activity
+
+Find the second most recent activity of each user.
+If the user only has one activity, return that one. 
 
 
+UserActivity table:
++------------+--------------+-------------+-------------+
+| username   | activity     | startDate   | endDate     |
++------------+--------------+-------------+-------------+
+| Alice      | Travel       | 2020-02-12  | 2020-02-20  |
+| Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
+| Alice      | Travel       | 2020-02-24  | 2020-02-28  |
+| Bob        | Travel       | 2020-02-11  | 2020-02-18  |
++------------+--------------+-------------+-------------+
+
+Result table:
++------------+--------------+-------------+-------------+
+| username   | activity     | startDate   | endDate     |
++------------+--------------+-------------+-------------+
+| Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
+| Bob        | Travel       | 2020-02-11  | 2020-02-18  |
++------------+--------------+-------------+-------------+
+
+The most recent activity of Alice is Travel from 2020-02-24 to 2020-02-28, before that she was dancing from 2020-02-21 to 2020-02-23.
+Bob only has one record, we just take that one.
+
+
+with SecondMostRecentActivity as (select   username
+                                         , activity  
+                                         , startDate
+                                         , endDate 
+                                  from UserActivity u
+                                  group by username
+                                  having count(username) = 1
+                                  UNION ALL
+                                  select   username
+                                         , activity  
+                                         , startDate
+                                         , endDate 
+                                  from (select   username
+                                               , activity  
+                                               , startDate
+                                               , endDate
+                                               , row_number() over(partition by username
+                                                                   order by startDate desc) r
+                                        from UserActivity
+                                        ) t
+                                   where r = 2)
+
+select   username
+       , activity  
+       , startDate
+       , endDate 
+from SecondMostRecentActivity;
+
+
+
+1083. Sales Analysis II
+
+with Bought_IPhone as (select s.buyer_id
+                       from   Sales s
+                            , Product p
+                       where s.product_id = p.product_id 
+                             and product_name = 'iPhone')
+
+select distinct s.buyer_id
+from   Sales s
+     , Product p
+where s.product_id = p.product_id 
+      and product_name = 'S8'
+      and not exists (select b.buyer_id from Bought_IPhone b where b.buyer_id = s.buyer_id);
+
+
+
+1479. Sales by Day of the Week
+
+with OrderSummary as (select   date_format(o.order_date, '%w') order_day
+                             , o.quantity
+                             , i.item_category Category
+                      from Orders o left join Items i
+                           on o.item_id = i.item_id)
+     
+select   c.Category CATEGORY
+       , ifnull(sum(case when order_day = 1 then quantity end), 0) MONDAY
+       , ifnull(sum(case when order_day = 2 then quantity end), 0) TUESDAY
+       , ifnull(sum(case when order_day = 3 then quantity end), 0) WEDNESDAY
+       , ifnull(sum(case when order_day = 4 then quantity end), 0) THURSDAY
+       , ifnull(sum(case when order_day = 5 then quantity end), 0) FRIDAY
+       , ifnull(sum(case when order_day = 6 then quantity end), 0) SATURDAY
+       , ifnull(sum(case when order_day = 0 then quantity end), 0) SUNDAY
+from (select distinct item_category Category from Items) c left join OrderSummary
+     on c.Category = OrderSummary.Category
+group by Category
+order by Category;
 
 
 
