@@ -1453,8 +1453,66 @@ having count(Email) > 1;
 
 
 
-
 Day 066, 08/11/2021 Wed
+
+0612. Shortest Distance in a Plane
+
+with Distances as (select sqrt(power(p1.x - p2.x, 2) + power(p1.y - p2.y, 2)) dist
+                   from   point_2d p1
+                        , point_2d p2
+                   where p1.x < p2.x or (p1.x = p2.x and p1.y < p2.y))
+
+select round(ifnull(min(dist), 0), 2) shortest
+from Distances;
+
+
+
+0596. Classes More Than 5 Students
+
+select class 
+from courses
+group by class
+having count(distinct student) > 4;
+ 
+
+
+1651. Hopper Company Queries III
+
+with Existing_info_by_month as (select   year(r.requested_at) request_year
+                                       , month(r.requested_at) request_month 
+                                       , sum(a.ride_distance) ride_distance
+                                       , sum(a.ride_duration) ride_duration
+                                from AcceptedRides a left join Rides r
+                                     on a.ride_id = r.ride_id
+                                group by year(r.requested_at), month(r.requested_at))
+    , Calendar_2020 as (select   2020 request_year
+                               , cast(@m := @m + 1 as unsigned) request_month
+                        from   (select @m := 0) m
+                             , information_schema.tables
+                        where @m < 12)
+    , Info_by_month as (select   c.request_year
+                               , c.request_month 
+                               , ifnull(e.ride_distance, 0) ride_distance
+                               , ifnull(e.ride_duration, 0) ride_duration
+                        from Calendar_2020 c left join Existing_info_by_month e
+                             on c.request_year = e.request_year 
+                             and c.request_month = e.request_month)
+
+select   request_month month
+       , round(avg(ride_distance) over(order by request_month ROWS between CURRENT ROW AND 2 FOLLOWING), 2) average_ride_distance
+       , round(avg(ride_duration) over(order by request_month ROWS between CURRENT ROW AND 2 FOLLOWING), 2) average_ride_duration
+from Info_by_month
+where request_year = 2020 
+order by request_month
+limit 10;
+
+
+
+
+
+
+
+
 Day 067, 08/12/2021 Thu
 Day 068, 08/13/2021 Fri
 Day 069, 08/14/2021 Sat
