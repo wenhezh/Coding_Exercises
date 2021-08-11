@@ -1068,7 +1068,7 @@ where e5.employee_id = e4.manager_id
 
 
 
-196. Delete Duplicate Emails
+0196. Delete Duplicate Emails
 
 delete from Person where (Id, Email) not in (select *
                                              from (select   min(Id) Id
@@ -1379,6 +1379,81 @@ where m.customer_id  = c.customer_id
 
 
 Day 065, 08/10/2021 Tue
+
+1164. Product Price at a Given Date
+
+with Last_Change as (select   product_id
+                            , max(change_date) change_date
+                     from Products
+                     where change_date < '2019-08-17'
+                     group by product_id)
+
+select   i.product_id
+       , ifnull(p.new_price, 10) price
+from (select distinct product_id from Products) i left join Last_Change l
+     on i.product_id = l.product_id
+     left join Products p
+     on l.change_date = p.change_date and l.product_id = p.product_id;
+
+
+
+0183. Customers Who Never Order
+
+select name Customers
+from Customers c
+where not exists (select CustomerId from Orders o where o.CustomerId = c.Id);
+
+
+
+1159. Market Analysis II
+
+with Date as (select   seller_id
+                     , order_date 
+                     , row_number() over(partition by seller_id
+                                         order by order_date) r
+                     , item_id
+              from Orders)
+  , Second_Date_Selling as (select   d.seller_id
+                                   , d.item_id 
+                                   , i.item_brand
+                            from   Date d
+                                 , Items i
+                            where d.r = 2
+                                  and d.item_id = i.item_id)
+
+select   u.user_id seller_id
+       , case when u.favorite_brand = s.item_brand then 'yes'
+         else 'no' end 2nd_item_fav_brand 
+from Users u left join Second_Date_Selling s
+     on u.user_id = s.seller_id;
+
+
+
+1517. Find Users With Valid E-Mails
+
+
+
+
+1741. Find Total Time Spent by Each Employee
+
+select   event_day day
+       , emp_id
+       , sum(out_time - in_time) total_time
+from Employees
+group by event_day, emp_id;
+
+
+
+0182. Duplicate Emails
+
+select Email 
+from Person
+group by Email 
+having count(Email) > 1;
+
+
+
+
 Day 066, 08/11/2021 Wed
 Day 067, 08/12/2021 Thu
 Day 068, 08/13/2021 Fri
