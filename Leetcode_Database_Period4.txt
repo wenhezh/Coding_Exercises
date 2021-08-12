@@ -1605,8 +1605,103 @@ group by Category
 order by Category;
 
 
+1097. Game Play Analysis V
+
+with Install as (select   player_id
+                        , min(event_date) install_dt
+                 from Activity
+                 group by player_id)
+
+select   i.install_dt
+       , count(i.player_id) installs
+       , round(ifnull(
+         (select count(i2.player_id) cnt
+          from   Install i2
+               , Activity a
+          where i2.player_id = a.player_id
+                and datediff(a.event_date, i2.install_dt) = 1
+                and i2.install_dt = i.install_dt)
+         /
+         count(i.player_id), 0), 2) Day1_retention
+from Install i
+group by i.install_dt;
+
+
 
 Day 067, 08/12/2021 Thu
+
+0585. Investments in 2016
+
+with GoodID as (select PID
+                 from insurance
+                 where TIV_2015 in (select TIV_2015 
+                                    from insurance 
+                                    group by TIV_2015 
+                                    having count(TIV_2015) > 1)
+                       and (LAT, LON) in (select   LAT
+                                                 , LON 
+                                          from insurance
+                                          group by LAT, LON 
+                                          having count(LAT) = 1))
+      
+select round(sum(TIV_2016), 2) TIV_2016
+from insurance
+where PID in (select PID from GoodID);
+
+
+
+1112. Highest Grade For Each Student
+
+find the course with the smallest course_id. The output must be sorted by increasing student_id.
+
+
+with HighestGrade as (select   student_id 
+                             , max(grade) highest_grade
+                      from Enrollments
+                      group by student_id)
+
+select   student_id
+       , min(course_id) course_id
+       , grade
+from Enrollments e
+where exists (select   h.student_id 
+                     , h.highest_grade 
+              from HighestGrade h
+              where h.student_id  = e.student_id
+                     and h.highest_grade = e.grade)
+group by student_id
+order by student_id;
+
+
+1212. Team Scores in Football Tournament
+
+with Points as (select   host_team
+                       , guest_team 
+                       , case when host_goals > guest_goals then 3
+                              when host_goals < guest_goals then 0
+                         else 1 end host_point  
+                       , case when host_goals < guest_goals then 3
+                              when host_goals > guest_goals then 0
+                         else 1 end guest_point
+                from Matches)
+   , TotalPoints as (select   host_team team_id
+                            , host_point num_points
+                     from Points
+                     UNION ALL
+                     select   guest_team team_id
+                            , guest_point num_points
+                     from Points)
+
+select   t.team_id
+       , t.team_name
+       , ifnull(sum(p.num_points), 0) num_points
+from Teams t left join TotalPoints p
+  on p.team_id = t.team_id
+group by t.team_id
+order by sum(p.num_points) desc, p.team_id;
+
+
+
 Day 068, 08/13/2021 Fri
 Day 069, 08/14/2021 Sat
 Day 070, 08/15/2021 Sun
