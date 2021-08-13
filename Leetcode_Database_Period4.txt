@@ -1703,9 +1703,66 @@ order by sum(p.num_points) desc, p.team_id;
 
 
 Day 068, 08/13/2021 Fri
+
+0586. Customer Placing the Largest Number of Orders
+
+select customer_number
+from Orders
+group by customer_number
+order by count(customer_number) desc
+limit 1;
+
+
+
+1241. Number of Comments per Post
+
+select   s.post_id 
+       , count(t.parent_id) number_of_comments 
+from (select distinct sub_id post_id 
+      from Submissions
+      where parent_id is NULL) s
+     left join 
+     (select  parent_id
+            , sub_id
+      from Submissions
+      where parent_id is not NULL
+      group by sub_id, parent_id) t
+     on s.post_id = t.parent_id
+group by s.post_id 
+order by s.post_id;
+
+
+
+1783. Grand Slam Titles
+
+with Champions as (select Wimbledon player_id
+                   from Championships
+                   UNION ALL
+                   select Fr_open player_id
+                   from Championships
+                   UNION ALL
+                   select US_open player_id
+                   from Championships
+                   UNION ALL
+                   select Au_open player_id
+                   from Championships)
+
+select   p.player_id
+       , p.player_name
+       , count(t.player_id) grand_slams_count
+from   Players p
+     , Champions
+where p.player_id = t.player_id
+group by t.player_id;
+
+
+
+
+
+
+
 Day 069, 08/14/2021 Sat
 Day 070, 08/15/2021 Sun
-
 Day 071, 08/16/2021 Mon
 Day 072, 08/17/2021 Tue
 Day 073, 08/18/2021 Wed
