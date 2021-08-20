@@ -1510,32 +1510,6 @@ limit 10;
 
 1369. Get the Second Most Recent Activity
 
-Find the second most recent activity of each user.
-If the user only has one activity, return that one. 
-
-
-UserActivity table:
-+------------+--------------+-------------+-------------+
-| username   | activity     | startDate   | endDate     |
-+------------+--------------+-------------+-------------+
-| Alice      | Travel       | 2020-02-12  | 2020-02-20  |
-| Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
-| Alice      | Travel       | 2020-02-24  | 2020-02-28  |
-| Bob        | Travel       | 2020-02-11  | 2020-02-18  |
-+------------+--------------+-------------+-------------+
-
-Result table:
-+------------+--------------+-------------+-------------+
-| username   | activity     | startDate   | endDate     |
-+------------+--------------+-------------+-------------+
-| Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
-| Bob        | Travel       | 2020-02-11  | 2020-02-18  |
-+------------+--------------+-------------+-------------+
-
-The most recent activity of Alice is Travel from 2020-02-24 to 2020-02-28, before that she was dancing from 2020-02-21 to 2020-02-23.
-Bob only has one record, we just take that one.
-
-
 with SecondMostRecentActivity as (select   username
                                          , activity  
                                          , startDate
@@ -1757,16 +1731,97 @@ group by t.player_id;
 
 
 
-
-
-
-
 Day 069, 08/14/2021 Sat
+
+1285. Find the Start and End Number of Continuous Ranges
+
+with NewLog as (select   l1.log_id 
+                       , l0.log_id prev_id
+                       , case when l0.log_id is NULL then @num := @num + 1
+                       else @num end grp
+                from   Logs l1 left join Logs l0
+                       on l1.log_id - 1 = l0.log_id   
+                     , (select @num := 0) c)
+
+select   min(log_id) start_id
+       , max(log_id) end_id
+from NewLog
+group by grp
+order by start_id;
+
+
+
+0618. Students Report By Geography
+
+
+with StudentRank as (select   name 
+                            , continent
+                            , row_number() over(partition by continent
+                                                order by name) r
+                    from student)
+
+select   min(case when continent = 'America' then name end) America
+       , min(case when continent = 'Asia' then name end) Asia
+       , min(case when continent = 'Europe' then name end) Europe
+from StudentRank
+group by r
+order by r;
+
+
+
 Day 070, 08/15/2021 Sun
 Day 071, 08/16/2021 Mon
 Day 072, 08/17/2021 Tue
+
+
 Day 073, 08/18/2021 Wed
+
+1918 · The height of the second tallest player
+
+select (select distinct height
+        from players
+        order by height desc
+        limit 1
+        offset 1) second_height;
+
+
+
+2635. The use of optimistic locks and pessimistic locks (I)
+
+
+
 Day 074, 08/19/2021 Thu
+
+2070. Search for the name of a course created later than the creation time of any of the specified teacher's courses
+
+select   t.name
+       , t.age
+       , t.country
+from teachers t
+     inner join 
+     (select   country
+             , max(age) age
+      from teachers
+      group by country) t0
+     on t.country = t0.country
+     and t.age = t0.age;
+
+
+
+2077. Search for information on courses and instructors with the highest number of students
+
+select   c.name course_name	
+       , c.student_count	
+       , t.name teacher_name
+from   courses c
+     , teachers t
+where student_count = (select max(student_count) from courses)
+      and t.id = c.teacher_id;
+
+
+
+
+
 Day 075, 08/20/2021 Fri
 Day 076, 08/21/2021 Sat
 Day 077, 08/22/2021 Sun
@@ -1781,8 +1836,16 @@ Day 084, 08/29/2021 Sun
 
 Day 085, 08/30/2021 Mon
 Day 086, 08/31/2021 Tue
-Day 087, 08/01/2021 Wed
-Day 088, 08/02/2021 Thu
-Day 089, 08/03/2021 Fri
-Day 090, 08/04/2021 Sat
-Day 091, 08/05/2021 Sun
+Day 087, 09/01/2021 Wed
+Day 088, 09/02/2021 Thu
+Day 089, 09/03/2021 Fri
+Day 090, 09/04/2021 Sat
+Day 091, 09/05/2021 Sun
+
+Day 092, 09/06/2021 Mon
+Day 093, 09/07/2021 Tue
+Day 094, 09/08/2021 Wed
+Day 095, 09/09/2021 Thu
+Day 096, 09/10/2021 Fri
+Day 097, 09/11/2021 Sat
+Day 098, 09/12/2021 Sun
