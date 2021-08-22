@@ -1820,11 +1820,43 @@ where student_count = (select max(student_count) from courses)
 
 
 
-
-
 Day 075, 08/20/2021 Fri
+
+
+
 Day 076, 08/21/2021 Sat
+
+1972. First and Last Call On the Same Day
+
+
+
 Day 077, 08/22/2021 Sun
+
+1939 · Resume Delivery I
+
+select distinct name
+from students s
+where s.id not in (select student_id
+                   from   recording r
+                        , companies c
+                   where c.name = 'Alibaba'
+                         and c.id = r.company_id);
+
+
+
+1937. Consecutive Empty Boxes : boxes
+
+
+
+1942. Two Nearest Saplings
+
+select min(abs(s1.distance - s2.distance)) shortest_distance
+from   sapling_distances s1
+     , sapling_distances s2
+where s1.id <> s2.id
+having shortest_distance is not NULL;
+
+
 
 Day 078, 08/23/2021 Mon
 Day 079, 08/24/2021 Tue
