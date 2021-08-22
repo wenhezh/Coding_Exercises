@@ -1858,6 +1858,29 @@ having shortest_distance is not NULL;
 
 
 
+2079. Count the total number of students in each teacher's course
+
+select   t.name teacher_name	
+       , ifnull(sum(student_count), 0) student_count
+from teachers t left join courses c
+     on t.id = c.teacher_id
+group by t.id;
+
+
+
+2074. Search for the names of teachers whose average number of students in classes taught by all teachers exceeds the average number of students in all courses
+
+select t.name
+from    teachers t
+     ,  (select   teacher_id
+                , avg(student_count) avg_student_cnt
+         from courses
+         group by teacher_id) c
+where t.id = c.teacher_id
+      and c.avg_student_cnt > (select avg(student_count) from courses);
+
+
+
 Day 078, 08/23/2021 Mon
 Day 079, 08/24/2021 Tue
 Day 080, 08/25/2021 Wed
