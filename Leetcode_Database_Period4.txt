@@ -1898,6 +1898,30 @@ where student_count > all(select student_count
                                                where name = 'Western Venom'));
 
 
+
+2069. Search for the course name and number of students in the course with the highest number of students per instructor
+
+select   c.name	
+       , c.student_count
+from   courses c
+     , (select   teacher_id
+               , max(student_count) max_student_count
+        from courses
+        group by teacher_id) t
+where c.teacher_id = t.teacher_id and c.student_count = t.max_student_count;
+
+
+
+1943. Looking for Students of a Certain Height
+
+select max(height) height
+from (select height
+      from student_heights
+      group by height
+      having count(height) = 1) t;
+
+
+
 Day 079, 08/24/2021 Tue
 Day 080, 08/25/2021 Wed
 Day 081, 08/26/2021 Thu
