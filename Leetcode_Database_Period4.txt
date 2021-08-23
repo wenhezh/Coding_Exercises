@@ -1882,6 +1882,22 @@ where t.id = c.teacher_id
 
 
 Day 078, 08/23/2021 Mon
+
+2064. Check course information for courses with more students than Western Venom teachers
+
+select   id	
+       , name	
+       , student_count	
+       , created_at	
+       , teacher_id
+from courses
+where student_count > all(select student_count
+                          from courses
+                          where teacher_id in (select id 
+                                               from teachers
+                                               where name = 'Western Venom'));
+
+
 Day 079, 08/24/2021 Tue
 Day 080, 08/25/2021 Wed
 Day 081, 08/26/2021 Thu
