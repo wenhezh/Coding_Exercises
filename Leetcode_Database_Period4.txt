@@ -1922,7 +1922,44 @@ from (select height
 
 
 
+1935. Zhang San's Story II
+
+select name
+from classes
+where id = (select class_id 
+            from students
+            where name = 'zhangsan');
+
+
+
 Day 079, 08/24/2021 Tue
+
+2048. Search for information on all courses taught by a given teacher
+
+select   c.id
+       , c.name
+       , c.student_count
+       , c.created_at
+       , c.teacher_id
+from   courses c
+     , teachers t
+where c.teacher_id = t.id
+      and t.name = 'Western Venom';
+
+
+
+1936. Zhang San's Story III
+
+select distinct name
+from students
+where class_id in (select id
+                   from classes
+                   where teacher_id = (select id
+                                       from teachers
+                                       where name = 'xujia'));
+
+
+
 Day 080, 08/25/2021 Wed
 Day 081, 08/26/2021 Thu
 Day 082, 08/27/2021 Fri
