@@ -1960,6 +1960,37 @@ where class_id in (select id
 
 
 
+1940. Resume Delivery II
+
+select   c.name
+       , c.address
+from companies c
+where id in (select company_id
+             from records
+             group by company_id
+             having count(student_id) = (select max(resume_submission) resume_submission
+                                         from (select   company_id
+                                                      , count(student_id) resume_submission
+                                               from records
+                                               group by company_id) t ));
+
+
+
+2076. Search for information on teachers in countries where the average age of teachers is greater than the average age of all teachers
+
+select   t.id
+       , t.name
+       , t.email
+       , t.age
+       , t.country
+from teachers t
+where country in (select country
+                  from teachers
+                  group by country
+                  having avg(age) > (select avg(age) from teachers));
+
+
+
 Day 080, 08/25/2021 Wed
 Day 081, 08/26/2021 Thu
 Day 082, 08/27/2021 Fri
