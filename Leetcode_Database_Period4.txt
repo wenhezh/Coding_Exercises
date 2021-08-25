@@ -1991,11 +1991,47 @@ where country in (select country
 
 
 
-
-
-
-
 Day 080, 08/25/2021 Wed
+
+2459. Nth highest player height
+
+CREATE FUNCTION get_nth_height(N INT) RETURNS INT
+BEGIN
+    set N := N - 1;
+    RETURN (
+        select height as nth_height
+        from players
+        group by height
+        order by height desc
+        limit 1
+        offset N
+    );
+END
+
+
+
+2060. Search for the name of the teacher for the 'Big Data' course
+
+select t.name
+from teachers t
+where id in (select teacher_id
+             from courses
+             where name = 'Big Data');
+
+
+
+
+2065. Check the course names of all courses taught by all teachers who are older than 20 years old
+
+select c.name
+from courses c
+where c.teacher_id in (select id 
+                       from teachers
+                       where age > 20);
+
+
+
+
 Day 081, 08/26/2021 Thu
 Day 082, 08/27/2021 Fri
 Day 083, 08/28/2021 Sat
