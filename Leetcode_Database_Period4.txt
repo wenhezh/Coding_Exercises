@@ -2035,7 +2035,50 @@ where c.teacher_id in (select id
 Day 081, 08/26/2021 Thu
 Day 082, 08/27/2021 Fri
 Day 083, 08/28/2021 Sat
+
+
+
 Day 084, 08/29/2021 Sun
+
+2072. Search for course names of all courses taught by teachers who are not older than 20 years old
+
+select name
+from Courses
+where teacher_id in (select id 
+                     from teachers 
+                     where age < 21);
+
+
+
+2067. Search for information on any course with more students than the 'Eastern Heretic' class size
+
+select * 
+from courses
+where student_count > (select min(student_count) 
+                       from courses
+                       where teacher_id = (select id 
+                                           from teachers
+                                           where name = 'Eastern Heretic'))
+     and teacher_id <> (select id 
+                        from teachers
+                        where name = 'Eastern Heretic');
+
+
+
+
+1929. Analysis of Online Class II
+
+select   student_id
+       , device_id
+from online_class_situations
+where (student_id, date) in (select   student_id
+                                    , min(date) login_date
+                             from online_class_situations
+                             where course_number > 0
+                             group by student_id);
+
+
+
 
 Day 085, 08/30/2021 Mon
 Day 086, 08/31/2021 Tue
