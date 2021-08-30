@@ -2079,8 +2079,54 @@ where (student_id, date) in (select   student_id
 
 
 
-
 Day 085, 08/30/2021 Mon
+
+1933. Students with the Most Failed Subjects II
+
+select student_id
+from exams
+where is_pass = 0
+group by student_id
+having count(is_pass) = (select count(is_pass)
+                         from exams
+                         where is_pass = 0
+                         group by student_id
+                         order by count(is_pass) desc
+                         limit 1);
+
+
+
+2063. Search for the names of all courses taught by teachers whose nationality is 'USA'
+
+select name
+from courses
+where teacher_id in (select id
+                     from teachers
+                     where country = 'USA');
+
+
+
+1922. Delete Duplicate Names
+
+
+
+2500. Highest scoring player in the team
+
+select   t.name team
+       , p.name player
+       , p.scores score
+from   players p
+     , teams t
+     , (select   team_id
+               , max(scores) scores
+        from players
+        group by team_id) m
+where p.team_id = m.team_id
+      and p.scores = m.scores
+      and p.team_id = t.id;
+
+
+
 Day 086, 08/31/2021 Tue
 Day 087, 09/01/2021 Wed
 Day 088, 09/02/2021 Thu
