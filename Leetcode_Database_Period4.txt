@@ -2128,6 +2128,18 @@ where p.team_id = m.team_id
 
 
 Day 086, 08/31/2021 Tue
+
+1946. Club Annual Competition Score Ranking II
+
+select   c.name	
+       , round(avg(r.score), 2) average_score
+from   categories c
+     , rankings r
+where c.id = r.category_id
+group by c.name;
+
+
+
 Day 087, 09/01/2021 Wed
 Day 088, 09/02/2021 Thu
 Day 089, 09/03/2021 Fri
