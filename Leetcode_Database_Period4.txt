@@ -2141,6 +2141,19 @@ group by c.name;
 
 
 Day 087, 09/01/2021 Wed
+
+1988. Find Cutoff Score for Each School
+
+select   s.school_id
+       , ifnull((select  score
+                 from Exam e
+                 where student_count <= s.capacity
+                 order by student_count desc, score
+                 limit 1), -1) score
+from Schools s;
+
+
+
 Day 088, 09/02/2021 Thu
 Day 089, 09/03/2021 Fri
 Day 090, 09/04/2021 Sat
